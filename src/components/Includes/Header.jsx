@@ -4,8 +4,19 @@ import React from "react";
 // import Link from "react"
 import { BASE_URL } from "../../common_variables";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { connect, useSelector, useDispatch  } from "react-redux";
 
 function Header() {
+
+  const allState = useSelector(state => state);
+  let {registration:registrationData, activation:activationData, login:loginData} = allState;
+  let {isLogged} = loginData;
+
+  let userObject = {};
+  if(loginData.isLogged === true){
+    userObject = loginData.user_data.user;
+  }
+
   return (
     <>
       <header className="top-bar dark-overlay-top">
@@ -58,7 +69,7 @@ function Header() {
                     <li className="me-10 ps-10">
                       <a href="register">
                         <i className="fa fa-dashboard d-md-inline-block d-none" />{" "}
-                        My Account
+                        My Account {isLogged === true ? userObject.email: ""}
                       </a>
                     </li>
                   </ul>
