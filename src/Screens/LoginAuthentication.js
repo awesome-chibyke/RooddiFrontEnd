@@ -1,9 +1,9 @@
-
+/* eslint-disable no-unused-vars */
+/* eslint-disable jsx-a11y/heading-has-content */
+/* eslint-disable no-script-url */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
-import {
-  ResendAuthenticationPost,
-  AuthenticationPost,
-} from "../redux/Xetima/LoginAuth/AuthActionCreator";
+import { ResendAuthenticationPost, AuthenticationPost } from "../redux";
 import { connect, useSelector, useDispatch  } from "react-redux";
 import { Route, Redirect, useParams } from "react-router-dom";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
@@ -14,18 +14,20 @@ import {
   osVersion,
 } from "react-device-detect";
 
-const AcccountAuthentication = ({
-  submitAuthenticationToken,
-  authenticationData,
-  loginData,
-  resendAuthenticationToken,
-}) => {
+const LoginAuthentication = () => {
+
   const [token, setToken] = useState("");
   let deviceDetails = `${browserName} V${browserVersion} (${osName} ${osVersion})`;
   let { email } = useParams(); //get the email parameter from the url
 
   let passwordObject = { type: "password", class_name: "fa-eye-slash" };
   const [inputType, changePaswordInputType] = useState(passwordObject);
+
+  let allStateObject = useSelector(state => state);
+  let {login:loginData, authentication:authenticationData} = allStateObject;
+
+  const dispatch = useDispatch();//for action dispatch
+
 
   return (
     <>
@@ -57,7 +59,7 @@ const AcccountAuthentication = ({
                 <div className="box box-body">
                   <div className="content-top-agile pb-0 pt-20">
                     <h2 className="text-primary">Welcome</h2>
-                    <p className="mb-0">Lets Get Your Account Activated</p>
+                    <p className="mb-0">Lets Get Your Logged In</p>
                     <center>
                       <small className="text-success">
                         <i className="fa fa-warning" /> Please provide the 4
@@ -66,32 +68,43 @@ const AcccountAuthentication = ({
                     </center>
                     <p />
                   </div>
-                  <div className="p-20">
+                  <div>
                     <form action method="post">
                       <div className="form-group">
-                        {loginData.success_message === true ? (
+
+                        {loginData.success_message === true && authenticationData.success === false ? (
+                            <p className="alert alert-success text-center">
+                              {loginData.message}
+                            </p>
+                        ) : (
+                            ""
+                        )}
+
+                        {authenticationData.success === true ? (
                           <p className="alert alert-success text-center">
-                            {loginData.message}
+                            {authenticationData.message}
                           </p>
                         ) : (
                           ""
                         )}
 
-                        {/*{email === null ? <DelayedRedirect to={`/login`} delay={1000} />  :'' }*/}
-
-                        {loginData.error === true ? (
+                        {authenticationData.error === true ? (
                           <p className="alert alert-danger">
-                            {loginData.message}
+                            {authenticationData.message}
                           </p>
                         ) : (
                           ""
                         )}
+
+                        {authenticationData.success === true ? <DelayedRedirect to={`/dashboard`} delay={500} />  :'' }
+
                       </div>
                       <div className="form-group">
                         <div className="input-group mb-15">
                           <span className="input-group-text bg-transparent">
                             <i className="fa fa-asterisk" />
                           </span>
+                          <input type="hidden" id="email" />
                           <input
                             type={inputType.type}
                             id="token"
@@ -120,7 +133,7 @@ const AcccountAuthentication = ({
                           <input type="hidden" value={email} />
 
                           <small
-                            onClick={() => resendAuthenticationToken(email)}
+                            onClick={async () => dispatch( await ResendAuthenticationPost(email))}
                             style={{
                               width: "100%",
                               color: "green",
@@ -129,8 +142,8 @@ const AcccountAuthentication = ({
                             }}
                             className="text-right"
                           >
-                            {loginData.loading === true
-                              ? loginData.message
+                            {authenticationData.loading === true
+                              ? authenticationData.message
                               : "Resend Token"}
                           </small>
                         </div>
@@ -142,18 +155,21 @@ const AcccountAuthentication = ({
                         <div className="col-12 text-center">
                           <button
                             type="button"
-                            onClick={() =>
-                              submitAuthenticationToken({
+                            disabled={authenticationData.authentication_loading === true
+                                ? true
+                                : false}
+                            onClick={async () =>
+                                dispatch( await AuthenticationPost({
                                 token: token,
                                 email: email,
                                 device_name: deviceDetails,
-                              })
+                              }) )
                             }
                             className="btn btn-primary w-p100 mt-15"
                           >
-                            {authenticationData.authenticate_loading === true
+                            {authenticationData.authentication_loading === true
                               ? authenticationData.message
-                              : "Activate Account"}
+                              : "Login Authentication"}
                           </button>
                         </div>
                         {/* /.col */}
@@ -170,23 +186,4 @@ const AcccountAuthentication = ({
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    loginData: state.login,
-    authenticationData: state.authentication,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    submitAuthenticationToken: async (obj) =>
-      dispatch(await AuthenticationPost(obj)),
-    resendAuthenticationToken: async (email) =>
-      dispatch(await ResendAuthenticationPost(email)),
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AcccountAuthentication);
+export default LoginAuthentication;

@@ -82,7 +82,7 @@ const AcccountActivation = () => {
                     </center>
                     <p />
                   </div>
-                  <div className="p-20">
+                  <div>
                     <form action method="post">
                       <div className="form-group">
 
