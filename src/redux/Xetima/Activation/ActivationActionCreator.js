@@ -65,8 +65,8 @@ export const ActivationPost = async (ActivationData) => {
 
     try {
       let formBody =
-        "email=" + ActivationData.email + "&token=" + ActivationData.token;
-      let handleActivation = await postRequest(
+        "email=" + ActivationData.email + "&token=" + ActivationData.token+ "&device_name=" + ActivationData.device_name;
+      let handleActivation = await postRequest(//
         BACKEND_BASE_URL + "edit/activate_account",
         formBody,
         { headers: { "Content-Type": "application/x-www-form-urlencoded" } }

@@ -1,4 +1,4 @@
-import { LOGIN, LOGIN_FAILURE, LOGIN_SUCCESS, USER_LOGOUT } from "./LoginActionTypes";
+import { LOGIN, LOGIN_FAILURE, LOGIN_SUCCESS, USER_LOGOUT,UPDATE_LOGIN_SUCCESS } from "./LoginActionTypes";
 import { BACKEND_BASE_URL } from "../../../common_variables";
 import * as Validator from 'validatorjs';
 import validateModule from "../../../validation/validate_module";
@@ -24,6 +24,15 @@ const loginUserSuccess = (data) => {
 const loginUserFailure = (message) => {
     return {
         type:LOGIN_FAILURE,
+        message:message
+    }
+}
+
+const updateloginSuccess = (data, message) => {
+    return {
+        type:UPDATE_LOGIN_SUCCESS,
+        payload:data,
+        isLogged:true,
         message:message
     }
 }
@@ -80,6 +89,17 @@ export const LoginPost = async (userData) => {
             dispatch(loginUserFailure(e.message));
         }
 
+
+    }
+}
+
+
+export const updateLogin = async (userData, message) => {
+    return  async (dispatch) => {
+
+        validateModule.ClearErrorFields();//clear error fields
+
+        dispatch(updateloginSuccess(userData, message));
 
     }
 }

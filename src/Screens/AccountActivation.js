@@ -2,8 +2,8 @@
 /* eslint-disable jsx-a11y/heading-has-content */
 /* eslint-disable no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from "react";
-import { ResendActivationPost, ActivationPost } from "../redux";
+import React, { useState, useEffect} from "react";
+import { ResendActivationPost, ActivationPost, updateLogin } from "../redux";
 import { connect, useSelector, useDispatch  } from "react-redux";
 import { Route, Redirect, useParams } from "react-router-dom";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
@@ -24,9 +24,23 @@ const AcccountActivation = () => {
   const [inputType, changePaswordInputType] = useState(passwordObject);
 
   let allStateObject = useSelector(state => state);
-  let {registration:registrationData, activation:activationData} = allStateObject;
+
+  let {registration:registrationData, activation:activationData, login:loginData} = allStateObject;
 
   const dispatch = useDispatch();//for action dispatch
+
+  const changeLoginStatus = async () =>{
+    dispatch(await updateLogin(activationData.user_data, activationData.message));
+  }
+
+  useEffect(() => {
+
+    if(activationData.isLogged === true){
+      console.log('yes')
+      changeLoginStatus();
+    }
+
+  }, [activationData])
 
 
   return (
@@ -96,7 +110,7 @@ const AcccountActivation = () => {
                           ""
                         )}
 
-                        {activationData.success === true ? <DelayedRedirect to={`/authenticate`} delay={500} />  :'' }
+                        {loginData.isLogged === true ? <DelayedRedirect to={`/dashboard`} delay={500} />  :'' }
 
                       </div>
                       <div className="form-group">
@@ -141,7 +155,7 @@ const AcccountActivation = () => {
                             }}
                             className="text-right"
                           >
-                            {activationData.loading === true
+                            {activationData.resend_loading === true
                               ? activationData.message
                               : "Resend Token"}
                           </small>
@@ -154,7 +168,7 @@ const AcccountActivation = () => {
                         <div className="col-12 text-center">
                           <button
                             type="button"
-                            disabled={activationData.activation_loading === true
+                            disabled={activationData.loading === true
                                 ? true
                                 : false}
                             onClick={async () =>
@@ -166,7 +180,7 @@ const AcccountActivation = () => {
                             }
                             className="btn btn-primary w-p100 mt-15"
                           >
-                            {activationData.activation_loading === true
+                            {activationData.loading === true
                               ? activationData.message
                               : "Activate Account"}
                           </button>
