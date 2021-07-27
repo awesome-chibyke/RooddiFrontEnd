@@ -2,26 +2,22 @@
 /* eslint-disable jsx-a11y/heading-has-content */
 /* eslint-disable no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState, useEffect } from "react";
-import { LoginPost } from "../redux/Xetima/Login/LoginActionCreator";
-import { connect } from "react-redux";
-// import { Route, Redirect } from "react-router-dom";
+import React, { useState } from "react";
+import { LoginPost } from "../redux";
+import { connect, useSelector, useDispatch } from "react-redux";
+import { Route, Redirect, Switch, Link } from "react-router-dom";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
-const Login = ({ userData, submitUser, location, history }) => {
+const Login = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [confirmation, setConfirmation] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   let passwordObject = { type: "password", class_name: "fa-eye-slash" };
   const [inputType, changePaswordInputType] = useState(passwordObject);
 
-  // const redirect = location.search ? location.search.split("=")[1] : "/";
+  let allStateObject = useSelector((state) => state);
+  let { login } = allStateObject;
 
-  // useEffect(() => {
-  //   if (userData) {
-  //     history.push(redirect);
-  //   }
-  // }, [history, userData, redirect]);
-
+  const dispatch = useDispatch(); //for action dispatch
   return (
     <>
       <div>
@@ -63,33 +59,28 @@ const Login = ({ userData, submitUser, location, history }) => {
                     </center>
                     <p />
                   </div>
-                  <div className="p-40">
+                  <div>
                     <form action method="post">
                       <div className="form-group">
-                        {userData.success_message === true ? (
-                          <p className="alert alert-success text-center">
-                            {userData.message}
-                          </p>
-                        ) : (
-                          ""
-                        )}
+                        <div className="form-group">
+                          {login.success_message === true ? (
+                            <DelayedRedirect
+                              to={`/authentication/${login.user_data.email}`}
+                              delay={500}
+                            />
+                          ) : (
+                            ""
+                          )}
 
-                        {userData.success_message === true ? (
-                          <DelayedRedirect
-                            to={`/authentication/${userData.user_data.email}`}
-                            delay={5000}
-                          />
-                        ) : (
-                          ""
-                        )}
+                          {login.error_message === true ? (
+                            <p className="alert alert-danger  text-center">
+                              {login.message}
+                            </p>
+                          ) : (
+                            ""
+                          )}
+                        </div>
 
-                        {userData.error_message === true ? (
-                          <p className="alert alert-danger  text-center">
-                            {userData.message}
-                          </p>
-                        ) : (
-                          ""
-                        )}
                         <div className="input-group mb-15">
                           <span className="input-group-text bg-transparent">
                             <i className="ti-email" />
@@ -102,6 +93,7 @@ const Login = ({ userData, submitUser, location, history }) => {
                             onChange={(e) => setEmail(e.target.value)}
                           />
                         </div>
+                        <span className="error_displayer err_email"></span>
                       </div>
                       <div className="form-group">
                         <div className="input-group mb-15">
@@ -109,11 +101,12 @@ const Login = ({ userData, submitUser, location, history }) => {
                             <i className="ti-lock" />
                           </span>
                           <input
-                            type="password"
+                            id="password"
                             className="form-control ps-15 bg-transparent"
                             placeholder="Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            type={inputType.type}
                           />
                           <span
                             onClick={(e) =>
@@ -132,21 +125,14 @@ const Login = ({ userData, submitUser, location, history }) => {
                           >
                             <i className={`fa ${inputType.class_name}`}> </i>
                           </span>
+                          <span className="passwordChanger"></span>
                         </div>
                         <span className="error_displayer err_password"></span>
                       </div>
                       <div className="row">
                         <div className="col-6">
                           <div className="checkbox ms-5">
-                            <input
-                              type="checkbox"
-                              id="basic_checkbox_1"
-                              onClick={(e) => {
-                                setConfirmation(
-                                  e.target.checked === true ? true : false
-                                );
-                              }}
-                            />
+                            <input type="checkbox" id="basic_checkbox_1" />
                             <label
                               htmlFor="basic_checkbox_1"
                               className="form-label"
@@ -156,7 +142,6 @@ const Login = ({ userData, submitUser, location, history }) => {
                             <span className="error_displayer err_basic_checkbox_1"></span>
                           </div>
                         </div>
-                        {/* /.col */}
                         <div className="col-6">
                           <div className="fog-pwd text-end">
                             <a
@@ -168,25 +153,26 @@ const Login = ({ userData, submitUser, location, history }) => {
                             <br />
                           </div>
                         </div>
-                        {/* /.col */}
+
                         <div className="col-12 text-center">
                           <button
                             type="button"
-                            onClick={() =>
-                              submitUser({
-                                email: email,
-                                password: password,
-                                confirmation: confirmation,
-                              })
-                            }
+                            disabled={login.loading === true ? true : false}
+                            onClick={async (e) => {
+                              dispatch(
+                                await LoginPost({
+                                  email: email,
+                                  password: password,
+                                })
+                              );
+                            }}
                             className="btn btn-info w-p100 mt-15"
                           >
-                            {userData.loading === true
-                              ? userData.message
-                              : "Sign In"}
+                            {login.loading === true
+                              ? login.message
+                              : "Login"}
                           </button>
                         </div>
-                        {/* /.col */}
                       </div>
                     </form>
                     <div className="text-center">
@@ -231,16 +217,4 @@ const Login = ({ userData, submitUser, location, history }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    userData: state.login,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    submitUser: async (obj) => dispatch(await LoginPost(obj)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default Login;

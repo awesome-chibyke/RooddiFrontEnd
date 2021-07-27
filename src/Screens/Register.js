@@ -12,7 +12,6 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [disabled, setDisabled] = useState(false);
-  const [password_confirmation, setPasswordConfirmation] = useState("");
   const [confirmation, setConfirmation] = useState(false);
   let passwordObject = { type: "password", class_name: "fa-eye-slash" };
   const [inputType, changePaswordInputType] = useState(passwordObject);
@@ -55,7 +54,7 @@ const Register = () => {
                     <h2 className="text-primary">Get started with Us</h2>
                     <p className="mb-0">Register a New Membership</p>
                   </div>
-                  <div className="p-40">
+                  <div>
                     <form action method="post">
                       <div className="form-group">
 
