@@ -1,0 +1,265 @@
+/*Style Radio Button*/
+/* The container */
+.styleR {
+    /*display: block;*/
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.styleR input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.styleR input:checked ~ .checkmark {
+    background-color: #10d876;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.styleR input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.styleR .checkmark:after {
+    top: 9px;
+    left: 9px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+}
+
+.shadow-b{
+    box-shadow: 0px 10px 20px rgba(55, 55, 89, 0.08);
+}
+
+.tex-up{
+    margin-right: 30px !important;
+}
+.shift-right10{
+    margin-right: 10px !important;
+}
+.shift-left10{
+    margin-left: 10px !important;
+}
+.line-bord{
+    border: 1px solid rgb(162, 221, 113);
+}
+
+.graf-bg{
+    background-image: url(../images/img/candle-stick-chart.png);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+.bg-dot{
+    background-image: url(../images/img/oval-dot-png2.png);
+    background-repeat: no-repeat;
+    background-position: top;
+}
+.bg-dot2{
+    background-image: url(../images/img/oval-dot-png.png);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.bg-top{
+    background-image: url(../images/img/top-background.jpg) !important;
+    background-repeat: no-repeat;
+    background-position: top;
+}
+.bg-map{
+    background-image: url(../images/img/map.png);
+    background-position: top center;
+}
+.you-to{
+    background-position-y: 0px;
+}
+.text-h1{
+    font-weight: 800 !important;
+    font-family: Greycliff,Helvetica Neue,Helvetica,Arial,sans-serif !important;
+    line-height: 1.1 !important;
+    font-size: 42px !important;
+}
+.text-h2{
+    font-weight: 800 !important;
+    font-family: Greycliff,Helvetica Neue,Helvetica,Arial,sans-serif !important;
+    line-height: 1.1 !important;
+    font-size: 22px !important;
+}
+.footer-background{
+    background-image: url(../images/img/pg.png);
+    background-repeat: no-repeat;
+    background-position: bottom center;
+}
+.font-fam{
+    font-family: Greycliff,Helvetica Neue,Helvetica,Arial,sans-serif !important;
+}
+
+.exchange-cal input {
+    width: 100%;
+    height: 60px;
+    transition: all 300ms ease;
+    -webkit-transition: all 300ms ease;
+    background: #ffe5b3;
+    display: inline-block;
+}
+.inp-fixer{
+    height: 60px;
+    font-weight: 800 !important;
+    font-family: Greycliff,Helvetica Neue,Helvetica,Arial,sans-serif !important;
+    line-height: 1.1 !important;
+    font-size: 22px !important;
+}
+.bg-white-ash {
+    background-color: #fffdfd !important
+}
+.rad0{
+    border-radius: 0px;
+}
+.stle-ul{
+    display: flex;
+    list-style: none;
+}
+.stle-ul li{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.stle-ul li:after{
+    border-bottom: solid #9acd32;
+}
+.fix-styler{
+    padding-top: 10px;
+    padding-bottom: 0px;
+    padding-left: 0px !important;
+}
+
+
+ .switch {
+     position: relative;
+     display: inline-block;
+     width: 50px;
+     height: 25px;
+ }
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 25px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.btn-smaller{
+    padding: 4px;
+}
+
+.styl-amnt{
+    padding-top: 12px;
+    padding-bottom: 12px;
+    border: 0px solid white;
+    background-color: #fbfdff;;
+    border-radius: 0px;
+    color: #CCC;
+}
+.sty-selll{
+    height: 60px !important;
+    border-radius: 0px !important;
+    background-color: #fbf7f7;
+}
+.text-rit{
+    text-align: right !important;
+}
+.btn-def{
+    background-color: #f1f4f7;
+    margin-bottom: 2px;
+}
+.bg-white-ash2{
+    background-color: #ebeff2;
+}
+
+.no-shadoww:hover{
+    box-shadow: 0px 10px 20px rgba(55, 55, 89, 0.08);
+    border: solid #9acd32 1px;
+    border-radius: 0px;
+    transition: all ease 2s;
+}
