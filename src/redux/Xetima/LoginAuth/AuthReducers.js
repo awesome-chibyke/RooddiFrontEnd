@@ -14,6 +14,7 @@ const initialState = {
   authentication_loading: false,
   error: false,
   success: false,
+  isLogged:false
 };
 
 const AuthenticationReducer = (state = initialState, action) => {
@@ -27,6 +28,7 @@ const AuthenticationReducer = (state = initialState, action) => {
         authentication_loading: true,
         error: false,
         success: false,
+        isLogged:false
       };
     case AUTHENTICATION_SUCCESS:
       return {
@@ -37,6 +39,7 @@ const AuthenticationReducer = (state = initialState, action) => {
         authentication_loading: false,
         error: false,
         success: true,
+        isLogged:true
       };
     case AUTHENTICATION_FAILURE:
       return {
@@ -46,6 +49,7 @@ const AuthenticationReducer = (state = initialState, action) => {
         error: true,
         success: false,
         message: action.message,
+        isLogged:false
       };
     case RESEND_AUTHENTICATION_CODE:
       return {
@@ -54,6 +58,7 @@ const AuthenticationReducer = (state = initialState, action) => {
         success: false,
         error: false,
         message: action.message,
+        isLogged:false
       };
     case RESEND_AUTHENTICATION_AUTHENTICATION_CODE_SUCCESS:
       return {
@@ -63,6 +68,7 @@ const AuthenticationReducer = (state = initialState, action) => {
         message: action.message,
         error: false,
         loading: false,
+        isLogged:false
       };
     case RESEND_AUTHENTICATION_CODE_FAILURE:
       return {
@@ -71,6 +77,7 @@ const AuthenticationReducer = (state = initialState, action) => {
         error: true,
         success: false,
         message: action.message,
+        isLogged:false
       };
     default:
       return state;

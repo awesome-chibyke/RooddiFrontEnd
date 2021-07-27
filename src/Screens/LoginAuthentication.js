@@ -96,7 +96,7 @@ const LoginAuthentication = () => {
                           ""
                         )}
 
-                        {authenticationData.success === true ? <DelayedRedirect to={`/`} delay={500} />  :'' }
+                        {authenticationData.success === true ? <DelayedRedirect to={`/dashboard`} delay={500} />  :'' }
 
                       </div>
                       <div className="form-group">
@@ -104,6 +104,7 @@ const LoginAuthentication = () => {
                           <span className="input-group-text bg-transparent">
                             <i className="fa fa-asterisk" />
                           </span>
+                          <input type="hidden" id="email" />
                           <input
                             type={inputType.type}
                             id="token"

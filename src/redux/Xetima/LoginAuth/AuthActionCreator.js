@@ -65,7 +65,7 @@ export const AuthenticationPost = async (AuthenticationData) => {
 
     try {
       let formBody =
-        "email=" + AuthenticationData.email + "&token=" + AuthenticationData.token;
+        "email=" + AuthenticationData.email + "&token=" + AuthenticationData.token+ "&device_name=" + AuthenticationData.device_name;
       let handleAuthentication = await postRequest(
         BACKEND_BASE_URL + "login/authenticate",
         formBody,
@@ -76,6 +76,7 @@ export const AuthenticationPost = async (AuthenticationData) => {
         if (data.status === true) {
           dispatch(authenticationUserSuccess(data));
         } else {
+          console.log(data.message)
           validateModule.handleErrorStatement(
             data.message,
             "",
