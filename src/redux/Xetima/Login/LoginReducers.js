@@ -1,4 +1,4 @@
-import { LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE, USER_LOGOUT } from "./LoginActionTypes";
+import { LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE, USER_LOGOUT, UPDATE_LOGIN_SUCCESS } from "./LoginActionTypes";//
 
 const initialState = {
     user_data: [],
@@ -27,6 +27,16 @@ const UserLoginReducer = (state = initialState, action) => {
                 message:action.message,
                 error_message:false,
                 loading:false
+            };
+        case UPDATE_LOGIN_SUCCESS:
+            return {
+                ...state,
+                user_data: action.payload,
+                success_message:true,
+                message:action.message,
+                error_message:false,
+                loading:false,
+                isLogged:action.isLogged
             };
         case LOGIN_FAILURE:
             return {
