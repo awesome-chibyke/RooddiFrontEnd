@@ -1,9 +1,8 @@
-import { LOGIN, LOGIN_FAILURE, LOGIN_SUCCESS, USER_LOGOUT,UPDATE_LOGIN_SUCCESS } from "./LoginActionTypes";
+import { LOGIN, LOGIN_FAILURE, LOGIN_SUCCESS,UPDATE_LOGIN_SUCCESS, USER_LOGOUT, USER_LOGOUT_SUCCESS,USER_LOGOUT_FAILURE } from "./LoginActionTypes";
 import { BACKEND_BASE_URL } from "../../../common_variables";
 import * as Validator from 'validatorjs';
 import validateModule from "../../../validation/validate_module";
 import { getRequest, postRequest } from "../../axios_call";
-
 
 const loginUserAction = () => {//for user login
     return {
@@ -37,11 +36,36 @@ const updateloginSuccess = (data, message) => {
     }
 }
 
-export const logout = () => (dispatch) => {
-    localStorage.removeItem('userData')
-    dispatch({ type: USER_LOGOUT })
-    document.location.href = '/login'
-  }
+//USER_LOGOUT, USER_LOGOUT_SUCCESS,USER_LOGOUT_FAILURE
+export const logoutAction = async () => (dispatch) => {
+    try{
+        localStorage.removeItem('userData');
+        localStorage.removeItem('myData');
+        dispatch({ type: USER_LOGOUT });
+
+        //call the api
+        let handleLogout = await getRequest(BACKEND_BASE_URL+'logout');
+        let returnedObject = handleLogout.data;
+        let {message, status, message_type, data} = returnedObject
+        if(status === true){
+            dispatch({
+                type:USER_LOGOUT_SUCCESS,
+                message:message
+            });
+        }else{
+            validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
+            dispatch({
+                type:USER_LOGOUT_FAILURE,
+                message:message
+            });
+        }
+    }catch(err){
+        dispatch({
+            type:USER_LOGOUT_FAILURE,
+            message:err.message
+        });
+    }
+}
 
 export const LoginPost = async (userData) => {
     return  async (dispatch) => {
@@ -76,15 +100,12 @@ export const LoginPost = async (userData) => {
             let formBody = 'email='+userData.email+'&password='+userData.password;
             let handleLogin = await postRequest(BACKEND_BASE_URL+"login", formBody, {headers: {'Content-Type': 'application/x-www-form-urlencoded'} });
             let data = handleLogin.data;
-            setTimeout(() => {
-                if(data.status === true){
-                    dispatch(loginUserSuccess(data));
-                }else{
-                    validateModule.handleErrorStatement(data.message, '', 'on', 'no', 'no');
-                    dispatch(loginUserFailure('A Error Occurred'));
-                }
-
-            }, 3000);
+            if(data.status === true){
+                dispatch(loginUserSuccess(data));
+            }else{
+                validateModule.handleErrorStatement(data.message, '', 'on', 'no', 'no');
+                dispatch(loginUserFailure('A Error Occurred'));
+            }
         }catch(e){
             dispatch(loginUserFailure(e.message));
         }
