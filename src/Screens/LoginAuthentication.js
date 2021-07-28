@@ -2,9 +2,13 @@
 /* eslint-disable jsx-a11y/heading-has-content */
 /* eslint-disable no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from "react";
-import { ResendAuthenticationPost, AuthenticationPost } from "../redux";
-import { connect, useSelector, useDispatch  } from "react-redux";
+import React, { useState, useEffect } from "react";
+import {
+  ResendAuthenticationPost,
+  AuthenticationPost,
+  updateLogin,
+} from "../redux";
+import { connect, useSelector, useDispatch } from "react-redux";
 import { Route, Redirect, useParams } from "react-router-dom";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import {
@@ -15,7 +19,6 @@ import {
 } from "react-device-detect";
 
 const LoginAuthentication = () => {
-
   const [token, setToken] = useState("");
   let deviceDetails = `${browserName} V${browserVersion} (${osName} ${osVersion})`;
   let { email } = useParams(); //get the email parameter from the url
@@ -23,11 +26,25 @@ const LoginAuthentication = () => {
   let passwordObject = { type: "password", class_name: "fa-eye-slash" };
   const [inputType, changePaswordInputType] = useState(passwordObject);
 
-  let allStateObject = useSelector(state => state);
-  let {login:loginData, authentication:authenticationData} = allStateObject;
+  let allStateObject = useSelector((state) => state);
+  let { login: loginData, authentication: authenticationData } = allStateObject;
 
-  const dispatch = useDispatch();//for action dispatch
+  const dispatch = useDispatch(); //for action dispatch
 
+  const changeLoginStatus = async () => {
+    dispatch(
+      await updateLogin(
+        authenticationData.user_data,
+        authenticationData.message
+      )
+    );
+  };
+
+  useEffect(() => {
+    if (authenticationData.isLogged === true) {
+      changeLoginStatus();
+    }
+  }, [authenticationData]);
 
   return (
     <>
@@ -71,13 +88,13 @@ const LoginAuthentication = () => {
                   <div>
                     <form action method="post">
                       <div className="form-group">
-
-                        {loginData.success_message === true && authenticationData.success === false ? (
-                            <p className="alert alert-success text-center">
-                              {loginData.message}
-                            </p>
+                        {loginData.success_message === true &&
+                        authenticationData.success === false ? (
+                          <p className="alert alert-success text-center">
+                            {loginData.message}
+                          </p>
                         ) : (
-                            ""
+                          ""
                         )}
 
                         {authenticationData.success === true ? (
@@ -96,8 +113,11 @@ const LoginAuthentication = () => {
                           ""
                         )}
 
-                        {authenticationData.success === true ? <DelayedRedirect to={`/dashboard`} delay={500} />  :'' }
-
+                        {loginData.isLogged === true ? (
+                          <DelayedRedirect to={`/dashboard`} delay={500} />
+                        ) : (
+                          ""
+                        )}
                       </div>
                       <div className="form-group">
                         <div className="input-group mb-15">
@@ -133,7 +153,9 @@ const LoginAuthentication = () => {
                           <input type="hidden" value={email} />
 
                           <small
-                            onClick={async () => dispatch( await ResendAuthenticationPost(email))}
+                            onClick={async () =>
+                              dispatch(await ResendAuthenticationPost(email))
+                            }
                             style={{
                               width: "100%",
                               color: "green",
@@ -155,15 +177,19 @@ const LoginAuthentication = () => {
                         <div className="col-12 text-center">
                           <button
                             type="button"
-                            disabled={authenticationData.authentication_loading === true
+                            disabled={
+                              authenticationData.authentication_loading === true
                                 ? true
-                                : false}
+                                : false
+                            }
                             onClick={async () =>
-                                dispatch( await AuthenticationPost({
-                                token: token,
-                                email: email,
-                                device_name: deviceDetails,
-                              }) )
+                              dispatch(
+                                await AuthenticationPost({
+                                  token: token,
+                                  email: email,
+                                  device_name: deviceDetails,
+                                })
+                              )
                             }
                             className="btn btn-primary w-p100 mt-15"
                           >

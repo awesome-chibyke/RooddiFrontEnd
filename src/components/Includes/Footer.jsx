@@ -6,53 +6,6 @@ import { BASE_URL } from "../../common_variables";
 function Footer() {
   return (
     <>
-      <div
-        className="bg-white-ash backg base-color bg-food-white market page-section pt-1 pb-2"
-        
-      >
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-xl-12">
-              <div className>
-                <div className="card-body">
-                  <div className="market-table">
-                    <div className="container">
-                      <div className="row">
-                        <div className="col-lg-9 col-sm-12">
-                          <div className="section_heading text-left">
-                            <div className="intro-content">
-                              <h3 className="mt-5 text-dark">
-                                World's Most Popular Way to Buy, Hold, and Use
-                                Crypto
-                                <br /> It’s never too late to get started.
-                              </h3>
-                            </div>
-                            <p className="text-dark">
-                              Buy, store and learn about Bitcoin, Ethereum, XRP
-                              and Litecoin now.{" "}
-                            </p>
-                            <a href="register" className="btn btn-primary">
-                              Get Started Now!!!{" "}
-                              <i className="fa fa-long-arrow-right" />
-                            </a>
-                          </div>
-                        </div>
-                        <div className="col-lg-3 col-sm-12 text-left">
-                          <img
-                            src={`${BASE_URL}/rooddi/img/bitcoin-side-image.svg`}
-                            alt="Buy Sell Bitcoin in Nigeria and all kinds of cryptocurrency"
-                            align="left"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       <footer className="footer_three bt-1 border-dark">
         <div className="footer-top pt-50 bg-dark3">
           <div className="container">
