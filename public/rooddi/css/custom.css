@@ -81,29 +81,29 @@
 }
 
 .graf-bg{
-    background-image: url(../images/img/candle-stick-chart.png);
+    background-image: url(../../images/img/candle-stick-chart.png);
     background-repeat: no-repeat;
     background-position: center;
 }
 
 
 .bg-dot{
-    background-image: url(../images/img/oval-dot-png2.png);
+    background-image: url(../../images/img/oval-dot-png2.png);
     background-repeat: no-repeat;
     background-position: top;
 }
 .bg-dot2{
-    background-image: url(../images/img/oval-dot-png.png);
+    background-image: url(../../images/img/oval-dot-png.png);
     background-repeat: no-repeat;
     background-position: center;
 }
 .bg-top{
-    background-image: url(../images/img/top-background.jpg) !important;
+    background-image: url(../../images/img/top-background.jpg) !important;
     background-repeat: no-repeat;
     background-position: top;
 }
 .bg-map{
-    background-image: url(../images/img/map.png);
+    background-image: url(../../images/img/map.png);
     background-position: top center;
 }
 .you-to{
@@ -122,7 +122,7 @@
     font-size: 22px !important;
 }
 .footer-background{
-    background-image: url(../images/img/pg.png);
+    background-image: url(../../images/img/pg.png);
     background-repeat: no-repeat;
     background-position: bottom center;
 }
@@ -262,4 +262,57 @@ input:checked + .slider:before {
     border: solid #9acd32 1px;
     border-radius: 0px;
     transition: all ease 2s;
+}
+
+.baser{
+    color: #a2dd71  !important;
+}
+
+.colo-nav{
+    background: #172b4c !important;
+}
+
+.colo-nv:hover{
+    color: #a2dd71 !important;
+}
+
+.dropdown-item > a:hover{
+    color: #a2dd71 !important;
+}
+
+.yop{
+    background-color: #172b4c !important;
+    border: #172b4c !important;
+}
+
+.wit200{
+    width: 200px !important;
+}
+
+.wit350{
+    width: 350px !important;
+}
+
+.settop{
+    position: absolute;
+    padding: 1px;
+    border-radius: 18px;
+    background-color: yellow;
+    height: 18px;
+    width: 18px;
+    color: #0b0b0b;
+    line-height: 18px;
+    font-size: 10px;
+    left: 15px;
+    top: -7px;
+}
+
+.set-notif{
+    border-radius: 5px;
+    background-color: #131f33;
+    padding: 10px;background-color: ;
+}
+
+.set-notif:hover{
+    background-color: #3c4148 !important;
 }

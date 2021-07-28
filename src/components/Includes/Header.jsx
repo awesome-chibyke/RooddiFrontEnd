@@ -16,14 +16,14 @@ function Header() {
                 <div className="topbar-social text-center text-md-start topbar-left">
                   <ul className="list-inline d-md-flex d-inline-block">
                     <li className="ms-10 pe-10">
-                      <a href="faqs">
+                      <Link to="faqs">
                         <i className="fa fa-question-circle" /> Ask a Question
-                      </a>
+                      </Link>
                     </li>
                     <li className="ms-10 pe-10">
-                      <a href="mail:'.$siteEmail3.'">
+                      <Link to="mail:hello@rooddi.com">
                         <i className="fa fa-envelope" /> hello@rooddi.com
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </div>
@@ -39,27 +39,156 @@ function Header() {
                         <option>INR</option>
                       </select>
                     </li>
-                    <li className="me-10 ps-10 lng-drop">
-                      <select className="header-lang-bx selectpicker">
-                        <option data-icon="flag-icon flag-icon-us">
-                          Eng USA
-                        </option>
-                        <option data-icon="flag-icon flag-icon-gb">
-                          Eng UK
-                        </option>
-                      </select>
-                    </li>
                     <li className="me-10 ps-10">
-                      <Link to="/login" className="text-capitalize">
+                      <Link to="login">
                         <i className="fa fa-sign-in d-md-inline-block d-none" />{" "}
-                        <span>Login</span>
+                        Login
                       </Link>
                     </li>
                     <li className="me-10 ps-10">
-                      <a href="register">
+                      <Link to="/signup">
                         <i className="fa fa-dashboard d-md-inline-block d-none" />{" "}
-                        My Account
-                      </a>
+                        Register
+                      </Link>
+                    </li>
+                    <li className="ms-lg-10 pe-10">
+                      <div className="btn-group">
+                        <button
+                          className="btn btn-rounded dropdown-toggle text-white fs-14"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                        >
+                          <i className="fa fa-user-circle-o fa-1x" />
+                        </button>
+                        <div className="dropdown-menu yop wit200">
+                          <Link
+                            className="colo-nav dropdown-item colo-nv text-success"
+                            to="profile"
+                          >
+                            {" "}
+                            ch***@gmail.com <br />
+                            <i className="fa fa-long-arrow-right text-primary pull-right text-white" />
+                          </Link>
+                          <Link
+                            className="colo-nav dropdown-item text-white baser"
+                            to="dashboard"
+                          >
+                            <i className="fa fa-dashboard text-white" />{" "}
+                            Dashboard
+                          </Link>
+                          <Link
+                            className="colo-nav dropdown-item text-white baser"
+                            to="security"
+                          >
+                            <i className="fa fa-lock text-white" /> Security
+                          </Link>
+                          <Link
+                            className="colo-nav dropdown-item text-white baser"
+                            to="identification"
+                          >
+                            <i className="fa fa-check-square-o text-white" />{" "}
+                            Identification
+                          </Link>
+                          <Link
+                            className="colo-nav dropdown-item text-white baser"
+                            to="referral"
+                          >
+                            <i className="fa fa-users text-white" /> Referral
+                          </Link>
+                          <div className="divider">
+                            <i className="fa fa-star-o" />
+                          </div>
+                          <Link
+                            className="colo-nav dropdown-item text-white baser"
+                            to="#"
+                          >
+                            <i className="fa fa-sign-out text-white" /> Log Out
+                          </Link>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="btn-group">
+                        <button
+                          className="btn btn-rounded dropdown-toggle text-white fs-14"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                        >
+                          <i className="fa fa-bell fa-1x" />{" "}
+                          <span className="settop">9+</span>
+                        </button>
+                        <div className="dropdown-menu yop wit350">
+                          <span className="colo-nav dropdown-item text-success">
+                            21 pending notification{" "}
+                            <button className="btn btn-smaller baser fs-10">
+                              Clear All
+                            </button>
+                          </span>
+                          <Link
+                            className="colo-nav dropdown-item"
+                            to="notification"
+                          >
+                            <div className="set-notif">
+                              <h6 className="text-white">
+                                <i className="fa fa-envelope-o fs-12 text-white" />{" "}
+                                Login attempted from new IP
+                              </h6>
+                              <span className="text-white-50 text-wrap">
+                                You have successfully authorized a new device or
+                                in a new location to sign into your Binance
+                                account.
+                                <br />
+                                <em className="text-info">5 mins ago</em>
+                              </span>
+                            </div>
+                          </Link>
+                          <Link
+                            className="colo-nav dropdown-item"
+                            to="notification"
+                          >
+                            <div className="set-notif">
+                              <h6 className="text-white">
+                                <i className="fa fa-envelope-o fs-12 text-white" />{" "}
+                                Login attempted from new IP
+                              </h6>
+                              <span className="text-white-50 text-wrap">
+                                You have successfully authorized a new device or
+                                in a new location to sign into your Binance
+                                account.
+                                <br />
+                                <em className="text-info">5 mins ago</em>
+                              </span>
+                            </div>
+                          </Link>
+                          <Link
+                            className="colo-nav dropdown-item"
+                            to="notification"
+                          >
+                            <div className="set-notif">
+                              <h6 className="text-white">
+                                <i className="fa fa-envelope-o fs-12 text-white" />{" "}
+                                Login attempted from new IP
+                              </h6>
+                              <span className="text-white-50 text-wrap">
+                                You have successfully authorized a new device or
+                                in a new location to sign into your Binance
+                                account.
+                                <br />
+                                <em className="text-info">5 mins ago</em>
+                              </span>
+                            </div>
+                          </Link>
+                          <p>
+                            <Link
+                              to="ntification"
+                              className="text-primary p-10 pull-right"
+                            >
+                              {" "}
+                              See All
+                            </Link>
+                          </p>
+                        </div>
+                      </div>
                     </li>
                   </ul>
                 </div>
@@ -69,108 +198,100 @@ function Header() {
         </div>
         <nav hidden className="nav-white nav-transparent dark-overlay">
           <div className="nav-header">
-            <a href="./" className="brand">
-              <img src={`${BASE_URL}/rooddi/images/img/xetima-coin.png`} className="img-fluid" alt="img" style={{ width: "100px", marginTop: "-15px" }}/>
-            </a>
+            <Link to="./" className="brand">
+              <img
+                src={`${BASE_URL}/rooddi/images/img/xetima-coin.png`}
+                style={{ width: "100px", marginTop: "-15px" }}
+                alt="Rooddi Buy, Sell and Receive Bitcoin, Ethereum, Dodge"
+              />
+            </Link>
             <button className="toggle-bar">
               <span className="ti-menu" />
             </button>
           </div>
           <ul className="menu">
             <li>
-              <Link to="/fees" className="text-capitalize">
-                <span>Fees</span>
-              </Link>
-              {/*<a href="/fees" className="text-capitalize">
+              <Link to="fees" className="text-capitalize">
                 Fees
-              </a>*/}
+              </Link>
             </li>
             <li>
-              <Link to="/features" className="text-capitalize">
-                <span>Features</span>
-              </Link>
-              {/*<a href="features" className="text-capitalize">
+              <Link to="features" className="text-capitalize">
                 Features
-              </a>*/}
+              </Link>
             </li>
             <li>
-              <Link to="/wallet" className="text-capitalize">
-                <span>Wallet</span>
+              <Link to="wallet" className="text-capitalize">
+                Wallet
               </Link>
-              {/*<a href="wallet" className="text-capitalize">*/}
-              {/*  Wallet*/}
-              {/*</a>*/}
             </li>
             <li className="dropdown">
-              <a href="#" className="text-capitalize">
+              <Link to="#" className="text-capitalize">
                 Buy Crypto
-              </a>
+              </Link>
               <ul className="dropdown-menu">
                 <li>
-                  <a href="buy-crypto-card">
+                  <Link to="buy-crypto-card">
                     <i className="fa fa-star" /> &nbsp; &nbsp; Credit/Debit Card
                     <i className="fa fa-long-arrow-right pull-right text-white" />
                     <br />
                     <small>(Visa, Master Card)</small>
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="buy-sell-p2p">
+                  <Link to="buy-sell-p2p">
                     <i className="fa fa-star" /> &nbsp; &nbsp; P2P Trading
                     <i className="fa fa-long-arrow-right pull-right text-white" />
                     <br />
                     <small>(Bank transfer and others)</small>
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="buy-sell-crypto-thirdparty">
+                  <Link to="buy-sell-crypto-thirdparty">
                     <i className="fa fa-star" /> &nbsp; &nbsp; Third-party
                     Payment
                     <i className="fa fa-long-arrow-right pull-right text-white" />
                     <br />
                     <small>(Easier)</small>
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </li>
             <li className="dropdown">
-              <a href="#" className="text-capitalize">
+              <Link to="#" className="text-capitalize">
                 Trade
-              </a>
+              </Link>
               <ul className="dropdown-menu">
                 <li>
-                  <a href="currency-converter">
+                  <Link to="currency-converter">
                     Currency Converter{" "}
                     <i className="fa fa-long-arrow-right pull-right text-white" />
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="live-coin">
+                  <Link to="live-coin">
                     Live Coin Chart{" "}
                     <i className="fa fa-long-arrow-right pull-right text-white" />
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </li>
             <li>
-              <a href="nft" className="text-capitalize">
+              <Link to="nft" className="text-capitalize">
                 NFT
-              </a>
+              </Link>
             </li>
           </ul>
           <ul className="attributes">
             <li className="d-md-block d-none">
-              <Link to="/signup" className="text-capitalize px-10 pt-15 pb-10">
-                <span className="btn btn-primary py-5">Register Now</span>
-              </Link>
-              {/*<a href="/register" className="px-10 pt-15 pb-10">
+              <Link to="/signup" className="px-10 pt-15 pb-10">
                 <div className="btn btn-primary py-5">Register Now</div>
-              </a>*/}
+              </Link>
             </li>
             <li>
-              <a href="#" className="toggle-search-fullscreen">
+              <Link to="#" className="toggle-search-fullscreen">
                 <span className="ti-search" />
-              </a>
+              </Link>
             </li>
           </ul>
           <div className="wrap-search-fullscreen">
