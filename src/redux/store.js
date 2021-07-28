@@ -4,24 +4,21 @@ import thunk from "redux-thunk";
 import rootReducer from "./combineReducers";
 import { composeWithDevTools } from "redux-devtools-extension";
 
-//const store = createStore(rootReducer, applyMiddleware(logger));
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 
+const persistConfig = {
+  key: 'root',
+  storage,
+}
 
-const userInfoFromStorage = localStorage.getItem("userData")
-  ? JSON.parse(localStorage.getItem("userData"))
-  : null;
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
-  const initialState = {
-    userLogin: { userData: userInfoFromStorage },
-  };
-
-const store = createStore(
-  rootReducer,
-  initialState,
-  composeWithDevTools(
+//const store = createStore(persistedReducer, applyMiddleware(logger));
+export const store = createStore(persistedReducer, composeWithDevTools(
     applyMiddleware(thunk)
     // other store enhancers if any
-  )
-);
+));
 
-export default store;
+
+export const persistedStore = persistStore(store);
