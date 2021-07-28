@@ -1,12 +1,15 @@
-import { LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE, USER_LOGOUT, UPDATE_LOGIN_SUCCESS } from "./LoginActionTypes";//
+import { LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE, UPDATE_LOGIN_SUCCESS, USER_LOGOUT, USER_LOGOUT_SUCCESS, USER_LOGOUT_FAILURE } from "./LoginActionTypes";//
 
 const initialState = {
     user_data: [],
     message:'',
     loading:false,
     error_message:false,
+    logout_error:false,
+    logout_success:false,
     success_message:false,
-    isLogged:false
+    isLogged:false,
+    logout_loading:false
 };
 
 const UserLoginReducer = (state = initialState, action) => {
@@ -18,6 +21,9 @@ const UserLoginReducer = (state = initialState, action) => {
                 success_message:false,
                 error_message:false,
                 message:action.message
+                isLogged:false,
+                logout_error:false,
+                logout_success:false,
             };
         case LOGIN_SUCCESS:
             return {
@@ -26,7 +32,10 @@ const UserLoginReducer = (state = initialState, action) => {
                 success_message:true,
                 message:action.message,
                 error_message:false,
-                loading:false
+                loading:false,
+                isLogged:false,
+                logout_error:false,
+                logout_success:false,
             };
         case UPDATE_LOGIN_SUCCESS:
             return {
@@ -36,7 +45,9 @@ const UserLoginReducer = (state = initialState, action) => {
                 message:action.message,
                 error_message:false,
                 loading:false,
-                isLogged:action.isLogged
+                isLogged:action.isLogged,
+                logout_error:false,
+                logout_success:false,
             };
         case LOGIN_FAILURE:
             return {
@@ -44,10 +55,45 @@ const UserLoginReducer = (state = initialState, action) => {
                 loading:false,
                 error_message:true,
                 success_message:false,
-                message:action.message
-            };
+                message:action.message,
+                isLogged:false,
+                logout_error:false,
+                logout_success:false,
+            };//USER_LOGOUT, USER_LOGOUT_SUCCESS, USER_LOGOUT_FAILURE
         case USER_LOGOUT:
-                return {}
+            return {
+                ...state,
+                loading:false,
+                logout_loading:true
+                error_message:false,
+                success_message:false,
+                message:action.message,
+                logout_error:false,
+                logout_success:false,
+            }
+        case USER_LOGOUT_SUCCESS:
+            return {
+                ...state,
+                loading:false,
+                logout_loading:false
+                error_message:false,
+                success_message:false,
+                message:action.message,
+                logout_error:false,
+                logout_success:true,
+                isLogged:false
+            }
+        case USER_LOGOUT_FAILURE:
+            return {
+                ...state,
+                loading:false,
+                logout_loading:false
+                error_message:false,
+                success_message:false,
+                message:action.message,
+                logout_error:true,
+                logout_success:false,
+            }
         default:
             return state;
     }
