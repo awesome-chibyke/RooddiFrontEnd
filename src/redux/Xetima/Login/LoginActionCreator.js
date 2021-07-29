@@ -1,5 +1,5 @@
 import { LOGIN, LOGIN_FAILURE, LOGIN_SUCCESS,UPDATE_LOGIN_SUCCESS, USER_LOGOUT, USER_LOGOUT_SUCCESS,USER_LOGOUT_FAILURE } from "./LoginActionTypes";
-import { BACKEND_BASE_URL } from "../../../common_variables";
+import { BACKEND_BASE_URL, headerIncluder } from "../../../common_variables";
 import * as Validator from 'validatorjs';
 import validateModule from "../../../validation/validate_module";
 import { getRequest, postRequest } from "../../axios_call";
@@ -37,17 +37,17 @@ const updateloginSuccess = (data, message) => {
 }
 
 //USER_LOGOUT, USER_LOGOUT_SUCCESS,USER_LOGOUT_FAILURE
-export const logoutAction = async () => (dispatch) => {
+export const logoutAction = (token) => async (dispatch) => {
     try{
-        localStorage.removeItem('userData');
-        localStorage.removeItem('myData');
+
         dispatch({ type: USER_LOGOUT });
 
         //call the api
-        let handleLogout = await getRequest(BACKEND_BASE_URL+'logout');
+        let handleLogout = await getRequest(BACKEND_BASE_URL+'logout', headerIncluder(token));
         let returnedObject = handleLogout.data;
         let {message, status, message_type, data} = returnedObject
         if(status === true){
+            localStorage.removeItem('persist:root');
             dispatch({
                 type:USER_LOGOUT_SUCCESS,
                 message:message
@@ -87,7 +87,7 @@ export const LoginPost = async (userData) => {
         let validation = new Validator(data, rules);
 
         if(validation.fails()){
-            dispatch(loginUserFailure('A Validation Error Occurred'));
+            dispatch(loginUserFailure('A Validation Error Occurred')); console.log(validation.errors.errors)
             return validateModule.handleErrorStatement(validation.errors.errors, '', 'on', 'no', 'no');
         }
 

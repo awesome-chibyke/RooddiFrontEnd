@@ -5,6 +5,7 @@ import {
   RESEND_ACTIVATION_CODE_FAILURE,
   RESEND_ACTIVATION_CODE,
   RESEND_ACTIVATION_ACTIVATION_CODE_SUCCESS,
+  LOGOUT_ACTIVATION_DISABLE
 } from "./ActivationActionTypes";
 
 const initialState = {
@@ -80,6 +81,16 @@ const ActivationReducer = (state = initialState, action) => {
         error: true,
         success: false,
         message: action.message,
+        isLogged:false
+      };
+    case LOGOUT_ACTIVATION_DISABLE:
+      return {
+        ...state,
+        loading: false,
+        resend_loading:false,
+        error: false,
+        success: false,
+        message: '',
         isLogged:false
       };
     default:

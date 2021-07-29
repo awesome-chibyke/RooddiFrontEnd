@@ -5,6 +5,7 @@ import {
   RESEND_ACTIVATION_ACTIVATION_CODE_SUCCESS,
   RESEND_ACTIVATION_CODE,
   RESEND_ACTIVATION_CODE_FAILURE,
+  LOGOUT_ACTIVATION_DISABLE
 } from "./ActivationActionTypes";
 import { REGISTER_SUCCESS } from "../Register/RegisterActionTypes";
 import * as Validator from "validatorjs";
@@ -170,5 +171,18 @@ export const ResendActivationPost = async (email) => {
     } catch (e) {
       dispatch(resendActivationCodeFailure(e.message));
     }
+  };
+};
+
+
+//................................disable activation isLogged during logout ..........................................//
+
+export const disableActivationIslogged = async () => {
+  return async (dispatch) => {
+    validateModule.ClearErrorFields(); //clear error fields
+
+    dispatch({
+      type:LOGOUT_ACTIVATION_DISABLE
+    });
   };
 };

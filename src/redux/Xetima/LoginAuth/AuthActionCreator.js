@@ -5,6 +5,7 @@ import {
   RESEND_AUTHENTICATION_AUTHENTICATION_CODE_SUCCESS,
   RESEND_AUTHENTICATION_CODE,
   RESEND_AUTHENTICATION_CODE_FAILURE,
+  LOGOUT_AUTH_DISABLE
 } from "./AuthActionTypes";
 import { LOGIN_SUCCESS } from "../Login/LoginActionTypes";
 import * as Validator from "validatorjs";
@@ -138,38 +139,49 @@ export const ResendAuthenticationPost = async (email) => {
     if (validation.fails()) {
       dispatch(resendAuthenticationCodeFailure("A Validation Error Occurred"));
       return validateModule.handleErrorStatement(
-        validation.errors.errors,
-        "",
-        "on",
-        "no",
-        "no"
+          validation.errors.errors,
+          "",
+          "on",
+          "no",
+          "no"
       );
     }
     //resendAuthenticationCodeAction resendAuthenticationCodeSuccess resendAuthenticationCodeFailure
     try {
       let formBody = "email=" + email;
       let handleTokenResend = await postRequest(
-        BACKEND_BASE_URL + "activation/resend-login-auth-code",
-        formBody,
-        { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+          BACKEND_BASE_URL + "activation/resend-login-auth-code",
+          formBody,
+          { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
       );
       let data = handleTokenResend.data;
       setTimeout(() => {
         if (data.status === true) {
-          dispatch(resendAuthenticationCodeSuccess(data));
-        } else {
-          validateModule.handleErrorStatement(
+        dispatch(resendAuthenticationCodeSuccess(data));
+      } else {
+        validateModule.handleErrorStatement(
             data.message,
             "",
             "on",
             "no",
             "no"
-          );
-          dispatch(resendAuthenticationCodeFailure("A Error Occurred"));
-        }
-      }, 3000);
+        );
+        dispatch(resendAuthenticationCodeFailure("A Error Occurred"));
+      }
+    }, 3000);
     } catch (e) {
       dispatch(resendAuthenticationCodeFailure(e.message));
     }
+  };
+};
+
+//this function will change the islogged to false
+export const destroyUserAuthislogged = async (email) => {
+  return async (dispatch) => {
+
+    dispatch({
+      type:LOGOUT_AUTH_DISABLE
+    });
+
   };
 };
