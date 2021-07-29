@@ -1,11 +1,34 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
-// import Link from "react"
+import React, { useState, useEffect} from "react";
+import { logoutAction, destroyUserAuthislogged, disableActivationIslogged } from "../../redux";
+import { connect, useSelector, useDispatch  } from "react-redux";
 import { BASE_URL } from "../../common_variables";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link, useParams } from "react-router-dom";
 
 function Header() {
+
+  const allState = useSelector(state => state);
+  let {registration:registrationData,login:loginData,authentication:authenticationData} = allState;
+
+  let {isLogged, user_data, logout_loading, logout_error, logout_success } = loginData;//login data
+
+  if(isLogged === true){//check if the islogged is true
+    var {email} = user_data.user;
+    var {token} = user_data;
+  }
+
+  const dispatch = useDispatch();
+
+  const logUserOut = async (token) =>{
+    let retVal = window.confirm('Do you want logout');
+    if( retVal === true){
+      dispatch(await logoutAction(token));
+      dispatch(await destroyUserAuthislogged());
+      dispatch(await disableActivationIslogged());
+    }
+  }
+
   return (
     <>
       <header className="top-bar dark-overlay-top">
@@ -22,7 +45,7 @@ function Header() {
                     </li>
                     <li className="ms-10 pe-10">
                       <Link to="mail:hello@rooddi.com">
-                        <i className="fa fa-envelope" /> hello@rooddi.com
+                        <i className="fa fa-envelope" /> {isLogged === true ? email : ''}
                       </Link>
                     </li>
                   </ul>
@@ -40,17 +63,33 @@ function Header() {
                       </select>
                     </li>
                     <li className="me-10 ps-10">
-                      <Link to="login">
-                        <i className="fa fa-sign-in d-md-inline-block d-none" />{" "}
-                        Login
-                      </Link>
+                      {isLogged !== true ? (
+                          <Link to="login" >
+                            <i className="fa fa-sign-in d-md-inline-block d-none" />{" "}
+                            Login
+                          </Link>
+                      ) : (
+                          <a href="javascript:;" onClick={() => logUserOut(token)} >
+                            {logout_loading === true ? 'Loading.....':( <><i className="fa fa-sign-out d-md-inline-block d-none" /> Logout </> )  }
+
+                          </a>
+                      )}
+                      {/*logout_loading, logout_error, logout_success*/}
                     </li>
-                    <li className="me-10 ps-10">
-                      <Link to="/signup">
-                        <i className="fa fa-dashboard d-md-inline-block d-none" />{" "}
-                        Register
-                      </Link>
-                    </li>
+                    {/*<li className="me-10 ps-10">
+                      {isLogged === true ? (
+                          <Link to="/signup">
+                            <i className="fa fa-sign-up d-md-inline-block d-none" />{" "}
+                            Register
+                          </Link>
+                      ) : (
+                          <Link to="/dashboard">
+                            <i className="fa fa-dashboard d-md-inline-block d-none" />{" "}
+                            Dashboard
+                          </Link>
+                      )}
+
+                    </li>*/}
                     <li className="ms-lg-10 pe-10">
                       <div className="btn-group">
                         <button
@@ -66,7 +105,7 @@ function Header() {
                             to="profile"
                           >
                             {" "}
-                            ch***@gmail.com <br />
+                            {isLogged === true ? email : ''} <br />
                             <i className="fa fa-long-arrow-right text-primary pull-right text-white" />
                           </Link>
                           <Link
@@ -284,9 +323,16 @@ function Header() {
           </ul>
           <ul className="attributes">
             <li className="d-md-block d-none">
-              <Link to="/signup" className="px-10 pt-15 pb-10">
-                <div className="btn btn-primary py-5">Register Now</div>
-              </Link>
+              {isLogged === true ? (
+                  <Link to="/dashboard" className="px-10 pt-15 pb-10">
+                    <div className="btn btn-primary py-5">Dashboard</div>
+                  </Link>
+              ) : (
+                  <Link to="/signup" className="px-10 pt-15 pb-10">
+                    <div className="btn btn-primary py-5">Register Now</div>
+                  </Link>
+              )}
+
             </li>
             <li>
               <Link to="#" className="toggle-search-fullscreen">

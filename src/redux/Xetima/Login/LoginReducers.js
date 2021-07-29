@@ -20,7 +20,7 @@ const UserLoginReducer = (state = initialState, action) => {
                 loading:true,
                 success_message:false,
                 error_message:false,
-                message:action.message
+                message:action.message,
                 isLogged:false,
                 logout_error:false,
                 logout_success:false,
@@ -64,7 +64,7 @@ const UserLoginReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading:false,
-                logout_loading:true
+                logout_loading:true,
                 error_message:false,
                 success_message:false,
                 message:action.message,
@@ -75,7 +75,7 @@ const UserLoginReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading:false,
-                logout_loading:false
+                logout_loading:false,
                 error_message:false,
                 success_message:false,
                 message:action.message,
@@ -87,7 +87,7 @@ const UserLoginReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading:false,
-                logout_loading:false
+                logout_loading:false,
                 error_message:false,
                 success_message:false,
                 message:action.message,

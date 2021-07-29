@@ -5,6 +5,7 @@ import {
   RESEND_AUTHENTICATION_CODE_FAILURE,
   RESEND_AUTHENTICATION_CODE,
   RESEND_AUTHENTICATION_AUTHENTICATION_CODE_SUCCESS,
+  LOGOUT_AUTH_DISABLE
 } from "./AuthActionTypes";
 
 const initialState = {
@@ -49,6 +50,16 @@ const AuthenticationReducer = (state = initialState, action) => {
         error: true,
         success: false,
         message: action.message,
+        isLogged:false
+      };
+    case LOGOUT_AUTH_DISABLE:
+      return {
+        ...state,
+        loading: false,
+        authentication_loading: false,
+        error: false,
+        success: false,
+        message: '',
         isLogged:false
       };
     case RESEND_AUTHENTICATION_CODE:

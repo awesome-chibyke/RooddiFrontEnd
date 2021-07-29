@@ -79,6 +79,14 @@ const Login = () => {
                           ) : (
                             ""
                           )}
+
+                          {login.logout_success === true ? (
+                              <p className="alert alert-danger  text-center">
+                                {login.message}
+                              </p>
+                          ) : (
+                              ""
+                          )}
                         </div>
 
                         <div className="input-group mb-15">
@@ -87,6 +95,7 @@ const Login = () => {
                           </span>
                           <input
                             type="email"
+                            id="email"
                             className="form-control ps-15 bg-transparent"
                             placeholder="Email"
                             value={email}
