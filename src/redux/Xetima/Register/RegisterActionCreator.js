@@ -67,16 +67,14 @@ export const RegisterPost = async (userData) => {
             let formBody = 'email='+userData.email+'&password='+userData.password+'&referral_id='+userData.referral_id;
             let handleRegistration = await postRequest(BACKEND_BASE_URL+"register", formBody, {headers: {'Content-Type': 'application/x-www-form-urlencoded'} });
             let data = handleRegistration.data;
-            setTimeout(() => {
-                if(data.status === true){
-                    dispatch(registerUserSuccess(data));
-                }else{
-                    validateModule.handleErrorStatement(data.message, '', 'on', 'no', 'no');
-                    dispatch(registerUserFailure('A Error Occurred'));
-                }
-
-            }, 3000);
+            if(data.status === true){
+                dispatch(registerUserSuccess(data));
+            }else{
+                validateModule.handleErrorStatement(data.message, '', 'on', 'no', 'no');
+                dispatch(registerUserFailure('A Error Occurred'));
+            }
         }catch(e){
+            validateModule.handleErrorStatement({general_error:[e.message]}, '', 'on', 'no', 'no');
             dispatch(registerUserFailure(e.message));
         }
 

@@ -2,13 +2,19 @@
 /* eslint-disable jsx-a11y/heading-has-content */
 /* eslint-disable no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { LoginPost } from "../redux";
 import { connect, useSelector, useDispatch } from "react-redux";
 import { Route, Redirect, Switch, Link } from "react-router-dom";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
+import {getQueryParams} from "../UrlQueryString";
 const Login = () => {
+
+  const [errorMessage, setErrorMessage] = useState(null);//error message manager
+  const [successMessage, setSuccessMessage] = useState(null);//error message manager
+
   const [password, setPassword] = useState("");
+
   const [email, setEmail] = useState("");
   const [disabled, setDisabled] = useState(false);
   let passwordObject = { type: "password", class_name: "fa-eye-slash" };
@@ -18,6 +24,37 @@ const Login = () => {
   let { login } = allStateObject;
 
   const dispatch = useDispatch(); //for action dispatch
+
+  const [mainForgotpasswordModalDiplay, setMainForgotpasswordModalDiplay] = useState("none");
+  const [changePasswordModal, setChangePasswordModal] = useState("none");
+
+  const toggleModal = (ModalToDisplay) => {//for modal toggling
+
+    if(mainForgotpasswordModalDiplay === 'block'){setMainForgotpasswordModalDiplay('none')}
+
+    if(ModalToDisplay === 'changePasswordModal'){
+      setChangePasswordModal(changePasswordModal === 'none' ? 'block' :'none')
+    }
+
+  }
+
+  let successValue = getQueryParams().success;//pick values from the url
+  useEffect(() => {
+
+    if(successValue !== null && typeof successValue !== 'undefined'){setSuccessMessage(successValue)}
+
+    if(login.error_message === true){
+        setErrorMessage(login.message);
+        setSuccessMessage(null);
+    }
+    if(login.logout_success === true){
+        setSuccessMessage(login.message);
+        setErrorMessage(null);
+    }
+
+  }, [successValue, login])
+
+
   return (
     <>
       <div>
@@ -72,20 +109,24 @@ const Login = () => {
                             ""
                           )}
 
-                          {login.error_message === true ? (
+                          {errorMessage && (
+                              <p className="alert alert-danger  text-center">
+                                {errorMessage}
+                              </p>
+                          )}
+
+                          {/*{login.error_message === true ? (
                             <p className="alert alert-danger  text-center">
                               {login.message}
                             </p>
                           ) : (
                             ""
-                          )}
+                          )}*/}
 
-                          {login.logout_success === true ? (
-                              <p className="alert alert-danger  text-center">
-                                {login.message}
+                          {successMessage && (
+                              <p className="alert alert-success  text-center">
+                                {successMessage}
                               </p>
-                          ) : (
-                              ""
                           )}
                         </div>
 
@@ -156,6 +197,7 @@ const Login = () => {
                             <a
                               href="javascript:void(0)"
                               className="hover-warning"
+                              onClick={() => setMainForgotpasswordModalDiplay(mainForgotpasswordModalDiplay === 'none' ? 'block' :'none')}
                             >
                               <i className="ion ion-locked" /> Forgot password?
                             </a>
@@ -194,7 +236,7 @@ const Login = () => {
                     </div>
                   </div>
                 </div>
-                <div className="text-center">
+                {/*<div className="text-center">
                   <p className="mt-20">- Login With -</p>
                   <p className="d-flex gap-items-2 mb-0 justify-content-center">
                     <a
@@ -216,11 +258,56 @@ const Login = () => {
                       <i className="fa fa-instagram" />
                     </a>
                   </p>
-                </div>
+                </div>*/}
               </div>
             </div>
           </div>
         </section>
+        /* main Modal */
+        <div style={{display:mainForgotpasswordModalDiplay}} class="modal">
+
+          {/* Modal content*/}
+          <div class="modal-content">
+            <div class="modal-header">
+              <span onClick={() => setMainForgotpasswordModalDiplay(mainForgotpasswordModalDiplay === 'none' ? 'block' :'none')} class="close">&times;</span>
+              <h2></h2>
+            </div>
+            <div class="modal-body">
+              <div className="text-center" onClick={() => {  toggleModal('changePasswordModal') }}  style={{fontSize:"20px", cursor:"pointer", fontWeight:"bold", marginBottom:"20px"}}> <i className="fa fa-asterisk" aria-hidden="true"></i> Forgot Password? </div>
+
+              <div className="text-center " style={{fontSize:"20px", cursor:"pointer", fontWeight:"bold", marginBottom:"20px"}}><a href="/disable_two_factor"><i className="fa fa-asterisk" aria-hidden="true"></i>  Disable Two Factor</a></div>
+            </div>
+            <div class="modal-footer">
+              <h3>Modal Footer</h3>
+            </div>
+          </div>
+
+        </div>
+
+        /* Modal */
+        <div style={{display:changePasswordModal}} class="modal">
+           Modal content
+          <div class="modal-content">
+            <div class="modal-header">
+              <span onClick={() => setChangePasswordModal(changePasswordModal === 'none' ? 'block' :'none')} class="close">&times;</span>
+              <h2></h2>
+            </div>
+            <div class="modal-body">
+              <div className="col-sm-12">
+
+                <div className="text-center"  style={{fontSize:"20px", cursor:"pointer", fontWeight:"bold", marginBottom:"20px"}}>  <a href="/forgotpassword"><i className="fa fa-asterisk" aria-hidden="true"></i> Email Authentication?</a></div>
+
+                <div className="text-center " style={{fontSize:"20px", cursor:"pointer", fontWeight:"bold", marginBottom:"20px"}}><a href="/forgotpassword_two_factor"><i className="fa fa-asterisk" aria-hidden="true"></i> Two Factor Authentication</a></div>
+
+              </div>
+            </div>
+            <div class="modal-footer">
+              <h3>Modal Footer</h3>
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </>
   );

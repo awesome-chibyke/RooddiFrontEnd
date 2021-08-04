@@ -11,6 +11,8 @@ import BuyCrptoCard from "./Screens/BuyCrptoCard";
 import AccountActivation from "./Screens/AccountActivation";
 import LoginAuthentication from "./Screens/LoginAuthentication";
 import Dashboard from "./Screens/Dashboard";
+import ForgotPassword from "./Screens/ForgotPassword";
+import ChangePassword from "./Screens/ChangePassword";
 
 import { Provider } from "react-redux";
 import {store, persistedStore} from "./redux/store";
@@ -20,7 +22,7 @@ function App() {
   return (
     <>
       <Provider store={store}>
-          <PersistGate loading={null} persistor={persistedStore}>
+          <PersistGate loading={null} persistor={persistedStore} >
               <Router>
                   <Header />
                   <Route path="/" component={Home} exact />
@@ -30,6 +32,12 @@ function App() {
                   </Route>
                   <Route path="/dashboard">
                       <Dashboard />
+                  </Route>
+                  <Route path="/forgotpassword">
+                      <ForgotPassword />
+                  </Route>
+                  <Route path="/change_password">
+                      <ChangePassword />
                   </Route>
                   <Route path="/authentication/:email" component={LoginAuthentication} />
                   <Route path="/login" component={Login} />

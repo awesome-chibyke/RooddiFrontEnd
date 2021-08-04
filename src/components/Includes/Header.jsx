@@ -23,11 +23,25 @@ function Header() {
   const logUserOut = async (token) =>{
     let retVal = window.confirm('Do you want logout');
     if( retVal === true){
-      dispatch(await logoutAction(token));
       dispatch(await destroyUserAuthislogged());
       dispatch(await disableActivationIslogged());
+      dispatch(await logoutAction(token));
     }
   }
+
+console.log(loginData.isLogged)
+  /*const changeLoginStatus = async () =>{
+    dispatch(await updateLogin(activationData.user_data, activationData.message));
+  }
+
+  useEffect(() => {
+
+    if(activationData.isLogged === true){
+      console.log('yes')
+      changeLoginStatus();
+    }
+
+  }, [activationData])*/
 
   return (
     <>
@@ -64,7 +78,7 @@ function Header() {
                     </li>
                     <li className="me-10 ps-10">
                       {isLogged !== true ? (
-                          <Link to="login" >
+                          <Link to="/login" >
                             <i className="fa fa-sign-in d-md-inline-block d-none" />{" "}
                             Login
                           </Link>
@@ -323,15 +337,16 @@ function Header() {
           </ul>
           <ul className="attributes">
             <li className="d-md-block d-none">
-              {isLogged === true ? (
+              {loginData.isLogged === true ? (
                   <Link to="/dashboard" className="px-10 pt-15 pb-10">
                     <div className="btn btn-primary py-5">Dashboard</div>
                   </Link>
-              ) : (
+              ) : ('')}
+              {loginData.isLogged === false ? (
                   <Link to="/signup" className="px-10 pt-15 pb-10">
                     <div className="btn btn-primary py-5">Register Now</div>
                   </Link>
-              )}
+              ) : ('')}
 
             </li>
             <li>
