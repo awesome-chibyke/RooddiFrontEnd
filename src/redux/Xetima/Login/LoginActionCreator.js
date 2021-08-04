@@ -1,4 +1,4 @@
-import { LOGIN, LOGIN_FAILURE, LOGIN_SUCCESS,UPDATE_LOGIN_SUCCESS, USER_LOGOUT, USER_LOGOUT_SUCCESS,USER_LOGOUT_FAILURE } from "./LoginActionTypes";
+import { LOGIN, LOGIN_FAILURE, LOGIN_SUCCESS,UPDATE_LOGIN_SUCCESS, USER_LOGOUT, USER_LOGOUT_SUCCESS,USER_LOGOUT_FAILURE, CHANGE_LOGIN_MESSAGE_STATUS } from "./LoginActionTypes";
 import { BACKEND_BASE_URL, headerIncluder } from "../../../common_variables";
 import * as Validator from 'validatorjs';
 import validateModule from "../../../validation/validate_module";
@@ -12,11 +12,12 @@ const loginUserAction = () => {//for user login
     };
 };
 
-const loginUserSuccess = (data) => {
+const loginUserSuccess = ({data, message_type, message}) => {
     return {
         type:LOGIN_SUCCESS,
-        payload:data.data,
-        message:data.message
+        payload:data,
+        message:message,
+        message_type:message_type
     }
 }
 
@@ -99,11 +100,14 @@ export const LoginPost = async (userData) => {
         try{
             let formBody = 'email='+userData.email+'&password='+userData.password;
             let handleLogin = await postRequest(BACKEND_BASE_URL+"login", formBody, {headers: {'Content-Type': 'application/x-www-form-urlencoded'} });
-            let data = handleLogin.data;
-            if(data.status === true){
-                dispatch(loginUserSuccess(data));
+            let returnedData = handleLogin.data;
+            console.log(returnedData)
+            let {message, status, message_type, data} = returnedData
+            console.log(status)
+            if(status === true){
+                dispatch(loginUserSuccess({data, message_type, message}));
             }else{
-                validateModule.handleErrorStatement(data.message, '', 'on', 'no', 'no');
+                validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
                 dispatch(loginUserFailure('A Error Occurred'));
             }
         }catch(e){
@@ -122,5 +126,11 @@ export const updateLogin = async (userData, message) => {
 
         dispatch(updateloginSuccess(userData, message));
 
+    }
+}
+
+export const updateLoginSuccessStatus = () => {
+    return  async (dispatch) => {
+        dispatch({type:CHANGE_LOGIN_MESSAGE_STATUS});
     }
 }
