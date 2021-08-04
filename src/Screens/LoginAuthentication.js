@@ -123,10 +123,11 @@ const LoginAuthentication = () => {
                         )}
 
                         {loginData.isLogged === true ? (
-                          <DelayedRedirect to={`/dashboard`} delay={500} />
+                          <DelayedRedirect to={`/dashboard`} delay={1500} />
                         ) : (
                           ""
                         )}
+
                       </div>
                       <div className="form-group">
                         <div className="input-group mb-15">

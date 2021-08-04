@@ -8,6 +8,9 @@ const Dashboard = () => {
 
     let {registration:registrationData, activation:activationData, login:loginData} = allStateObject;
 
+
+    if(loginData.isLogged === false){ window.location.href = '/login' }
+
     return (
         <>
             {loginData.isLogged === false ? <DelayedRedirect to={`/login`} delay={500} />  :'' }

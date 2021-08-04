@@ -53,6 +53,7 @@ export const logoutAction = (token) => async (dispatch) => {
                 type:USER_LOGOUT_SUCCESS,
                 message:message
             });
+            window.location.reload();
         }else{
             validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
             dispatch({
@@ -111,6 +112,7 @@ export const LoginPost = async (userData) => {
                 dispatch(loginUserFailure('A Error Occurred'));
             }
         }catch(e){
+            validateModule.handleErrorStatement({general_error:[e.message]}, '', 'on', 'no', 'no');
             dispatch(loginUserFailure(e.message));
         }
 

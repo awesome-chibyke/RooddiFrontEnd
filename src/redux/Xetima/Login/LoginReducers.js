@@ -60,7 +60,7 @@ const UserLoginReducer = (state = initialState, action) => {
                 isLogged:false,
                 logout_error:false,
                 logout_success:false,
-            };//USER_LOGOUT, USER_LOGOUT_SUCCESS, USER_LOGOUT_FAILURE
+            };
         case USER_LOGOUT:
             return {
                 ...state,

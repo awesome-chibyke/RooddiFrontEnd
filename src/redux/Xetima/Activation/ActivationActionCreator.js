@@ -73,20 +73,18 @@ export const ActivationPost = async (ActivationData) => {
         { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
       );
       let data = handleActivation.data;
-      setTimeout(() => {
-        if (data.status === true) {
-          dispatch(activationUserSuccess(data));
-        } else {
-          validateModule.handleErrorStatement(
+      if (data.status === true) {
+        dispatch(activationUserSuccess(data));
+      } else {
+        validateModule.handleErrorStatement(
             data.message,
             "",
             "on",
             "no",
             "no"
-          );
-          dispatch(activationUserFailure("A Error Occurred"));
-        }
-      }, 3000);
+        );
+        dispatch(activationUserFailure("A Error Occurred"));
+      }
     } catch (e) {
       dispatch(activationUserFailure(e.message));
     }
@@ -169,6 +167,7 @@ export const ResendActivationPost = async (email) => {
         }
       }, 3000);
     } catch (e) {
+      validateModule.handleErrorStatement({general_error:[e.message]}, '', 'on', 'no', 'no');
       dispatch(resendActivationCodeFailure(e.message));
     }
   };

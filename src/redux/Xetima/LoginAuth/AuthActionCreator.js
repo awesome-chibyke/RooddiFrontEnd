@@ -73,22 +73,21 @@ export const AuthenticationPost = async (AuthenticationData) => {
         { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
       );
       let data = handleAuthentication.data;
-      setTimeout(() => {
-        if (data.status === true) {
-          dispatch(authenticationUserSuccess(data));
-        } else {
-          console.log(data.message)
-          validateModule.handleErrorStatement(
+      if (data.status === true) {
+        dispatch(authenticationUserSuccess(data));
+      } else {
+        console.log(data.message)
+        validateModule.handleErrorStatement(
             data.message,
             "",
             "on",
             "no",
             "no"
-          );
-          dispatch(authenticationUserFailure("A Error Occurred"));
-        }
-      }, 3000);
+        );
+        dispatch(authenticationUserFailure("A Error Occurred"));
+      }
     } catch (e) {
+      validateModule.handleErrorStatement({general_error:[e.message]}, '', 'on', 'no', 'no');
       dispatch(authenticationUserFailure(e.message));
     }
   };
