@@ -8,10 +8,8 @@ import { connect, useSelector, useDispatch } from "react-redux";
 import { Route, Redirect, Switch, Link } from "react-router-dom";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import {getQueryParams} from "../UrlQueryString";
+import ErrorSuccessHook from "../redux/ErrorSuccessHook";
 const Login = () => {
-
-  const [errorMessage, setErrorMessage] = useState(null);//error message manager
-  const [successMessage, setSuccessMessage] = useState(null);//error message manager
 
   const [password, setPassword] = useState("");
 
@@ -38,21 +36,10 @@ const Login = () => {
 
   }
 
-  let successValue = getQueryParams().success;//pick values from the url
-  useEffect(() => {
+  //let successValue = getQueryParams().success;//pick values from the url
 
-    if(successValue !== null && typeof successValue !== 'undefined'){setSuccessMessage(successValue)}
-
-    if(login.error_message === true){
-        setErrorMessage(login.message);
-        setSuccessMessage(null);
-    }
-    if(login.logout_success === true){
-        setSuccessMessage(login.message);
-        setErrorMessage(null);
-    }
-
-  }, [successValue, login])
+    //check errors
+    const {error:errorMessage, success:successMessage} = ErrorSuccessHook(login.logout_success, login.error_message, login.message, login);
 
 
   return (
@@ -108,6 +95,15 @@ const Login = () => {
                           ) : (
                             ""
                           )}
+
+                            {login.success_message === true && login.message_type === 'login_auth_app' ? (
+                                <DelayedRedirect
+                                    to={`/two_factor_authentication/${login.user_data.email}`}
+                                    delay={500}
+                                />
+                            ) : (
+                                ""
+                            )}
 
                           {errorMessage && (
                               <p className="alert alert-danger  text-center">
