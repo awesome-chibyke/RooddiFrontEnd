@@ -4,8 +4,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react";
 import {
-  ResendAuthenticationPost,
-  AuthenticationPost,
+//   ResendAuthenticationPost,
+  GoogleAuthPost,
   updateLogin,
   updateLoginSuccessStatus
 } from "../redux";
@@ -19,7 +19,7 @@ import {
   osVersion,
 } from "react-device-detect";
 
-const LoginAuthentication = () => {
+const GoogleAuth = () => {
   const [successMessage, setSuccessMessage] = useState(null);
   const [token, setToken] = useState("");
   let deviceDetails = `${browserName} V${browserVersion} (${osName} ${osVersion})`;
@@ -123,11 +123,10 @@ const LoginAuthentication = () => {
                         )}
 
                         {loginData.isLogged === true ? (
-                          <DelayedRedirect to={`/dashboard`} delay={1500} />
+                          <DelayedRedirect to={`/dashboard`} delay={500} />
                         ) : (
                           ""
                         )}
-
                       </div>
                       <div className="form-group">
                         <div className="input-group mb-15">
@@ -162,7 +161,7 @@ const LoginAuthentication = () => {
                           </span>
                           <input type="hidden" value={email} />
 
-                          <small
+                          {/* <small
                             onClick={async () =>
                               dispatch(await ResendAuthenticationPost(email))
                             }
@@ -177,7 +176,7 @@ const LoginAuthentication = () => {
                             {authenticationData.loading === true
                               ? authenticationData.message
                               : "Resend Token"}
-                          </small>
+                          </small> */}
                         </div>
                         <span className="error_displayer err_token"></span>
                         <span className="error_displayer err_email"></span>
@@ -194,7 +193,7 @@ const LoginAuthentication = () => {
                             }
                             onClick={async () =>
                               dispatch(
-                                await AuthenticationPost({
+                                await GoogleAuthPost({
                                   token: token,
                                   email: email,
                                   device_name: deviceDetails,
@@ -222,4 +221,4 @@ const LoginAuthentication = () => {
   );
 };
 
-export default LoginAuthentication;
+export default GoogleAuth;
