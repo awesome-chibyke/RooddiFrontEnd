@@ -64,7 +64,7 @@ function Header() {
                     </li>
                     <li className="me-10 ps-10">
                       {isLogged !== true ? (
-                          <Link to="login" >
+                          <Link to="/login" >
                             <i className="fa fa-sign-in d-md-inline-block d-none" />{" "}
                             Login
                           </Link>

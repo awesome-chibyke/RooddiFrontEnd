@@ -63,9 +63,18 @@ const Login = () => {
                     <form action method="post">
                       <div className="form-group">
                         <div className="form-group">
-                          {login.success_message === true ? (
+                          {login.success_message === true && login.message_type === 'login_auth_email_phone' ? (
                             <DelayedRedirect
                               to={`/authentication/${login.user_data.email}`}
+                              delay={500}
+                            />
+                          ) : (
+                            ""
+                          )}
+
+                          {login.success_message === true && login.message_type === 'login_auth_app' ? (
+                            <DelayedRedirect
+                              to={`/google_auth/${login.user_data.email}`}
                               delay={500}
                             />
                           ) : (

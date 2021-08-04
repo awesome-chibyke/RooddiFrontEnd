@@ -185,3 +185,62 @@ export const destroyUserAuthislogged = async (email) => {
 
   };
 };
+
+
+
+export const GoogleAuthPost = async (GoogleAuthData) => {
+  return async (dispatch) => {
+    validateModule.ClearErrorFields(); //clear error fields
+
+    dispatch(authenticationUserAction());
+
+    let data = {
+      token: GoogleAuthData.token,
+    };
+
+    let rules = {
+      token: "required|numeric",
+    };
+
+    let validation = new Validator(data, rules);
+
+    if (validation.fails()) {
+      dispatch(authenticationUserFailure("A Validation Error Occurred"));
+      return validateModule.handleErrorStatement(
+        validation.errors.errors,
+        "",
+        "on",
+        "no",
+        "no"
+      );
+    }
+
+    try {
+      let formBody =
+        "email=" + GoogleAuthData.email + "&token=" + GoogleAuthData.token+ "&device_name=" + GoogleAuthData.device_name;
+      let handleGoogleAuth = await postRequest(
+        BACKEND_BASE_URL + "authenticate_login_with_two_factor",
+        formBody,
+        { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+      );
+      let data = handleGoogleAuth.data;
+      setTimeout(() => {
+        if (data.status === true) {
+          dispatch(authenticationUserSuccess(data));
+        } else {
+          console.log(data.message)
+          validateModule.handleErrorStatement(
+            data.message,
+            "",
+            "on",
+            "no",
+            "no"
+          );
+          dispatch(authenticationUserFailure("A Error Occurred"));
+        }
+      }, 3000);
+    } catch (e) {
+      dispatch(authenticationUserFailure(e.message));
+    }
+  };
+};
