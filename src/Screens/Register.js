@@ -6,6 +6,7 @@ import { RegisterPost } from "../redux";
 import { connect, useSelector, useDispatch } from "react-redux";
 import { Route, Redirect, Switch, Link  } from "react-router-dom";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
+import ErrorSuccessHook from "../redux/ErrorSuccessHook";
 
 const Register = () => {
 
@@ -21,6 +22,8 @@ const Register = () => {
   let {registration} = allStateObject;
 
   const dispatch = useDispatch();//for action dispatch
+
+  const {error:errorMessage, success:successMessage} = ErrorSuccessHook(registration.success_message, registration.error_message, registration.message, registration);
 
   return (
     <>
@@ -58,22 +61,18 @@ const Register = () => {
                     <form action method="post">
                       <div className="form-group">
 
-                        {registration.success_message === true ? (
-                          <DelayedRedirect
-                            to={`/activation/${registration.user_data.email}`}
-                            delay={500}
-                          />
-                        ) : (
-                          ""
+                        {successMessage && (
+                            <p style={{marginTop:"10px"}} className="alert alert-success text-center">
+                              {successMessage}
+                            </p>
                         )}
 
-                        {registration.error_message === true ? (
-                          <p className="alert alert-danger  text-center">
-                            {registration.message}
-                          </p>
-                        ) : (
-                          ""
+                        {errorMessage && (
+                            <p style={{marginTop:"10px"}} className="alert alert-danger text-center">
+                              {errorMessage}
+                            </p>
                         )}
+                        {registration.register_status === true ? <DelayedRedirect to={`/activation/${registration.user_data.email}`} delay={500} />  :'' }
                       </div>
                       <div className="form-group">
                         <div className="input-group mb-15">

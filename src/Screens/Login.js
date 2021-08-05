@@ -14,11 +14,11 @@ const Login = () => {
   const [password, setPassword] = useState("");
 
   const [email, setEmail] = useState("");
-  const [disabled, setDisabled] = useState(false);
-  let passwordObject = { type: "password", class_name: "fa-eye-slash" };
+
+  let passwordObject = { type: "password", class_name: "fa-eye-slash" }; //password display controller
   const [inputType, changePaswordInputType] = useState(passwordObject);
 
-  let allStateObject = useSelector((state) => state);
+  let allStateObject = useSelector((state) => state); //get all the available states
   let { login } = allStateObject;
 
   const dispatch = useDispatch(); //for action dispatch
@@ -36,10 +36,8 @@ const Login = () => {
 
   }
 
-  //let successValue = getQueryParams().success;//pick values from the url
-
     //check errors
-    const {error:errorMessage, success:successMessage} = ErrorSuccessHook(login.logout_success, login.error_message, login.message, login);
+  const {error:errorMessage, success:successMessage} = ErrorSuccessHook(login.logout_success, login.error_message, login.message, login);
 
 
   return (
@@ -77,8 +75,8 @@ const Login = () => {
                     </p>
                     <center>
                       <small className="text-success">
-                        <i className="fa fa-warning" /> Please check that you
-                        are visiting the correct URL
+                        <i className="fa fa-warning" />
+                        Please check that you are visiting the correct URL
                       </small>
                     </center>
                     <p />
@@ -96,28 +94,20 @@ const Login = () => {
                             ""
                           )}
 
-                            {login.success_message === true && login.message_type === 'login_auth_app' ? (
-                                <DelayedRedirect
-                                    to={`/two_factor_authentication/${login.user_data.email}`}
-                                    delay={500}
-                                />
-                            ) : (
-                                ""
-                            )}
+                          {login.success_message === true && login.message_type === 'login_auth_app' ? (
+                              <DelayedRedirect
+                                  to={`/two_factor_authentication/${login.user_data.email}`}
+                                  delay={500}
+                              />
+                          ) : (
+                              ""
+                          )}
 
                           {errorMessage && (
                               <p className="alert alert-danger  text-center">
                                 {errorMessage}
                               </p>
                           )}
-
-                          {/*{login.error_message === true ? (
-                            <p className="alert alert-danger  text-center">
-                              {login.message}
-                            </p>
-                          ) : (
-                            ""
-                          )}*/}
 
                           {successMessage && (
                               <p className="alert alert-success  text-center">

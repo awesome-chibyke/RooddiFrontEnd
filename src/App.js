@@ -30,10 +30,8 @@ function App() {
                   <Route path="/activation/:email">
                       <AccountActivation />
                   </Route>
-                  <Route path="/dashboard">
-                      <Dashboard />
-                  </Route>
-                  <Route path="/forgotpassword">
+                  <Route path="/dashboard" component={Dashboard} />
+                  <Route path="/forgotpassword" >
                       <ForgotPassword />
                   </Route>
                   <Route path="/change_password">

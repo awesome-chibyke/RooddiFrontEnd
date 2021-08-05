@@ -3,7 +3,7 @@
 /* eslint-disable no-script-url */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect} from "react";
-import { ResendActivationPost, ActivationPost, updateLogin } from "../redux";
+import { ResendActivationPost, ActivationPost, updateLogin, disableActivationIsloggedKey } from "../redux";
 import { connect, useSelector, useDispatch  } from "react-redux";
 import { Route, Redirect, useParams } from "react-router-dom";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
@@ -14,10 +14,14 @@ import {
   osVersion,
 } from "react-device-detect";
 
+import ErrorSuccessHook from "../redux/ErrorSuccessHook";
+
 const AcccountActivation = () => {
 
   const [token, setToken] = useState("");
+
   let deviceDetails = `${browserName} V${browserVersion} (${osName} ${osVersion})`;
+
   let { email } = useParams(); //get the email parameter from the url
 
   let passwordObject = { type: "password", class_name: "fa-eye-slash" };
@@ -25,22 +29,32 @@ const AcccountActivation = () => {
 
   let allStateObject = useSelector(state => state);
 
-  let {registration:registrationData, activation:activationData, login:loginData} = allStateObject;
+  let {registration:registrationData, login:loginData} = allStateObject;
 
   const dispatch = useDispatch();//for action dispatch
 
-  const changeLoginStatus = async () =>{
-    dispatch(await updateLogin(activationData.user_data, activationData.message));
+  const changeLoginStatus = async () =>{//update the login details of the user
+    dispatch(await updateLogin(registrationData.user_data, registrationData.message));
   }
 
   useEffect(() => {
 
-    if(activationData.isLogged === true){
-      console.log('yes')
-      changeLoginStatus();
+    if(registrationData.activation_status === true){
+      changeLoginStatus();//call the function to update the login status
+
+      //update the key for the activation status to false
+      dispatch(disableActivationIsloggedKey());
     }
 
-  }, [activationData])
+  }, [registrationData]);
+
+  const {error:errorMessage, success:successMessage} = ErrorSuccessHook(registrationData.success_message, registrationData.error_message, registrationData.message, registrationData);
+
+  if(loginData.isLogged === true){
+    setTimeout(() => {
+      window.location.href = '/dashboard';
+    }, 2000);
+  }
 
 
   return (
@@ -86,28 +100,16 @@ const AcccountActivation = () => {
                     <form action method="post">
                       <div className="form-group">
 
-                        {registrationData.success_message === true && activationData.success === false ? (
+                        {successMessage && (
                             <p className="alert alert-success text-center">
-                              {registrationData.message}
+                              {successMessage}
                             </p>
-                        ) : (
-                            ""
                         )}
 
-                        {activationData.success === true ? (
-                          <p className="alert alert-success text-center">
-                            {activationData.message}
+                        {errorMessage && (
+                          <p className="alert alert-danger text-center">
+                            {errorMessage}
                           </p>
-                        ) : (
-                          ""
-                        )}
-
-                        {activationData.error === true ? (
-                          <p className="alert alert-danger">
-                            {activationData.message}
-                          </p>
-                        ) : (
-                          ""
                         )}
 
                         {loginData.isLogged === true ? <DelayedRedirect to={`/dashboard`} delay={500} />  :'' }
@@ -155,8 +157,8 @@ const AcccountActivation = () => {
                             }}
                             className="text-right"
                           >
-                            {activationData.resend_loading === true
-                              ? activationData.message
+                            {registrationData.resend_loading === true
+                              ? registrationData.message
                               : "Resend Token"}
                           </small>
                         </div>
@@ -168,7 +170,7 @@ const AcccountActivation = () => {
                         <div className="col-12 text-center">
                           <button
                             type="button"
-                            disabled={activationData.loading === true
+                            disabled={registrationData.loading === true
                                 ? true
                                 : false}
                             onClick={async () =>
@@ -180,8 +182,8 @@ const AcccountActivation = () => {
                             }
                             className="btn btn-primary w-p100 mt-15"
                           >
-                            {activationData.loading === true
-                              ? activationData.message
+                            {registrationData.loading === true
+                              ? registrationData.message
                               : "Activate Account"}
                           </button>
                         </div>
