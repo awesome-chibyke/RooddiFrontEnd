@@ -217,12 +217,16 @@ export const GoogleAuthPost = async (GoogleAuthData) => {
     try {
       let formBody =
         "email=" + GoogleAuthData.email + "&token=" + GoogleAuthData.token+ "&device_name=" + GoogleAuthData.device_name;
+        // console.log(GoogleAuthData.email)
+        // console.log(GoogleAuthData.token)
+        // console.log(GoogleAuthData.device_name)
       let handleGoogleAuth = await postRequest(
-        BACKEND_BASE_URL + "authenticate_login_with_two_factor",
+        BACKEND_BASE_URL + "login/authenticate_login_with_two_factor",
         formBody,
         { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
       );
       let data = handleGoogleAuth.data;
+      console.log(handleGoogleAuth.data)
       setTimeout(() => {
         if (data.status === true) {
           dispatch(authenticationUserSuccess(data));

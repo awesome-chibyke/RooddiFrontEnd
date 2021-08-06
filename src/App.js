@@ -13,6 +13,7 @@ import LoginAuthentication from "./Screens/LoginAuthentication";
 import Dashboard from "./Screens/Dashboard";
 import ForgotPassword from "./Screens/ForgotPassword";
 import ChangePassword from "./Screens/ChangePassword";
+import GoogleAuth from "./Screens/GoogleAuth"
 
 import { Provider } from "react-redux";
 import {store, persistedStore} from "./redux/store";
@@ -40,6 +41,7 @@ function App() {
                       <ChangePassword />
                   </Route>
                   <Route path="/authentication/:email" component={LoginAuthentication} />
+                  <Route path="/two_factor_authentication/:email" component={GoogleAuth} />
                   <Route path="/login" component={Login} />
                   <Route path="/fees" component={Fees} />
                   <Route path="/features" component={Features} />

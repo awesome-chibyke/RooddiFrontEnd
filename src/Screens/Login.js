@@ -21,7 +21,7 @@ const Login = () => {
   const [inputType, changePaswordInputType] = useState(passwordObject);
 
   let allStateObject = useSelector((state) => state);
-  let { login } = allStateObject;
+  let { login } = allStateObject;         
 
   const dispatch = useDispatch(); //for action dispatch
 
@@ -103,6 +103,15 @@ const Login = () => {
                           {login.success_message === true && login.message_type === 'login_auth_email_phone' ? (
                             <DelayedRedirect
                               to={`/authentication/${login.user_data.email}`}
+                              delay={500}
+                            />
+                          ) : (
+                            ""
+                          )}
+
+                            {login.success_message === true && login.message_type === 'login_auth_app' ? (
+                            <DelayedRedirect
+                              to={`/two_factor_authentication/${login.user_data.email}`}
                               delay={500}
                             />
                           ) : (
