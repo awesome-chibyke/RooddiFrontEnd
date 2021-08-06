@@ -4,6 +4,7 @@ import { LOGIN, LOGIN_FAILURE, LOGIN_SUCCESS,UPDATE_LOGIN_SUCCESS, USER_LOGOUT, 
     RESEND_AUTHENTICATION_CODE_FAILURE,
     RESEND_AUTHENTICATION_CODE,
     RESEND_AUTHENTICATION_AUTHENTICATION_CODE_SUCCESS,
+    ACCOUNT_ACTIVATION_SWITCH,
     LOGOUT_AUTH_DISABLE } from "./LoginActionTypes";
 import { BACKEND_BASE_URL, headerIncluder } from "../../../common_variables";
 import * as Validator from 'validatorjs';
@@ -100,14 +101,25 @@ export const LoginPost = async (userData) => {
             let formBody = 'email='+userData.email+'&password='+userData.password;
             let handleLogin = await postRequest(BACKEND_BASE_URL+"login", formBody, {headers: {'Content-Type': 'application/x-www-form-urlencoded'} });
             let returnedData = handleLogin.data;
-            console.log(returnedData)
-            let {message, status, message_type, data} = returnedData
-            console.log(status)
+            let {message, status, message_type, data} = returnedData;
+            
             if(status === true){
                 dispatch(loginUserSuccess({data, message_type, message}));
             }else{
-                validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
-                dispatch(loginUserFailure('A Error Occurred'));
+                if(message_type === 'activate_account'){
+                    alert('message_type')
+                    //validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
+                    dispatch({
+                        type:ACCOUNT_ACTIVATION_SWITCH,
+                        message:message.general_error[0],
+                        message_type:message_type,
+                        payload:data
+                    });
+                }else{
+                    validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
+                    dispatch(loginUserFailure('A Error Occurred'));
+                }
+                
             }
         }catch(e){
             validateModule.handleErrorStatement({general_error:[e.message]}, '', 'on', 'no', 'no');
@@ -268,7 +280,7 @@ export const GoogleAuthPost = async (GoogleAuthData) => {
             let formBody =
                 "email=" + GoogleAuthData.email + "&token=" + GoogleAuthData.token+ "&device_name=" + GoogleAuthData.device_name;
             let handleGoogleAuth = await postRequest(
-                BACKEND_BASE_URL + "authenticate_login_with_two_factor",
+                BACKEND_BASE_URL + "login/authenticate_login_with_two_factor",
                 formBody,
                 { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
             );

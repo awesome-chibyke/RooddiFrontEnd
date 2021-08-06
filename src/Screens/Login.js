@@ -26,7 +26,8 @@ const Login = () => {
   const [mainForgotpasswordModalDiplay, setMainForgotpasswordModalDiplay] = useState("none");
   const [changePasswordModal, setChangePasswordModal] = useState("none");
 
-  const toggleModal = (ModalToDisplay) => {//for modal toggling
+  const toggleModal = (ModalToDisplay) => {
+    //for modal toggling
 
     if(mainForgotpasswordModalDiplay === 'block'){setMainForgotpasswordModalDiplay('none')}
 
@@ -38,7 +39,12 @@ const Login = () => {
 
     //check errors
   const {error:errorMessage, success:successMessage} = ErrorSuccessHook(login.logout_success, login.error_message, login.message, login);
-
+  // login.user_data.email_verification === null
+  if(login.message_type === 'activate_account'){
+    setTimeout(() => {
+      window.location.href = `/activation/${login.user_data.email}`;
+    }, 2000);
+  }
 
   return (
     <>
@@ -249,7 +255,7 @@ const Login = () => {
             </div>
           </div>
         </section>
-        /* main Modal */
+        {/* main Modal  */}
         <div style={{display:mainForgotpasswordModalDiplay}} class="modal">
 
           {/* Modal content*/}
@@ -270,7 +276,7 @@ const Login = () => {
 
         </div>
 
-        /* Modal */
+         {/* Modal */}
         <div style={{display:changePasswordModal}} class="modal">
            Modal content
           <div class="modal-content">
