@@ -4,11 +4,13 @@ import { LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE, UPDATE_LOGIN_SUCCESS, USER_LOGOUT,
     RESEND_AUTHENTICATION_CODE_FAILURE,
     RESEND_AUTHENTICATION_CODE,
     RESEND_AUTHENTICATION_AUTHENTICATION_CODE_SUCCESS,
+    ACCOUNT_ACTIVATION_SWITCH,
     LOGOUT_AUTH_DISABLE } from "./LoginActionTypes";//
 
 const initialState = {
     user_data: [],
     message:'',
+    message_type:'normal',
     loading:false,
     error_message:false,
     logout_error:false,
@@ -21,6 +23,7 @@ const initialState = {
 
 const UserLoginReducer = (state = initialState, action) => {
     switch (action.type) {
+        
         case LOGIN:
             return {
                 ...state,
@@ -183,6 +186,19 @@ const UserLoginReducer = (state = initialState, action) => {
                 ...state,
                 success_message:false,
             }
+        case ACCOUNT_ACTIVATION_SWITCH:
+            return {
+                ...state,
+                user_data:action.payload,
+                loading:false,
+                message_type:action.message_type,
+                success_message:false,
+                error_message:false,
+                message:action.message,
+                isLogged:false,
+                logout_error:false,
+                logout_success:false,
+            };
         default:
             return state;
     }
