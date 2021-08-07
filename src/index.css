@@ -149,12 +149,42 @@ code {
 
 .btn-check:checked + .btn-outline-success, .btn-check:active + .btn-outline-success, .btn-outline-success:active, .btn-outline-success.active, .btn-outline-success.dropdown-toggle.show {
   color: #FFF;
-  background-color: #a2dd71;
-  border-color: #a2dd71;
+  background-color: #cc8600;
+  border-color: #cc8600;
 }
 
 .btn-outline-success:hover {
-    color: #FFF;
-    background-color: #cc8600;
-    border-color: #cc8600;
+  color: #FFF;
+  background-color: #cc8600;
+  border-color: #cc8600;
+}
+
+.btn-outline-primary {
+  color: #000;
+}
+
+.btn-outline-primary:hover {
+  color: #fff;
+  background-color: #cc8600;
+}
+
+.btn-outline-secondary:hover {
+  color: #fff;
+  background-color: #cc8600;
+}
+.hr-style {
+  display: block;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  margin-left: 20px;
+  margin-right: 20px;
+  border-style: inset;
+  border-width: 1px;
+}
+
+.page-item.active .page-link {
+  z-index: 3;
+  color: #fff;
+  background-color: #a2dd71;
+  border-color: #a2dd71;
 }
