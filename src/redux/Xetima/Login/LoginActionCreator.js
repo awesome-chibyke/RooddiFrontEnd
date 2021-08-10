@@ -107,7 +107,6 @@ export const LoginPost = async (userData) => {
                 dispatch(loginUserSuccess({data, message_type, message}));
             }else{
                 if(message_type === 'activate_account'){
-                    alert('message_type')
                     //validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
                     dispatch({
                         type:ACCOUNT_ACTIVATION_SWITCH,
