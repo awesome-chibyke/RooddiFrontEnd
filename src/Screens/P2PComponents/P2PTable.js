@@ -1,10 +1,8 @@
-import {React, useState} from 'react'
+import React from 'react'
 import renderTooltip from './Tootip'
 import {OverlayTrigger, Button} from 'react-bootstrap'
 
 const Table = () => {
-
-    const [modalShow, setModalShow] = useState(false);
 
     return (
         <>
@@ -49,7 +47,7 @@ const Table = () => {
                                     </OverlayTrigger>
                                 </td>
                                 <td>
-                                    <Button variant="primary" onClick={() => setModalShow(true)}>
+                                    <Button variant="primary" >
                                         Buy USDT
                                     </Button>{' '}
                                     
