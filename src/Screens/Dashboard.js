@@ -39,6 +39,7 @@ const Dashboard = () => {
                             headerTitleText={'Dynamic Modal'}
                             displayModal={displayFirstModal}
                             closeModal={setDisplayFirstModal}
+                            optionForStyleOrClass={'use_style'}
                         />
 
                         <DynamiicModal
@@ -49,6 +50,7 @@ const Dashboard = () => {
                             headerTitleText={'Another One'}
                             displayModal={displaySecondModal}
                             closeModal={setDisplaySecondModal}
+                            optionForStyleOrClass={'use_class'}
                         />
                     </div>
                 </section>
