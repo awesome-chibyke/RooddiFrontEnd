@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { connect, useSelector, useDispatch  } from "react-redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import DynamiicModal from "../components/DynamiicModal";
-import { openModal } from "../redux";
+import Try from "../components/Try";
+import Try_ from "../components/Try_";
+
 
 const Dashboard = () => {
 
@@ -35,7 +37,7 @@ const Dashboard = () => {
                             widthSize={'100%'}
                             marginLeft={'0%'}
                             marginRight={'0%'}
-                            contents={"<p><b>Lorem ipsum dolor laboriosam.</b> </p><p>Facere debitis impedit doloremque eveniet eligendi reiciendis <u>ratione obcaecati repellendus</u> culpa? Blanditiis enim cum tenetur non rem, atque, earum quis, reprehenderit accusantium iure quas beatae.</p><p>Lorem ipsum dolor sit amet <a href='#testLink'>this is a link, click me</a> Sunt ducimus corrupti? Eveniet velit numquam deleniti, delectus  <ol><li>reiciendis ratione obcaecati</li><li>repellendus culpa? Blanditiis enim</li><li>cum tenetur non rem, atque, earum quis,</li></ol>reprehenderit accusantium iure quas beatae.</p>"}
+                            contents={<Try />}
                             headerTitleText={'Dynamic Modal'}
                             displayModal={displayFirstModal}
                             closeModal={setDisplayFirstModal}
@@ -46,7 +48,7 @@ const Dashboard = () => {
                             widthSize={'100%'}
                             marginLeft={'0%'}
                             marginRight={'0%'}
-                            contents={"<p><b>Lorem ipsum dolor laboriosam.</b> </p><p>Facere debitis impedit doloremque eveniet eligendi reiciendis <u>ratione obcaecati repellendus</u> culpa? Blanditiis enim cum tenetur non rem, atque, earum quis, reprehenderit accusantium iure quas beatae.</p><p>Lorem ipsum dolor sit amet <a href='#testLink'>this is a link, click me</a> Sunt ducimus corrupti? Eveniet velit numquam deleniti, delectus  <ol><li>reiciendis ratione obcaecati</li><li>repellendus culpa? Blanditiis enim</li><li>cum tenetur non rem, atque, earum quis,</li></ol>reprehenderit accusantium iure quas beatae.</p>"}
+                            contents={<Try_ />}
                             headerTitleText={'Another One'}
                             displayModal={displaySecondModal}
                             closeModal={setDisplaySecondModal}

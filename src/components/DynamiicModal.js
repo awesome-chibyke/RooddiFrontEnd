@@ -24,10 +24,11 @@ const DynamiicModal = ({widthSize, marginLeft, marginRight, contents, headerTitl
                         <div className="modal-content modal-width-control" style={{width:widthSize, marginLeft:marginLeft, marginRight:marginRight}}>
                             <div className="modal-header">
                                 <span onClick={() => closeModal(displayModal === 'none' ? 'block':'none') } className="close">&times;</span>
-                                <h2 style={{color:"#0c1a32"}}><Markup content={headerTitleText} /></h2>
+                                <h2 style={{color:"#0c1a32"}}>{/*<Markup content={headerTitleText} />*/} {headerTitleText} </h2>
                             </div>
                             <div className="modal-body">
-                                <Markup content={contents} />
+                                {contents}
+                                {/*<Markup content={contents} />*/}
                             </div>
                             <div className="modal-footer">
                                 <h3>Modal Footer</h3>
@@ -44,7 +45,8 @@ const DynamiicModal = ({widthSize, marginLeft, marginRight, contents, headerTitl
                                 <h2 style={{color:"#0c1a32"}}><Markup content={headerTitleText} /></h2>
                             </div>
                             <div className="modal-body">
-                                <Markup content={contents} />
+                                {contents}
+                                {/*<Markup content={contents} />*/}
                             </div>
                             <div className="modal-footer">
                                 <h3>Modal Footer</h3>
