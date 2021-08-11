@@ -188,3 +188,76 @@ code {
   background-color: #a2dd71;
   border-color: #a2dd71;
 }
+
+.theme-warning .border-primary {
+  border-color: hsl(217, 54%, 19%) !important;
+  background-color: #172b4c;
+  color: #fff;
+}
+
+.card {
+  background-color: #fff;
+  color: #172b4c;
+}
+
+.mainResponsiveTable {
+  /* border: 1px solid #000000;border-collapse: collapse; */ 
+  margin: 0 auto;  
+  padding: 0px;
+  table-layout: fixed;
+  width: 100%;
+} 
+
+    .mainResponsiveTable th {
+      text-align: center;
+      padding: 8px;
+      /*border: 1px solid #000000;background:#1b90bb;*/
+      color:#000;
+      font-weight:bold;
+      text-align:center
+    }
+    .mainResponsiveTable td{
+      padding: 8px;
+      /*border: 1px solid #000000;*/
+    }
+    .mainResponsiveTable tr{
+      /*background-color: #dddddd;
+      color:#000000;*/
+      text-align:left;
+    }
+    .mainResponsiveTable .mobile-head {display:none;}
+    @media screen and (max-width: 600px) {
+        .mainResponsiveTable {
+          /*border: 1px solid #000000;*/
+          border-collapse: collapse;
+          margin: 0 auto;  
+          padding: 0px;
+          table-layout: fixed;
+          min-width: 100%;
+        }
+        .mainResponsiveTable td{
+          padding: 8px;
+          /*border: 1px solid #000000;*/
+          display: block; 
+          text-align: right; 
+          width: 100%\9;  
+          float: left\9;
+        }
+        .mainResponsiveTable tr{
+          /*background-color: #dddddd;
+          color:#000000;*/
+          text-align:right;
+          margin:8px;
+          border: 1px solid gray;
+        }
+        .mainResponsiveTable thead {display:none;}
+        .mainResponsiveTable tbody tr{display: block;}
+        .mainResponsiveTable td:not(:first-child){border-top:0px;}
+        .mainResponsiveTable .mobile-head{
+          font-weight:bold;
+          color:#000000;
+          float:left;
+          text-align:left;
+          display:block
+        }
+    }
