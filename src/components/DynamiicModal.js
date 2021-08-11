@@ -7,7 +7,7 @@ import React, { useState, useEffect } from "react";
 import { connect, useSelector, useDispatch } from "react-redux";
 import { Markup } from 'interweave';
 
-const DynamiicModal = ({widthSize, marginLeft, marginRight, contents, headerTitleText, displayModal, closeModal}) => {
+const DynamiicModal = ({widthSize, marginLeft, marginRight, contents, headerTitleText, displayModal, closeModal, optionForStyleOrClass}) => {
 
     const dispatch = useDispatch();
 
@@ -17,24 +17,42 @@ const DynamiicModal = ({widthSize, marginLeft, marginRight, contents, headerTitl
     return (
         <>
             <div>
+                {optionForStyleOrClass === 'use_style' ? (
+                    <div style={{display:displayModal}} className="modal">
 
-                {/* Modal */ }
-                <div style={{display:displayModal}} className="modal">
 
-                    <div className="modal-content modal-width-control" style={{width:widthSize, marginLeft:marginLeft, marginRight:marginRight}}>
-                        <div className="modal-header">
-                            <span onClick={() => closeModal(displayModal === 'none' ? 'block':'none') } className="close">&times;</span>
-                            <h2 style={{color:"#0c1a32"}}><Markup content={headerTitleText} /></h2>
+                        <div className="modal-content modal-width-control" style={{width:widthSize, marginLeft:marginLeft, marginRight:marginRight}}>
+                            <div className="modal-header">
+                                <span onClick={() => closeModal(displayModal === 'none' ? 'block':'none') } className="close">&times;</span>
+                                <h2 style={{color:"#0c1a32"}}><Markup content={headerTitleText} /></h2>
+                            </div>
+                            <div className="modal-body">
+                                <Markup content={contents} />
+                            </div>
+                            <div className="modal-footer">
+                                <h3>Modal Footer</h3>
+                            </div>
                         </div>
-                        <div className="modal-body">
-                            <Markup content={contents} />
-                        </div>
-                        <div className="modal-footer">
-                            <h3>Modal Footer</h3>
-                        </div>
+
                     </div>
+                ):(
+                    <div style={{display:displayModal}} className="modal">
 
-                </div>
+                        <div className="modal-content modal-width-control" >
+                            <div className="modal-header">
+                                <span onClick={() => closeModal(displayModal === 'none' ? 'block':'none') } className="close">&times;</span>
+                                <h2 style={{color:"#0c1a32"}}><Markup content={headerTitleText} /></h2>
+                            </div>
+                            <div className="modal-body">
+                                <Markup content={contents} />
+                            </div>
+                            <div className="modal-footer">
+                                <h3>Modal Footer</h3>
+                            </div>
+                        </div>
+
+                    </div>
+                )}
 
             </div>
         </>
