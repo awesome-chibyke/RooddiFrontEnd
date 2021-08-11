@@ -253,7 +253,7 @@ const Login = () => {
         <div style={{display:mainForgotpasswordModalDiplay}} class="modal">
 
           {/* Modal content*/}
-          <div class="modal-content">
+          <div class="modal-content modal-width-control">
             <div class="modal-header">
               <span onClick={() => setMainForgotpasswordModalDiplay(mainForgotpasswordModalDiplay === 'none' ? 'block' :'none')} class="close">&times;</span>
               <h2></h2>
@@ -273,11 +273,13 @@ const Login = () => {
         /* Modal */
         <div style={{display:changePasswordModal}} class="modal">
            Modal content
-          <div class="modal-content">
+          <div class="modal-content modal-width-control">
+
             <div class="modal-header">
               <span onClick={() => setChangePasswordModal(changePasswordModal === 'none' ? 'block' :'none')} class="close">&times;</span>
               <h2></h2>
             </div>
+
             <div class="modal-body">
               <div className="col-sm-12">
 

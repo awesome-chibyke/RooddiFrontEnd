@@ -26,7 +26,7 @@ code {
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  z-index: 100; /* Sit on top */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -40,27 +40,32 @@ code {
   animation-duration: 0.4s
 }
 
+.modal-width-control{
+    width: 40%;
+    margin-left: 30%;
+    margin-right: 30%;
+}
+
 /* Modal Content */
 .modal-content {
   position: fixed;
   bottom: 0;
   background-color: #fefefe;
-  width: 40%;
-  margin-left: 30%;
-  margin-right: 30%;
   -webkit-animation-name: slideIn;
   -webkit-animation-duration: 0.4s;
   animation-name: slideIn;
   animation-duration: 0.4s;
 }
 @media (max-width: 767px) {
+    .modal-width-control{
+        width: 100%;
+        margin-left: 0%;
+        margin-right: 0%;
+    }
   .modal-content {
     position: fixed;
     bottom: 0;
     background-color: #fefefe;
-    width: 100%;
-    margin-left: 0%;
-    margin-right: 0%;
     -webkit-animation-name: slideIn;
     -webkit-animation-duration: 0.4s;
     animation-name: slideIn;
@@ -68,13 +73,15 @@ code {
   }
 }
 @media (min-width: 768px) {
+    .modal-width-control{
+        width: 80%;
+        margin-left: 10%;
+        margin-right: 10%;
+    }
   .modal-content {
     position: fixed;
     bottom: 0;
     background-color: #fefefe;
-    width: 80%;
-    margin-left: 10%;
-    margin-right: 10%;
     -webkit-animation-name: slideIn;
     -webkit-animation-duration: 0.4s;
     animation-name: slideIn;
@@ -82,13 +89,15 @@ code {
   }
 }
 @media (min-width: 1200px) {
+    .modal-width-control{
+        width: 40%;
+        margin-left: 30%;
+        margin-right: 30%;
+    }
   .modal-content {
     position: fixed;
     bottom: 0;
     background-color: #fefefe;
-    width: 40%;
-    margin-left: 30%;
-    margin-right: 30%;
     -webkit-animation-name: slideIn;
     -webkit-animation-duration: 0.4s;
     animation-name: slideIn;
@@ -121,8 +130,8 @@ code {
 
 .modal-footer {
   padding: 2px 16px;
-  background-color: #5cb85c;
-  color: #5cb85c;
+  background-color: #0c1a32;
+  color: #0c1a32;
 }
 
 /* Add Animation */
