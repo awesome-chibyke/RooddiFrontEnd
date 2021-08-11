@@ -1,8 +1,12 @@
-import React from 'react'
+import React, {useState} from 'react'
 import renderTooltip from './Tootip'
 import {OverlayTrigger, Button} from 'react-bootstrap'
+import P2PModal from './P2PModal'
+import DynamiicModal from '../../components/DynamiicModal'
 
 const Table = () => {
+
+    const [displayFirstModal, setDisplayFirstModal] = useState('none');
 
     return (
         <>
@@ -47,7 +51,9 @@ const Table = () => {
                                     </OverlayTrigger>
                                 </td>
                                 <td>
-                                    <Button variant="primary" >
+                                    <Button variant="primary" 
+                                    onClick={() => setDisplayFirstModal(displayFirstModal === 'none' ? 'block': 'none')}
+                                    >
                                         Buy USDT
                                     </Button>{' '}
                                     
@@ -56,7 +62,19 @@ const Table = () => {
                         </tbody>
                     </table>
                 </div>
-            </div> 
+            </div>
+            <DynamiicModal
+                widthSize={'100%'}
+                marginLeft={'0%'}
+                marginRight={'0%'}
+                contents={<P2PModal />}
+                headerTitleText={''}
+                displayModal={displayFirstModal}
+                closeModal={setDisplayFirstModal}
+                
+                optionForStyleOrClass={'use_style'}
+            />
+
         </>
     )
 }
