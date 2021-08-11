@@ -9,6 +9,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "cors": "^2.8.5",
+    "interweave": "^12.8.0",
     "jquery": "^3.6.0",
     "jsonwebtoken": "^8.5.1",
     "react": "^17.0.2",
