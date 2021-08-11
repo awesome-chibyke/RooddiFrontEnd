@@ -1,6 +1,5 @@
 import {React, useState} from 'react'
 import renderTooltip from './Tootip'
-import P2PModal from '../P2PComponents/P2PModal'
 import {OverlayTrigger, Button} from 'react-bootstrap'
 
 const Table = () => {
@@ -53,10 +52,7 @@ const Table = () => {
                                     <Button variant="primary" onClick={() => setModalShow(true)}>
                                         Buy USDT
                                     </Button>{' '}
-                                    <P2PModal
-                                        show={modalShow}
-                                        onHide={() => setModalShow(false)}
-                                    />
+                                    
                                 </td>
                             </tr>
                         </tbody>

@@ -18,7 +18,7 @@ const DynamiicModal = ({widthSize, marginLeft, marginRight, contents, headerTitl
         <>
             <div>
 
-                /* Modal */
+                {/* Modal */ }
                 <div style={{display:displayModal}} className="modal">
 
                     <div className="modal-content modal-width-control" style={{width:widthSize, marginLeft:marginLeft, marginRight:marginRight}}>
