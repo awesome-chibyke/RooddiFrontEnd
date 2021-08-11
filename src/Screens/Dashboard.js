@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
-import { connect, useSelector, useDispatch  } from "react-redux";
+import { useSelector,} from "react-redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import DynamiicModal from "../components/DynamiicModal";
-import { openModal } from "../redux";
 
 const Dashboard = () => {
 
     let allStateObject = useSelector(state => state);
 
-    let dispatch = useDispatch();
 
-    let {registration:registrationData, activation:activationData, login:loginData} = allStateObject;
+    let {login:loginData} = allStateObject;
 
     const [displaySecondModal, setDisplaySecondModal] = useState('none');
     const [displayFirstModal, setDisplayFirstModal] = useState('none');
@@ -39,6 +37,7 @@ const Dashboard = () => {
                             headerTitleText={'Dynamic Modal'}
                             displayModal={displayFirstModal}
                             closeModal={setDisplayFirstModal}
+                            
                             optionForStyleOrClass={'use_style'}
                         />
 
