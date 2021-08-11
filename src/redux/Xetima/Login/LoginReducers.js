@@ -1,19 +1,29 @@
-import { LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE, UPDATE_LOGIN_SUCCESS, USER_LOGOUT, USER_LOGOUT_SUCCESS, USER_LOGOUT_FAILURE, CHANGE_LOGIN_MESSAGE_STATUS } from "./LoginActionTypes";//
+import { LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE, UPDATE_LOGIN_SUCCESS, USER_LOGOUT, USER_LOGOUT_SUCCESS, USER_LOGOUT_FAILURE, CHANGE_AUTHENTICATION_STATUS, AUTHENTICATION,
+    AUTHENTICATION_SUCCESS,
+    AUTHENTICATION_FAILURE,
+    RESEND_AUTHENTICATION_CODE_FAILURE,
+    RESEND_AUTHENTICATION_CODE,
+    RESEND_AUTHENTICATION_AUTHENTICATION_CODE_SUCCESS,
+    ACCOUNT_ACTIVATION_SWITCH,
+    LOGOUT_AUTH_DISABLE } from "./LoginActionTypes";//
 
 const initialState = {
     user_data: [],
     message:'',
+    message_type:'normal',
     loading:false,
     error_message:false,
     logout_error:false,
     logout_success:false,
     success_message:false,
     isLogged:false,
-    logout_loading:false
+    logout_loading:false,
+    resend_code_loading:false,
 };
 
 const UserLoginReducer = (state = initialState, action) => {
     switch (action.type) {
+        
         case LOGIN:
             return {
                 ...state,
@@ -95,11 +105,100 @@ const UserLoginReducer = (state = initialState, action) => {
                 logout_error:true,
                 logout_success:false,
             }
-        case CHANGE_LOGIN_MESSAGE_STATUS:
+        case AUTHENTICATION:
             return {
                 ...state,
-                success_message:false
+                loading:true,
+                logout_loading:false,
+                error_message:false,
+                success_message:false,
+                message:action.message,
+                logout_error:false,
+                logout_success:false,
+                isLogged:false
             }
+        case AUTHENTICATION_SUCCESS:
+            return {
+                ...state,
+                user_data:action.payload,
+                loading:false,
+                logout_loading:false,
+                error_message:false,
+                success_message:true,
+                isLogged:true,
+                message:action.message,
+                logout_error:false,
+                logout_success:false,
+            }
+        case AUTHENTICATION_FAILURE:
+            return {
+                ...state,
+                loading:false,
+                logout_loading:false,
+                error_message:true,
+                success_message:false,
+                message:action.message,
+                logout_error:false,
+                logout_success:false,
+                isLogged:false
+            }
+        case RESEND_AUTHENTICATION_CODE:
+            return {
+                ...state,
+                loading:false,
+                resend_code_loading:true,
+                logout_loading:false,
+                error_message:false,
+                success_message:false,
+                message:action.message,
+                logout_error:false,
+                logout_success:false,
+                isLogged:false
+            }
+        case RESEND_AUTHENTICATION_CODE_FAILURE:
+            return {
+                ...state,
+                loading:false,
+                resend_code_loading:false,
+                logout_loading:false,
+                error_message:true,
+                success_message:false,
+                message:action.message,
+                logout_error:false,
+                logout_success:false,
+                isLogged:false
+            }
+        case RESEND_AUTHENTICATION_AUTHENTICATION_CODE_SUCCESS:
+            return {
+                ...state,
+                user_data:action.payload,
+                loading:false,
+                resend_code_loading:false,
+                logout_loading:false,
+                error_message:false,
+                success_message:true,
+                message:action.message,
+                logout_error:false,
+                logout_success:false,
+            }
+        case CHANGE_AUTHENTICATION_STATUS:
+            return {
+                ...state,
+                success_message:false,
+            }
+        case ACCOUNT_ACTIVATION_SWITCH:
+            return {
+                ...state,
+                user_data:action.payload,
+                loading:false,
+                message_type:action.message_type,
+                success_message:false,
+                error_message:false,
+                message:action.message,
+                isLogged:false,
+                logout_error:false,
+                logout_success:false,
+            };
         default:
             return state;
     }

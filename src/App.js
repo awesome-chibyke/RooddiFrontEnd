@@ -14,6 +14,7 @@ import Dashboard from "./Screens/Dashboard";
 import ForgotPassword from "./Screens/ForgotPassword";
 import ChangePassword from "./Screens/ChangePassword";
 import P2P from  "./Screens/P2P";
+import GoogleAuth from "./Screens/GoogleAuth"
 
 import { Provider } from "react-redux";
 import {store, persistedStore} from "./redux/store";
@@ -31,16 +32,15 @@ function App() {
                   <Route path="/activation/:email">
                       <AccountActivation />
                   </Route>
-                  <Route path="/dashboard">
-                      <Dashboard />
-                  </Route>
-                  <Route path="/forgotpassword">
+                  <Route path="/dashboard" component={Dashboard} />
+                  <Route path="/forgotpassword" >
                       <ForgotPassword />
                   </Route>
                   <Route path="/change_password">
                       <ChangePassword />
                   </Route>
                   <Route path="/authentication/:email" component={LoginAuthentication} />
+                  <Route path="/two_factor_authentication/:email" component={GoogleAuth} />
                   <Route path="/login" component={Login} />
                   <Route path="/fees" component={Fees} />
                   <Route path="/features" component={Features} />

@@ -6,8 +6,6 @@ import React, { useState, useEffect } from "react";
 import {
   ResendAuthenticationPost,
   AuthenticationPost,
-  updateLogin,
-  updateLoginSuccessStatus
 } from "../redux";
 import { connect, useSelector, useDispatch } from "react-redux";
 import { Route, Redirect, useParams } from "react-router-dom";
@@ -18,9 +16,10 @@ import {
   osName,
   osVersion,
 } from "react-device-detect";
+import ErrorSuccessHook from "../redux/ErrorSuccessHook";
 
 const LoginAuthentication = () => {
-  const [successMessage, setSuccessMessage] = useState(null);
+
   const [token, setToken] = useState("");
   let deviceDetails = `${browserName} V${browserVersion} (${osName} ${osVersion})`;
   let { email } = useParams(); //get the email parameter from the url
@@ -29,34 +28,18 @@ const LoginAuthentication = () => {
   const [inputType, changePaswordInputType] = useState(passwordObject);
 
   let allStateObject = useSelector((state) => state);
-  let { login: loginData, authentication: authenticationData } = allStateObject;
+  let { login: loginData } = allStateObject;// all the available states
 
   const dispatch = useDispatch(); //for action dispatch
 
-  const changeLoginStatus = async () => {
-    dispatch(
-      await updateLogin(
-        authenticationData.user_data,
-        authenticationData.message
-      )
-    );
-  };
+  //check errors
+  const {error:errorMessage, success:successMessage} = ErrorSuccessHook(loginData.success_message, loginData.error_message, loginData.message, loginData);
 
-  useEffect(() => {
-    if (authenticationData.isLogged === true) {
-      //console.log('it worked')
-      changeLoginStatus();
-    }
-  }, [authenticationData]);
-
-  useEffect(() => {//for remove the login success status
-    if(loginData.success_message === true){
-      setSuccessMessage(loginData.message);
-      dispatch(
-        updateLoginSuccessStatus()
-      );
-    }
-  }, []);
+  if(loginData.isLogged === true){
+    setTimeout(() => {
+      window.location.href = '/dashboard';
+    }, 2000);
+  }
 
   return (
     <>
@@ -106,27 +89,17 @@ const LoginAuthentication = () => {
                           </p>
                         )}
 
-                        {authenticationData.success === true ? (
-                          <p className="alert alert-success text-center">
-                            {authenticationData.message}
-                          </p>
-                        ) : (
-                          ""
-                        )}
-
-                        {authenticationData.error === true ? (
+                        {errorMessage && (
                           <p className="alert alert-danger">
-                            {authenticationData.message}
-                          </p>
-                        ) : (
-                          ""
-                        )}
+                            {errorMessage}
+                          </p>)
+                        }
 
-                        {loginData.isLogged === true ? (
+                        {/*{loginData.isLogged === true ? (
                           <DelayedRedirect to={`/dashboard`} delay={1500} />
                         ) : (
                           ""
-                        )}
+                        )}*/}
 
                       </div>
                       <div className="form-group">
@@ -174,8 +147,8 @@ const LoginAuthentication = () => {
                             }}
                             className="text-right"
                           >
-                            {authenticationData.loading === true
-                              ? authenticationData.message
+                            {loginData.resend_code_loading === true
+                              ? loginData.message
                               : "Resend Token"}
                           </small>
                         </div>
@@ -188,7 +161,7 @@ const LoginAuthentication = () => {
                           <button
                             type="button"
                             disabled={
-                              authenticationData.authentication_loading === true
+                              loginData.loading === true
                                 ? true
                                 : false
                             }
@@ -203,8 +176,8 @@ const LoginAuthentication = () => {
                             }
                             className="btn btn-primary w-p100 mt-15"
                           >
-                            {authenticationData.authentication_loading === true
-                              ? authenticationData.message
+                            {loginData.loading === true
+                              ? loginData.message
                               : "Login Authentication"}
                           </button>
                         </div>

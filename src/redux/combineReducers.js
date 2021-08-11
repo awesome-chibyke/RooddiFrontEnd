@@ -1,17 +1,15 @@
 import { combineReducers } from "redux";
 import UserRegistrationReducer from "./Xetima/Register/RegisterReducers";
-import ActivationReducer from "./Xetima/Activation/ActivationReducers";
-import UserLoginReducer from './Xetima/Login/LoginReducers'
-import AuthReducers from './Xetima/LoginAuth/AuthReducers'
-import ForgotPasswordReducers from './Xetima/ForgotPassword/ForgotPasswordReducers'
+import UserLoginReducer from './Xetima/Login/LoginReducers';
+import ForgotPasswordReducers from './Xetima/ForgotPassword/ForgotPasswordReducers';
+import ModalReducer from "./Xetima/DynamicModal/ModalReducers";
 
 
 const rootReducer = combineReducers({
   registration: UserRegistrationReducer,
-  activation: ActivationReducer,
   login:UserLoginReducer,
-  authentication:AuthReducers,
-  forgotpassword:ForgotPasswordReducers
+  forgotpassword:ForgotPasswordReducers,
+  display_modal:ModalReducer
 });
 
 export default rootReducer;

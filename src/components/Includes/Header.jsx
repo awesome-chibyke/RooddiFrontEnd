@@ -9,7 +9,9 @@ import { BrowserRouter as Router, Switch, Route, Link, useParams } from "react-r
 function Header() {
 
   const allState = useSelector(state => state);
-  let {registration:registrationData,login:loginData,authentication:authenticationData} = allState;
+  let {registration:registrationData,login:loginData, authentication:authenticationData} = allState;
+
+  const [isLoggedStatus, setIsLoggedStatus] = useState(false);
 
   let {isLogged, user_data, logout_loading, logout_error, logout_success } = loginData;//login data
 
@@ -24,24 +26,9 @@ function Header() {
     let retVal = window.confirm('Do you want logout');
     if( retVal === true){
       dispatch(await destroyUserAuthislogged());
-      dispatch(await disableActivationIslogged());
       dispatch(await logoutAction(token));
     }
   }
-
-console.log(loginData.isLogged)
-  /*const changeLoginStatus = async () =>{
-    dispatch(await updateLogin(activationData.user_data, activationData.message));
-  }
-
-  useEffect(() => {
-
-    if(activationData.isLogged === true){
-      console.log('yes')
-      changeLoginStatus();
-    }
-
-  }, [activationData])*/
 
   return (
     <>
@@ -282,6 +269,7 @@ console.log(loginData.isLogged)
               <Link to="#" className="text-capitalize">
                 Buy Crypto
               </Link>
+
               <ul className="dropdown-menu">
                 <li>
                   <Link to="buy-crypto-card">
@@ -310,6 +298,7 @@ console.log(loginData.isLogged)
                 </li>
               </ul>
             </li>
+
             <li className="dropdown">
               <Link to="#" className="text-capitalize">
                 Trade
@@ -334,22 +323,23 @@ console.log(loginData.isLogged)
                 NFT
               </Link>
             </li>
+
           </ul>
+
           <ul className="attributes">
+
             <li className="d-md-block d-none">
-              {loginData.isLogged === true ? (
+              {isLogged === true ? (
                   <Link to="/dashboard" className="px-10 pt-15 pb-10">
                     <div className="btn btn-primary py-5">Dashboard</div>
                   </Link>
-              ) : ('')}
-              {loginData.isLogged === false ? (
-                  <Link to="/signup" className="px-10 pt-15 pb-10">
-                    <div className="btn btn-primary py-5">Register Now</div>
-                  </Link>
-              ) : ('')}
+              ) : (<Link to="/signup" className="px-10 pt-15 pb-10">
+                <div className="btn btn-primary py-5">Register Now</div>
+              </Link>)}
 
             </li>
             <li>
+
               <Link to="#" className="toggle-search-fullscreen">
                 <span className="ti-search" />
               </Link>

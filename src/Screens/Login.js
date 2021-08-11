@@ -8,19 +8,17 @@ import { connect, useSelector, useDispatch } from "react-redux";
 import { Route, Redirect, Switch, Link } from "react-router-dom";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import {getQueryParams} from "../UrlQueryString";
+import ErrorSuccessHook from "../redux/ErrorSuccessHook";
 const Login = () => {
-
-  const [errorMessage, setErrorMessage] = useState(null);//error message manager
-  const [successMessage, setSuccessMessage] = useState(null);//error message manager
 
   const [password, setPassword] = useState("");
 
   const [email, setEmail] = useState("");
-  const [disabled, setDisabled] = useState(false);
-  let passwordObject = { type: "password", class_name: "fa-eye-slash" };
+
+  let passwordObject = { type: "password", class_name: "fa-eye-slash" }; //password display controller
   const [inputType, changePaswordInputType] = useState(passwordObject);
 
-  let allStateObject = useSelector((state) => state);
+  let allStateObject = useSelector((state) => state); //get all the available states
   let { login } = allStateObject;
 
   const dispatch = useDispatch(); //for action dispatch
@@ -28,7 +26,8 @@ const Login = () => {
   const [mainForgotpasswordModalDiplay, setMainForgotpasswordModalDiplay] = useState("none");
   const [changePasswordModal, setChangePasswordModal] = useState("none");
 
-  const toggleModal = (ModalToDisplay) => {//for modal toggling
+  const toggleModal = (ModalToDisplay) => {
+    //for modal toggling
 
     if(mainForgotpasswordModalDiplay === 'block'){setMainForgotpasswordModalDiplay('none')}
 
@@ -38,22 +37,14 @@ const Login = () => {
 
   }
 
-  let successValue = getQueryParams().success;//pick values from the url
-  useEffect(() => {
-
-    if(successValue !== null && typeof successValue !== 'undefined'){setSuccessMessage(successValue)}
-
-    if(login.error_message === true){
-        setErrorMessage(login.message);
-        setSuccessMessage(null);
-    }
-    if(login.logout_success === true){
-        setSuccessMessage(login.message);
-        setErrorMessage(null);
-    }
-
-  }, [successValue, login])
-
+    //check errors
+  const {error:errorMessage, success:successMessage} = ErrorSuccessHook(login.logout_success, login.error_message, login.message, login);
+  // login.user_data.email_verification === null
+  if(login.message_type === 'activate_account'){
+    setTimeout(() => {
+      window.location.href = `/activation/${login.user_data.email}`;
+    }, 2000);
+  }
 
   return (
     <>
@@ -90,8 +81,8 @@ const Login = () => {
                     </p>
                     <center>
                       <small className="text-success">
-                        <i className="fa fa-warning" /> Please check that you
-                        are visiting the correct URL
+                        <i className="fa fa-warning" />
+                        Please check that you are visiting the correct URL
                       </small>
                     </center>
                     <p />
@@ -109,19 +100,20 @@ const Login = () => {
                             ""
                           )}
 
+                          {login.success_message === true && login.message_type === 'login_auth_app' ? (
+                              <DelayedRedirect
+                                  to={`/two_factor_authentication/${login.user_data.email}`}
+                                  delay={500}
+                              />
+                          ) : (
+                              ""
+                          )}
+
                           {errorMessage && (
                               <p className="alert alert-danger  text-center">
                                 {errorMessage}
                               </p>
                           )}
-
-                          {/*{login.error_message === true ? (
-                            <p className="alert alert-danger  text-center">
-                              {login.message}
-                            </p>
-                          ) : (
-                            ""
-                          )}*/}
 
                           {successMessage && (
                               <p className="alert alert-success  text-center">
@@ -263,11 +255,11 @@ const Login = () => {
             </div>
           </div>
         </section>
-        /* main Modal */
+        {/* main Modal  */}
         <div style={{display:mainForgotpasswordModalDiplay}} class="modal">
 
           {/* Modal content*/}
-          <div class="modal-content">
+          <div class="modal-content modal-width-control">
             <div class="modal-header">
               <span onClick={() => setMainForgotpasswordModalDiplay(mainForgotpasswordModalDiplay === 'none' ? 'block' :'none')} class="close">&times;</span>
               <h2></h2>
@@ -284,14 +276,16 @@ const Login = () => {
 
         </div>
 
-        /* Modal */
+         {/* Modal */}
         <div style={{display:changePasswordModal}} class="modal">
            Modal content
-          <div class="modal-content">
+          <div class="modal-content modal-width-control">
+
             <div class="modal-header">
               <span onClick={() => setChangePasswordModal(changePasswordModal === 'none' ? 'block' :'none')} class="close">&times;</span>
               <h2></h2>
             </div>
+
             <div class="modal-body">
               <div className="col-sm-12">
 
