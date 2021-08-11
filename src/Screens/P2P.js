@@ -48,7 +48,7 @@ const P2P = () => {
                                     <a href="swap">Swap</a>
                                     </li>
                                     <li>
-                                    <a href="markets">Market</a>
+                                    <a href="markets">Market </a>
                                     </li>
                                 </ul>
                                 </div>

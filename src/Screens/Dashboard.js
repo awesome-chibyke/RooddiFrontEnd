@@ -2,12 +2,8 @@ import React, { useState } from 'react';
 import { useSelector,} from "react-redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import DynamiicModal from "../components/DynamiicModal";
-<<<<<<< HEAD
-=======
 import Try from "../components/Try";
 import Try_ from "../components/Try_";
-
->>>>>>> c4d739f906b201472d6cdeeabe1ac2c9574a329d
 
 const Dashboard = () => {
 
@@ -51,7 +47,7 @@ const Dashboard = () => {
                             widthSize={'100%'}
                             marginLeft={'0%'}
                             marginRight={'0%'}
-                            contents={<Try_ />}
+                            contents={<Try_/>}
                             headerTitleText={'Another One'}
                             displayModal={displaySecondModal}
                             closeModal={setDisplaySecondModal}
