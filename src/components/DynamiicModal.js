@@ -17,9 +17,9 @@ const DynamiicModal = ({widthSize, marginLeft, marginRight, contents, headerTitl
     return (
         <>
             <div>
-
                 {optionForStyleOrClass === 'use_style' ? (
                     <div style={{display:displayModal}} className="modal">
+
 
                         <div className="modal-content modal-width-control" style={{width:widthSize, marginLeft:marginLeft, marginRight:marginRight}}>
                             <div className="modal-header">
@@ -55,8 +55,6 @@ const DynamiicModal = ({widthSize, marginLeft, marginRight, contents, headerTitl
 
                     </div>
                 )}
-
-
             </div>
         </>
     );
