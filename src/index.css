@@ -236,37 +236,37 @@ code {
     }
     .mainResponsiveTable .mobile-head {display:none;}
     @media screen and (max-width: 600px) {
-        .mainResponsiveTable {
-          /*border: 1px solid #000000;*/
-          border-collapse: collapse;
-          margin: 0 auto;  
-          padding: 0px;
-          table-layout: fixed;
-          min-width: 100%;
-        }
-        .mainResponsiveTable td{
-          padding: 8px;
-          /*border: 1px solid #000000;*/
-          display: block; 
-          text-align: right; 
-          width: 100%\9;  
-          float: left\9;
-        }
-        .mainResponsiveTable tr{
-          /*background-color: #dddddd;
-          color:#000000;*/
-          text-align:right;
-          margin:8px;
-          border: 1px solid gray;
-        }
-        .mainResponsiveTable thead {display:none;}
-        .mainResponsiveTable tbody tr{display: block;}
-        .mainResponsiveTable td:not(:first-child){border-top:0px;}
-        .mainResponsiveTable .mobile-head{
-          font-weight:bold;
-          color:#000000;
-          float:left;
-          text-align:left;
-          display:block
-        }
+    .mainResponsiveTable {
+      /*border: 1px solid #000000;*/
+      border-collapse: collapse;
+      margin: 0 auto;  
+      padding: 0px;
+      table-layout: fixed;
+      min-width: 100%;
     }
+    .mainResponsiveTable td{
+      padding: 8px;
+      /*border: 1px solid #000000;*/
+      display: block; 
+      text-align: right; 
+      width: 100%\9;  
+      float: left\9;
+    }
+    .mainResponsiveTable tr{
+      /*background-color: #dddddd;
+      color:#000000;*/
+      text-align:right;
+      margin:8px;
+      border: 1px solid gray;
+    }
+    .mainResponsiveTable thead {display:none;}
+    .mainResponsiveTable tbody tr{display: block;}
+    .mainResponsiveTable td:not(:first-child){border-top:0px;}
+    .mainResponsiveTable .mobile-head{
+    font-weight:bold;
+    color:#000000;
+    float:left;
+    text-align:left;
+    display:block
+  }
+}
