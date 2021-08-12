@@ -21,12 +21,14 @@ code {
   z-index: 100;
 }
 
-
+/* .btn-block{
+  width:100% !important;
+} */
 /* The Modal (background) */
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 100; /* Sit on top */
+  z-index: 100000000000; /* Sit on top */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -55,6 +57,7 @@ code {
   -webkit-animation-duration: 0.4s;
   animation-name: slideIn;
   animation-duration: 0.4s;
+  max-height: 80vh;
 }
 @media (max-width: 767px) {
     .modal-width-control{
@@ -126,7 +129,10 @@ code {
   color: white;
 }
 
-.modal-body {padding: 2px 16px;}
+.modal-body {
+  padding: 2px 16px;
+  overflow-y: auto !important;
+}
 
 .modal-footer {
   padding: 2px 16px;

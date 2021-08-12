@@ -26,7 +26,7 @@ const DynamiicModal = ({widthSize, marginLeft, marginRight, contents, headerTitl
                                 <span onClick={() => closeModal(displayModal === 'none' ? 'block':'none') } className="close">&times;</span>
                                 <h4 style={{color:"#0c1a32"}}>{/*<Markup content={headerTitleText} />*/} {headerTitleText} </h4>
                             </div>
-                            <div className="modal-body" style={{overflowY:"auto !important"}}>
+                            <div className="modal-body">
                                 {contents}
                                 {/*<Markup content={contents} />*/}
                             </div>
@@ -44,7 +44,7 @@ const DynamiicModal = ({widthSize, marginLeft, marginRight, contents, headerTitl
                                 <span onClick={() => closeModal(displayModal === 'none' ? 'block':'none') } className="close">&times;</span>
                                 <h4 style={{color:"#0c1a32"}}>{/*<Markup content={headerTitleText} />*/} {headerTitleText} </h4>
                             </div>
-                            <div className="modal-body" style={{overflowY:"auto !important"}}>
+                            <div className="modal-body">
                                 {contents}
                                 {/*<Markup content={contents} />*/}
                             </div>
