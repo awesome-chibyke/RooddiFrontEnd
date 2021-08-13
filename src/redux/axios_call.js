@@ -3,7 +3,7 @@ import axios from "axios";
 export const getRequest = (url, header = {}) => {
   return new Promise(function (resolve, reject) {
 
-    if(Object.keys(header).length == 0){
+    if(Object.keys(header).length === 0){
 
       axios.get(url)
           .then((response) => {
@@ -33,7 +33,7 @@ export const getRequest = (url, header = {}) => {
 export const postRequest = (url, data, header = {}) => {
   return new Promise(function (resolve, reject) {
     
-    if(Object.keys(header).length == 0){
+    if(Object.keys(header).length === 0){
       axios.post(url, data, header)
           .then((response) => {
             resolve(response);
@@ -44,6 +44,31 @@ export const postRequest = (url, data, header = {}) => {
           });
     }else{
       axios.post(url, data, header)
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((error) => {
+            console.log(error);
+            reject(error);
+          });
+    }
+  });
+};
+
+export const putRequest = (url, data, header = {}) => {
+  return new Promise(function (resolve, reject) {
+    
+    if(Object.keys(header).length === 0){
+      axios.put(url, data, header)
+          .then((response) => {
+            resolve(response);
+          })
+          .catch((error) => {
+            console.log(error);
+            reject(error);
+          });
+    }else{
+      axios.put(url, data, header)
           .then((response) => {
             resolve(response);
           })
