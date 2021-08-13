@@ -145,3 +145,8 @@ code {
   from {opacity: 0}
   to {opacity: 1}
 }
+
+.lng-drop > .btn-group > .dropdown-menu{
+  height: 200px;
+  overflow-y: auto;
+}

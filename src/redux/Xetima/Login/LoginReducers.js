@@ -5,7 +5,8 @@ import { LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE, UPDATE_LOGIN_SUCCESS, USER_LOGOUT,
     RESEND_AUTHENTICATION_CODE,
     RESEND_AUTHENTICATION_AUTHENTICATION_CODE_SUCCESS,
     ACCOUNT_ACTIVATION_SWITCH,
-    LOGOUT_AUTH_DISABLE } from "./LoginActionTypes";//
+    LOGOUT_AUTH_DISABLE,
+    CHANGE_USER_OBJECT } from "./LoginActionTypes";//
 
 const initialState = {
     user_data: [],
@@ -199,6 +200,11 @@ const UserLoginReducer = (state = initialState, action) => {
                 logout_error:false,
                 logout_success:false,
             };
+            case CHANGE_USER_OBJECT:
+            return {
+                ...state,
+                user_data:action.payload,
+            }
         default:
             return state;
     }

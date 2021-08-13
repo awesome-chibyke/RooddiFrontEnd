@@ -1,26 +1,45 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-script-url */
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect} from "react";
-import { logoutAction, destroyUserAuthislogged, disableActivationIslogged } from "../../redux";
+import { logoutAction, destroyUserAuthislogged, disableActivationIslogged, getAllCurrencyPost, chosePreferredCurrency} from "../../redux";
 import { connect, useSelector, useDispatch  } from "react-redux";
 import { BASE_URL } from "../../common_variables";
 import { BrowserRouter as Router, Switch, Route, Link, useParams } from "react-router-dom";
 
 function Header() {
+  const dispatch = useDispatch();
 
   const allState = useSelector(state => state);
-  let {registration:registrationData,login:loginData, authentication:authenticationData} = allState;
+  let { registration:registrationData, login:loginData, authentication:authenticationData, getCurrency } = allState;
+  const {default_currency, currencys:currencyArray} = getCurrency;
 
-  const [isLoggedStatus, setIsLoggedStatus] = useState(false);
+  let defaultCurrency = '4hqoeefnnp8pci4bs9js';
+  if(typeof default_currency === 'object'){
+    defaultCurrency = 'unique_id' in default_currency ? default_currency.unique_id : '4hqoeefnnp8pci4bs9js';
+  }
 
-  let {isLogged, user_data, logout_loading, logout_error, logout_success } = loginData;//login data
+  const [selectedCurrency, setCurrency] = useState(defaultCurrency);
 
-  if(isLogged === true){//check if the islogged is true
+  useEffect(() => {
+    dispatch(getAllCurrencyPost(currencyArray, default_currency, loginData));
+  }, [selectedCurrency]);
+
+  //change the currency
+  const changeCurrency = (e) => {
+    setCurrency(e.target.value);
+    dispatch(chosePreferredCurrency( currencyArray, e.target.value,  loginData));
+  }
+
+  //login data
+  let {isLogged, user_data, logout_loading, logout_error, logout_success } = loginData;
+
+  if(isLogged === true){
+    //check if the islogged is true
     var {email} = user_data.user;
     var {token} = user_data;
   }
-
-  const dispatch = useDispatch();
 
   const logUserOut = async (token) =>{
     let retVal = window.confirm('Do you want logout');
@@ -52,16 +71,19 @@ function Header() {
                   </ul>
                 </div>
               </div>
+              
               <div className="col-lg-6 col-12 xs-mb-10">
                 <div className="topbar-call text-center text-lg-end topbar-right">
                   <ul className="list-inline d-lg-flex justify-content-end">
                     <li className="me-10 ps-10 lng-drop">
-                      <select className="header-lang-bx selectpicker">
-                        <option>USD</option>
-                        <option>EUR</option>
-                        <option>GBP</option>
-                        <option>INR</option>
-                      </select>
+
+                        <select value={selectedCurrency} onChange={ e => changeCurrency(e) } style={{overflowY:"auto"}} className="header-lang-bx selectpicker " >
+                        {currencyArray.map((currency, index)=>(
+                          <option key={index} value={currency.unique_id} > {currency.second_currency} </option>
+                          ))}
+                        </select>
+                      
+                        {/*  */}
                     </li>
                     <li className="me-10 ps-10">
                       {isLogged !== true ? (
