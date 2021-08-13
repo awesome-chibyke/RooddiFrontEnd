@@ -92,7 +92,7 @@ function Header() {
                             Login
                           </Link>
                       ) : (
-                          <a href="javascript:;" onClick={() => logUserOut(token)} >
+                          <a href="/:;" onClick={() => logUserOut(token)} >
                             {logout_loading === true ? 'Loading.....':( <><i className="fa fa-sign-out d-md-inline-block d-none" /> Logout </> )  }
 
                           </a>

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   GET_CURRENCY,
   GET_CURRENCY_SUCCESS,

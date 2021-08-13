@@ -2,9 +2,6 @@ import {
     GET_CURRENCY,
     GET_CURRENCY_SUCCESS,
     GET_CURRENCY_FAILURE,
-    CHOOSE_CURRENCY,
-    CHOOSE_CURRENCY_SUCCESS,
-    CHOOSE_CURRENCY_FAILURE,
   } from "./CurrencyTypes";
 
 const initialState = {
