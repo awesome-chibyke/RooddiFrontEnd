@@ -162,6 +162,11 @@ code {
 }
 
 
+.lng-drop > .btn-group > .dropdown-menu{
+  height: 200px;
+  overflow-y: auto;
+}
+
 .btn-check:checked + .btn-outline-success, .btn-check:active + .btn-outline-success, .btn-outline-success:active, .btn-outline-success.active, .btn-outline-success.dropdown-toggle.show {
   color: #FFF;
   background-color: #cc8600;

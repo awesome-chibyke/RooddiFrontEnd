@@ -154,17 +154,17 @@ function Footer() {
                   <hr className="bg-primary mb-10 mt-0 d-inline-block mx-auto w-60" />
                   <ul className="payment-icon list-unstyled d-flex gap-items-1">
                     <li className="ps-0">
-                      <a href="javascript:;">
+                      <a href="/:;">
                         <i className="fa fa-cc-amex" aria-hidden="true" />
                       </a>
                     </li>
                     <li>
-                      <a href="javascript:;">
+                      <a href="/:;">
                         <i className="fa fa-cc-visa" aria-hidden="true" />
                       </a>
                     </li>
                     <li>
-                      <a href="javascript:;">
+                      <a href="/:;">
                         <i
                           className="fa fa-credit-card-alt"
                           aria-hidden="true"
@@ -172,12 +172,12 @@ function Footer() {
                       </a>
                     </li>
                     <li>
-                      <a href="javascript:;">
+                      <a href="/:;">
                         <i className="fa fa-cc-mastercard" aria-hidden="true" />
                       </a>
                     </li>
                     <li>
-                      <a href="javascript:;">
+                      <a href="/:;">
                         <i className="fa fa-cc-paypal" aria-hidden="true" />
                       </a>
                     </li>

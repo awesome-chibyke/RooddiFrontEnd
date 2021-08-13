@@ -436,7 +436,7 @@ $(function () {
 	
 	jQuery(window).scroll(startCounter);
 	function startCounter() {
-		var hT = jQuery('.countnm-bx').offset().top,
+		var hT = jQuery('.countnm-bx').offset(),
 			hH = jQuery('.countnm-bx').outerHeight(),
 			wH = jQuery(window).height();
 		if (jQuery(window).scrollTop() > hT+hH-wH) {
@@ -590,7 +590,7 @@ $(document).ready(function() {
 	$('body').ihavecookies(options);
 
 	if ($.fn.ihavecookies.preference('marketing') === true) {
-		console.log('This should run because marketing is accepted.');
+		// console.log('This should run because marketing is accepted.');
 	}
 
 	$('#ihavecookiesBtn').on('click', function(){
