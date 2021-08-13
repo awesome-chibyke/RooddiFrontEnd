@@ -2,7 +2,12 @@ import React from 'react'
 import renderTooltip from './Tootip'
 import {Form, InputGroup, FormControl, Button, OverlayTrigger} from 'react-bootstrap'
 
-const P2PModal = ({closeModal}) => {
+const P2PModal = ({closeModal, toggleAccountModal, accountModalStatus}) => {
+
+    console.log(toggleAccountModal)
+    const fontStyles = {
+        fontWeight: 'bold'
+    }
     return (
         <>
           <div className="row" style={{marginTop: '1rem'}}>
@@ -10,7 +15,7 @@ const P2PModal = ({closeModal}) => {
             <div className=" col-12 col-sm-8">
                 <div className="row">
                     <h6>
-                    ⭐Peace Praise &nbsp;2293 orders &nbsp;|&nbsp; 97.91% completion
+                    ⭐Madu Ifeanyi Emmanuel &nbsp;2293 orders &nbsp;|&nbsp; 97.91% completion
                     </h6>
                     <div className="col-12 col-sm-6 price-payment" style={{marginTop: '0.5rem'}}>
                         <h6>Price &nbsp;
@@ -45,7 +50,7 @@ const P2PModal = ({closeModal}) => {
                     </div>
                 </div>
                 <div className="terms" style={{marginTop: '1rem'}}>
-                    <h5>Terms and condition</h5>
+                    <h5 style={fontStyles}>Terms and condition</h5>
                     <p>
                         Kindly make payments, am online to process the transaction and release the USDT available for you.
                         Please endevour to call only after 5minutes you placed your order, because am likel to be processing it with phone...so your early call would interrupt it.
@@ -83,7 +88,7 @@ const P2PModal = ({closeModal}) => {
                             <Button onClick={() => closeModal('none') } className="btn-block cancel-btn" style={{width:'100%'}} variant="light">Cancel</Button>{' '}
                         </div>
                         <div className="col-12 col-sm-6 mt-25 ml-75">
-                            <Button className="btn-block" variant="primary" style={{width:'100%'}}>Buy USDT</Button>{' '}
+                            <Button onClick={ () => toggleAccountModal('block') } className="btn-block" variant="primary" style={{width:'100%'}}>Buy USDT</Button>{' '}
                         </div>
                     </div>
                 </div>
