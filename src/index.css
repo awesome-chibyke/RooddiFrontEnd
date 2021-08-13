@@ -21,12 +21,14 @@ code {
   z-index: 100;
 }
 
-
+/* .btn-block{
+  width:100% !important;
+} */
 /* The Modal (background) */
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  z-index: 100000000000; /* Sit on top */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -40,27 +42,33 @@ code {
   animation-duration: 0.4s
 }
 
+.modal-width-control{
+    width: 40%;
+    margin-left: 30%;
+    margin-right: 30%;
+}
+
 /* Modal Content */
 .modal-content {
   position: fixed;
   bottom: 0;
   background-color: #fefefe;
-  width: 40%;
-  margin-left: 30%;
-  margin-right: 30%;
   -webkit-animation-name: slideIn;
   -webkit-animation-duration: 0.4s;
   animation-name: slideIn;
   animation-duration: 0.4s;
+  max-height: 80vh;
 }
 @media (max-width: 767px) {
+    .modal-width-control{
+        width: 100%;
+        margin-left: 0%;
+        margin-right: 0%;
+    }
   .modal-content {
     position: fixed;
     bottom: 0;
     background-color: #fefefe;
-    width: 100%;
-    margin-left: 0%;
-    margin-right: 0%;
     -webkit-animation-name: slideIn;
     -webkit-animation-duration: 0.4s;
     animation-name: slideIn;
@@ -68,13 +76,15 @@ code {
   }
 }
 @media (min-width: 768px) {
+    .modal-width-control{
+        width: 80%;
+        margin-left: 10%;
+        margin-right: 10%;
+    }
   .modal-content {
     position: fixed;
     bottom: 0;
     background-color: #fefefe;
-    width: 80%;
-    margin-left: 10%;
-    margin-right: 10%;
     -webkit-animation-name: slideIn;
     -webkit-animation-duration: 0.4s;
     animation-name: slideIn;
@@ -82,13 +92,15 @@ code {
   }
 }
 @media (min-width: 1200px) {
+    .modal-width-control{
+        width: 40%;
+        margin-left: 30%;
+        margin-right: 30%;
+    }
   .modal-content {
     position: fixed;
     bottom: 0;
     background-color: #fefefe;
-    width: 40%;
-    margin-left: 30%;
-    margin-right: 30%;
     -webkit-animation-name: slideIn;
     -webkit-animation-duration: 0.4s;
     animation-name: slideIn;
@@ -117,12 +129,15 @@ code {
   color: white;
 }
 
-.modal-body {padding: 2px 16px;}
+.modal-body {
+  padding: 2px 16px;
+  overflow-y: auto !important;
+}
 
 .modal-footer {
   padding: 2px 16px;
-  background-color: #5cb85c;
-  color: #5cb85c;
+  background-color: #0c1a32;
+  color: #0c1a32;
 }
 
 /* Add Animation */
@@ -146,7 +161,123 @@ code {
   to {opacity: 1}
 }
 
+
 .lng-drop > .btn-group > .dropdown-menu{
   height: 200px;
   overflow-y: auto;
+}
+
+.btn-check:checked + .btn-outline-success, .btn-check:active + .btn-outline-success, .btn-outline-success:active, .btn-outline-success.active, .btn-outline-success.dropdown-toggle.show {
+  color: #FFF;
+  background-color: #cc8600;
+  border-color: #cc8600;
+}
+
+.btn-outline-success:hover {
+  color: #FFF;
+  background-color: #cc8600;
+  border-color: #cc8600;
+}
+
+.btn-outline-primary {
+  color: #000;
+}
+
+.btn-outline-primary:hover {
+  color: #fff;
+  background-color: #cc8600;
+}
+
+.btn-outline-secondary:hover {
+  color: #fff;
+  background-color: #cc8600;
+}
+.hr-style {
+  display: block;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  margin-left: 20px;
+  margin-right: 20px;
+  border-style: inset;
+  border-width: 1px;
+}
+
+.page-item.active .page-link {
+  z-index: 3;
+  color: #fff;
+  background-color: #a2dd71;
+  border-color: #a2dd71;
+}
+
+.theme-warning .border-primary {
+  border-color: hsl(217, 54%, 19%) !important;
+  background-color: #172b4c;
+  color: #fff;
+}
+
+.card {
+  background-color: #fff;
+  color: #172b4c;
+}
+
+.mainResponsiveTable {
+  /* border: 1px solid #000000;border-collapse: collapse; */ 
+  margin: 0 auto;  
+  padding: 0px;
+  table-layout: fixed;
+  width: 100%;
+} 
+
+    .mainResponsiveTable th {
+      text-align: center;
+      padding: 8px;
+      /*border: 1px solid #000000;background:#1b90bb;*/
+      color:#000;
+      font-weight:bold;
+      text-align:center
+    }
+    .mainResponsiveTable td{
+      padding: 8px;
+      /*border: 1px solid #000000;*/
+    }
+    .mainResponsiveTable tr{
+      /*background-color: #dddddd;
+      color:#000000;*/
+      text-align:left;
+    }
+    .mainResponsiveTable .mobile-head {display:none;}
+    @media screen and (max-width: 600px) {
+    .mainResponsiveTable {
+      /*border: 1px solid #000000;*/
+      border-collapse: collapse;
+      margin: 0 auto;  
+      padding: 0px;
+      table-layout: fixed;
+      min-width: 100%;
+    }
+    .mainResponsiveTable td{
+      padding: 8px;
+      /*border: 1px solid #000000;*/
+      display: block; 
+      text-align: right; 
+      width: 100%\9;  
+      float: left\9;
+    }
+    .mainResponsiveTable tr{
+      /*background-color: #dddddd;
+      color:#000000;*/
+      text-align:right;
+      margin:8px;
+      border: 1px solid gray;
+    }
+    .mainResponsiveTable thead {display:none;}
+    .mainResponsiveTable tbody tr{display: block;}
+    .mainResponsiveTable td:not(:first-child){border-top:0px;}
+    .mainResponsiveTable .mobile-head{
+    font-weight:bold;
+    color:#000000;
+    float:left;
+    text-align:left;
+    display:block
+  }
 }

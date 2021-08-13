@@ -13,6 +13,7 @@ import LoginAuthentication from "./Screens/LoginAuthentication";
 import Dashboard from "./Screens/Dashboard";
 import ForgotPassword from "./Screens/ForgotPassword";
 import ChangePassword from "./Screens/ChangePassword";
+import P2P from  "./Screens/P2P";
 import GoogleAuth from "./Screens/GoogleAuth"
 
 import { Provider } from "react-redux";
@@ -45,6 +46,7 @@ function App() {
                   <Route path="/features" component={Features} />
                   <Route path="/wallet" component={Wallet} />
                   <Route path="/buy-crypto-card" component={BuyCrptoCard} />
+                  <Route path="/buy-sell-p2p" component={P2P} />
                   <Footer />
               </Router>
           </PersistGate>

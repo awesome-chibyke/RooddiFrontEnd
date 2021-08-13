@@ -219,7 +219,6 @@ export const AuthenticationPost = async (AuthenticationData) => {
             if (data.status === true) {
                 dispatch(authenticationUserSuccess(data));
             } else {
-                console.log(data.message)
                 validateModule.handleErrorStatement(
                     data.message,
                     "",

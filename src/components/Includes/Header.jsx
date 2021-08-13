@@ -51,7 +51,7 @@ function Header() {
 
   return (
     <>
-      <header className="top-bar dark-overlay-top">
+      <header className="top-bar white-overlay-top">
         <div className="topbar">
           <div className="container">
             <div className="row justify-content-end">
