@@ -4,7 +4,7 @@ import { LOGIN, LOGIN_FAILURE, LOGIN_SUCCESS,UPDATE_LOGIN_SUCCESS, USER_LOGOUT, 
     RESEND_AUTHENTICATION_CODE_FAILURE,
     RESEND_AUTHENTICATION_CODE,
     RESEND_AUTHENTICATION_AUTHENTICATION_CODE_SUCCESS,
-    LOGOUT_AUTH_DISABLE } from "./LoginActionTypes";
+    LOGOUT_AUTH_DISABLE, REMOVE_MESSAGE } from "./LoginActionTypes";
 import { BACKEND_BASE_URL, headerIncluder } from "../../../common_variables";
 import * as Validator from 'validatorjs';
 import validateModule from "../../../validation/validate_module";
@@ -45,16 +45,20 @@ export const logoutAction = (token) => async (dispatch) => {
         let returnedObject = handleLogout.data;
         let {message, status, message_type, data} = returnedObject
         if(status === true){
-            localStorage.removeItem('persist:root');
             dispatch({
                 type:USER_LOGOUT_SUCCESS,
                 message:message
             });
-            window.location.reload();
         }else{
-            validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
-            dispatch({
+            //alert(message_type)
+            //validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
+            /*dispatch({
                 type:USER_LOGOUT_FAILURE,
+                message:message
+            });*/
+            localStorage.removeItem('persist:root');
+            dispatch({
+                type:USER_LOGOUT_SUCCESS,
                 message:message
             });
         }
@@ -87,7 +91,7 @@ export const LoginPost = async (userData) => {
         let validation = new Validator(data, rules);
 
         if(validation.fails()){
-            dispatch(loginUserFailure('A Validation Error Occurred')); console.log(validation.errors.errors)
+            dispatch(loginUserFailure('A Validation Error Occurred'));
             return validateModule.handleErrorStatement(validation.errors.errors, '', 'on', 'no', 'no');
         }
 
@@ -100,9 +104,9 @@ export const LoginPost = async (userData) => {
             let formBody = 'email='+userData.email+'&password='+userData.password;
             let handleLogin = await postRequest(BACKEND_BASE_URL+"login", formBody, {headers: {'Content-Type': 'application/x-www-form-urlencoded'} });
             let returnedData = handleLogin.data;
-            console.log(returnedData)
+
             let {message, status, message_type, data} = returnedData
-            console.log(status)
+
             if(status === true){
                 dispatch(loginUserSuccess({data, message_type, message}));
             }else{
@@ -374,4 +378,13 @@ export const ResendAuthenticationPost = async (email) => {
         }
     };
 };
+
+//removes the always pending message on login display
+export const removeMessage = () => {
+    return (dispatch) => {
+        dispatch({
+            type:REMOVE_MESSAGE
+        });
+    }
+}
 

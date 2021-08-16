@@ -23,7 +23,11 @@ const Register = () => {
 
   const dispatch = useDispatch();//for action dispatch
 
-  const {error:errorMessage, success:successMessage} = ErrorSuccessHook(registration.success_message, registration.error_message, registration.message, registration);
+  let loadingStatus = false;
+  if(registration.loading === true){
+    loadingStatus = true;
+  }
+  const {error:errorMessage, success:successMessage} = ErrorSuccessHook(registration.success_message, registration.error_message, registration.message, registration, loadingStatus);
 
   return (
     <>

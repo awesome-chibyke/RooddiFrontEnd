@@ -1,18 +1,16 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable jsx-a11y/heading-has-content */
-/* eslint-disable no-script-url */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react";
-import { LoginPost } from "../redux";
+import { LoginPost, removeMessage } from "../redux";
 import { connect, useSelector, useDispatch } from "react-redux";
-import { Route, Redirect, Switch, Link } from "react-router-dom";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
-import {getQueryParams} from "../UrlQueryString";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
+import DynamiicModal from "../components/DynamiicModal";
+import ForgetPasswordTwoFactorDisableOptions from "./ForgetPasswordTwoFactorDisableOptions";
+import ForgotPasswordOptions from "./ForgotPasswordOptions";
+
+
 const Login = () => {
 
   const [password, setPassword] = useState("");
-
   const [email, setEmail] = useState("");
 
   let passwordObject = { type: "password", class_name: "fa-eye-slash" }; //password display controller
@@ -23,21 +21,33 @@ const Login = () => {
 
   const dispatch = useDispatch(); //for action dispatch
 
-  const [mainForgotpasswordModalDiplay, setMainForgotpasswordModalDiplay] = useState("none");
-  const [changePasswordModal, setChangePasswordModal] = useState("none");
+    //open and close forgot password and two factor disable modal
+    const [displayForgotPasswordOrTwoFactorDisableOptionModal, setDisplayForgotPasswordOrTwoFactorDisableOptionModal] = useState('none');
+    //open and close forgot password option modal
+    const [changePasswordOptionModal, setChangePasswordOptionModal] = useState("none");
 
-  const toggleModal = (ModalToDisplay) => {//for modal toggling
+  const toggleForgetPasswordModals = (ModalToDisplay) => {//for modal toggling
 
-    if(mainForgotpasswordModalDiplay === 'block'){setMainForgotpasswordModalDiplay('none')}
+      //close the open modal
+    if(displayForgotPasswordOrTwoFactorDisableOptionModal === 'block'){ setDisplayForgotPasswordOrTwoFactorDisableOptionModal('none') }
 
-    if(ModalToDisplay === 'changePasswordModal'){
-      setChangePasswordModal(changePasswordModal === 'none' ? 'block' :'none')
+    if(ModalToDisplay === 'changePasswordOptionModal'){
+        setChangePasswordOptionModal(changePasswordOptionModal === 'none' ? 'block' :'none');
     }
 
   }
 
+    useEffect(() => {
+        dispatch(removeMessage());
+        //console.log('i ran')
+    }, [])
+
     //check errors
-  const {error:errorMessage, success:successMessage} = ErrorSuccessHook(login.logout_success, login.error_message, login.message, login);
+  let loadingStatus = false;
+  if(login.loading === true){
+    loadingStatus = true;
+  }
+  const {error:errorMessage, success:successMessage} = ErrorSuccessHook(login.logout_success, login.error_message, login.message, login, loadingStatus);
 
 
   return (
@@ -183,7 +193,7 @@ const Login = () => {
                             <a
                               href="javascript:void(0)"
                               className="hover-warning"
-                              onClick={() => setMainForgotpasswordModalDiplay(mainForgotpasswordModalDiplay === 'none' ? 'block' :'none')}
+                              onClick={() => setDisplayForgotPasswordOrTwoFactorDisableOptionModal(displayForgotPasswordOrTwoFactorDisableOptionModal === 'none' ? 'block': 'none') }
                             >
                               <i className="ion ion-locked" /> Forgot password?
                             </a>
@@ -250,51 +260,28 @@ const Login = () => {
           </div>
         </section>
         /* main Modal */
-        <div style={{display:mainForgotpasswordModalDiplay}} class="modal">
 
-          {/* Modal content*/}
-          <div class="modal-content modal-width-control">
-            <div class="modal-header">
-              <span onClick={() => setMainForgotpasswordModalDiplay(mainForgotpasswordModalDiplay === 'none' ? 'block' :'none')} class="close">&times;</span>
-              <h2></h2>
-            </div>
-            <div class="modal-body">
-              <div className="text-center" onClick={() => {  toggleModal('changePasswordModal') }}  style={{fontSize:"20px", cursor:"pointer", fontWeight:"bold", marginBottom:"20px"}}> <i className="fa fa-asterisk" aria-hidden="true"></i> Forgot Password? </div>
+          <DynamiicModal
+              widthSize={'100%'}
+              marginLeft={'0%'}
+              marginRight={'0%'}
+              contents={<ForgetPasswordTwoFactorDisableOptions toggleModal={toggleForgetPasswordModals} />}
+              headerTitleText={'Forgot Password / Two Factor Disable Options'}
+              displayModal={displayForgotPasswordOrTwoFactorDisableOptionModal}
+              closeModal={setDisplayForgotPasswordOrTwoFactorDisableOptionModal}
+              optionForStyleOrClass={'use_class'}
+          />
 
-              <div className="text-center " style={{fontSize:"20px", cursor:"pointer", fontWeight:"bold", marginBottom:"20px"}}><a href="/disable_two_factor"><i className="fa fa-asterisk" aria-hidden="true"></i>  Disable Two Factor</a></div>
-            </div>
-            <div class="modal-footer">
-              <h3>Modal Footer</h3>
-            </div>
-          </div>
-
-        </div>
-
-        /* Modal */
-        <div style={{display:changePasswordModal}} class="modal">
-           Modal content
-          <div class="modal-content modal-width-control">
-
-            <div class="modal-header">
-              <span onClick={() => setChangePasswordModal(changePasswordModal === 'none' ? 'block' :'none')} class="close">&times;</span>
-              <h2></h2>
-            </div>
-
-            <div class="modal-body">
-              <div className="col-sm-12">
-
-                <div className="text-center"  style={{fontSize:"20px", cursor:"pointer", fontWeight:"bold", marginBottom:"20px"}}>  <a href="/forgotpassword"><i className="fa fa-asterisk" aria-hidden="true"></i> Email Authentication?</a></div>
-
-                <div className="text-center " style={{fontSize:"20px", cursor:"pointer", fontWeight:"bold", marginBottom:"20px"}}><a href="/forgotpassword_two_factor"><i className="fa fa-asterisk" aria-hidden="true"></i> Two Factor Authentication</a></div>
-
-              </div>
-            </div>
-            <div class="modal-footer">
-              <h3>Modal Footer</h3>
-            </div>
-          </div>
-
-        </div>
+          <DynamiicModal
+              widthSize={'100%'}
+              marginLeft={'0%'}
+              marginRight={'0%'}
+              contents={<ForgotPasswordOptions />}
+              headerTitleText={'Forgot Password Options'}
+              displayModal={changePasswordOptionModal}
+              closeModal={setChangePasswordOptionModal}
+              optionForStyleOrClass={'use_class'}
+          />
 
       </div>
     </>

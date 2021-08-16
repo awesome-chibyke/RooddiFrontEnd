@@ -33,7 +33,11 @@ const LoginAuthentication = () => {
   const dispatch = useDispatch(); //for action dispatch
 
   //check errors
-  const {error:errorMessage, success:successMessage} = ErrorSuccessHook(loginData.success_message, loginData.error_message, loginData.message, loginData);
+  let loadingStatus = false;
+  if(loginData.loading === true){
+    loadingStatus = true;
+  }
+  const {error:errorMessage, success:successMessage} = ErrorSuccessHook(loginData.success_message, loginData.error_message, loginData.message, loginData, loadingStatus);
 
   if(loginData.isLogged === true){
     setTimeout(() => {

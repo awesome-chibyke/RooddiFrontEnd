@@ -4,6 +4,7 @@ import { LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE, UPDATE_LOGIN_SUCCESS, USER_LOGOUT,
     RESEND_AUTHENTICATION_CODE_FAILURE,
     RESEND_AUTHENTICATION_CODE,
     RESEND_AUTHENTICATION_AUTHENTICATION_CODE_SUCCESS,
+    REMOVE_MESSAGE,
     LOGOUT_AUTH_DISABLE } from "./LoginActionTypes";//
 
 const initialState = {
@@ -16,7 +17,7 @@ const initialState = {
     success_message:false,
     isLogged:false,
     logout_loading:false,
-    resend_code_loading:false,
+    resend_code_loading:false
 };
 
 const UserLoginReducer = (state = initialState, action) => {
@@ -100,7 +101,8 @@ const UserLoginReducer = (state = initialState, action) => {
                 success_message:false,
                 message:action.message,
                 logout_error:true,
-                logout_success:false,
+                logout_success:true,
+                isLogged:false
             }
         case AUTHENTICATION:
             return {
@@ -182,6 +184,11 @@ const UserLoginReducer = (state = initialState, action) => {
             return {
                 ...state,
                 success_message:false,
+            }
+        case REMOVE_MESSAGE:
+            return {
+                ...state,
+                message:'',
             }
         default:
             return state;

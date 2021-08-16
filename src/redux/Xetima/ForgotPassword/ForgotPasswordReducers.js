@@ -1,4 +1,4 @@
-import { SEND_EMAIL,SEND_EMAIL_SUCCESS,SEND_EMAIL_FAILURE,VERIFY_EMAIL,VERIFY_EMAIL_SUCCESS,VERIFY_EMAIL_FAILURE,VERIFY_TOKEN,VERIFY_TOKEN_SUCCESS,VERIFY_TOKEN_FAILURE,CHANGE_PASSWORD,CHANGE_PASSWORD_SUCCESS,CHANGE_PASSWORD_FAILURE,RESET_PASSWORD_CHANGE_KEY } from "./ForgotPasswordActionTypes";//
+import { SEND_EMAIL,SEND_EMAIL_SUCCESS,SEND_EMAIL_FAILURE,VERIFY_EMAIL,VERIFY_EMAIL_SUCCESS,VERIFY_EMAIL_FAILURE,VERIFY_TOKEN,VERIFY_TOKEN_SUCCESS,VERIFY_TOKEN_FAILURE,CHANGE_PASSWORD,CHANGE_PASSWORD_SUCCESS,CHANGE_PASSWORD_FAILURE,RESET_PASSWORD_CHANGE_KEY, RESET_FORGOT_PASSWORD_STATE } from "./ForgotPasswordActionTypes";//
 
 const initialState = {
     user_data: [],
@@ -13,6 +13,8 @@ const initialState = {
     initial_send_mail_status:false,
     verify_token_success:false,
     change_password_status:false,
+
+    message_type:'normal'
 };
 
 const ForgotPasswordReducer = (state = initialState, action) => {
@@ -40,7 +42,9 @@ const ForgotPasswordReducer = (state = initialState, action) => {
 
                 error:false,
                 success:true,
-                initial_send_mail_status:true
+                initial_send_mail_status:true,
+
+                message_type:action.message_type
             };
         case SEND_EMAIL_FAILURE:
             return {
@@ -134,6 +138,24 @@ const ForgotPasswordReducer = (state = initialState, action) => {
                 error:false,
                 success:false,
             }
+        case RESET_FORGOT_PASSWORD_STATE:
+            return {
+                ...state,
+                user_data: [],
+                message:null,
+                send_forgot_email_loading:false,
+                verify_token_loading:false,
+                change_password_loading:false,
+
+                error:false,
+                success:false,
+
+                initial_send_mail_status:false,
+                verify_token_success:false,
+                change_password_status:false,
+
+                message_type:'normal'
+            };
         default:
             return state;
     }

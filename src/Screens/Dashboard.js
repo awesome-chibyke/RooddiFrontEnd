@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { connect, useSelector, useDispatch  } from "react-redux";
+import { useSelector, useDispatch  } from "react-redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import DynamiicModal from "../components/DynamiicModal";
 import Try from "../components/Try";
