@@ -3,7 +3,7 @@ import UserRegistrationReducer from "./Xetima/Register/RegisterReducers";
 import UserLoginReducer from './Xetima/Login/LoginReducers';
 import ForgotPasswordReducers from './Xetima/ForgotPassword/ForgotPasswordReducers';
 import GetCurrencyReducer from "./Xetima/Currency/CurrencyReducer";
-
+import ActivtateTwoFactorReducer from "./Xetima/TwoFactor/TwoFactorReducer";
 import ModalReducer from "./Xetima/DynamicModal/ModalReducers";
 
 
@@ -12,7 +12,8 @@ const rootReducer = combineReducers({
   login:UserLoginReducer,
   forgotpassword:ForgotPasswordReducers,
   getCurrency:GetCurrencyReducer,
-  display_modal:ModalReducer
+  display_modal:ModalReducer,
+  activate_twofactor:ActivtateTwoFactorReducer
 });
 
 export default rootReducer;
