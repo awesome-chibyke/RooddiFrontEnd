@@ -23,7 +23,7 @@ const Dashboard = () => {
 
     const activateTwoFactorHandler = async (loginData) =>{
         if(loginData.isLogged === true){
-            dispatch(await activateTwoFactorAction(loginData));
+            dispatch(activateTwoFactorAction(loginData));
         }
             
     }
@@ -39,7 +39,7 @@ const Dashboard = () => {
         <>
             {loginData.isLogged === false ? <DelayedRedirect to={`/login`} delay={500} />  :'' }
             <div>
-                <section className="bg-dark-body bg-food-white pt-120 pb-20" style={{width:"100%", height:"300px", backgroundColor:"white"}}>
+                <section className="bg-dark-body bg-food-white pt-120 pb-20" style={{width:"100%", height:"auto", backgroundColor:"white"}}>
                     <div className="text-center">
                         <h3 className="text-white">Welcome To Xetima</h3>
 

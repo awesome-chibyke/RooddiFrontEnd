@@ -13,7 +13,7 @@ const rootReducer = combineReducers({
   login:UserLoginReducer,
   forgotpassword:ForgotPasswordReducers,
   display_modal:ModalReducer,
-  TwoFactorDeactivationState:TwoFactorDeactivationReducer
+  TwoFactorDeactivationState:TwoFactorDeactivationReducer,
   getCurrency:GetCurrencyReducer,
   activate_twofactor:ActivtateTwoFactorReducer
 });

@@ -74,8 +74,7 @@ const GoogleAuth = () => {
                     <p className="mb-0">Lets Get Your Logged In</p>
                     <center>
                       <small className="text-success">
-                        <i className="fa fa-warning" /> Please provide the 4
-                        digit code sent to your email
+                        <i className="fa fa-warning" /> Please provide the Token created by your Authentication App
                       </small>
                     </center>
                     <p />
