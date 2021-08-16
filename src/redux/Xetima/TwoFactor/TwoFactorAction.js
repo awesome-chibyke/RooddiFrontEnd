@@ -31,30 +31,30 @@ const twoFactorActivationFailure = (message) => {
     }
 }
 
-export const activateTwoFactorAction = (image, loginData) => async (dispatch) => {
-    dispatch(twoFactorActivation());
-    // console.log(image)
-    // console.log(loginData)
+export const activateTwoFactorAction = (loginData) => async (dispatch) => {
+
     try{
-        if(image.length > 0){
-            dispatch(twoFactorActivationSuccess({bar_code_data:image}, ''));
-        }else{
-            if(loginData === true){
-                let handleaTwoFactorAction = await getRequest(BACKEND_BASE_URL+"two_factor/activate_two_factor_auth", headerIncluder(loginData.user_data.token));
-                let returnedObject = handleaTwoFactorAction.data;
-                console.log(handleaTwoFactorAction)
-                console.log(handleaTwoFactorAction.data)
-                let {message, status, message_type, data} = returnedObject
-                if(status === true){
-                    dispatch(twoFactorActivationSuccess(data, message));
-                }else{
-                    validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
-                    dispatch({
-                        type:ACTIVATE_TWOFACTOR_FAILURE,
-                        message:message
-                    });
-                }
+
+        if(loginData.isLogged === true){
+            dispatch(twoFactorActivation());
+            let handleaTwoFactorAction = await getRequest(BACKEND_BASE_URL+"two_factor/activate_two_factor_auth", headerIncluder(loginData.user_data.token));
+
+            let returnedObject = handleaTwoFactorAction.data;
+            console.log(handleaTwoFactorAction)
+            console.log(handleaTwoFactorAction.data)
+            let {message, status, message_type, data} = returnedObject
+            if(status === true){
+                dispatch(twoFactorActivationSuccess(data, message));
+            }else{
+                validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
+                dispatch({
+                    type:ACTIVATE_TWOFACTOR_FAILURE,
+                    message:message
+                });
             }
+        }else{
+            throw new Error('User Authentication Failed');
+            window.location.href = '/login';
         }
     }catch(err){
         dispatch(twoFactorActivationFailure(err.message));
