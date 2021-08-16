@@ -92,7 +92,9 @@ function Header() {
                             Login
                           </Link>
                       ) : (
-                          <span  onClick={() => logUserOut(token)} >
+
+                          <span style={{cursor:"pointer"}} onClick={() => logUserOut(token)} >
+
                             {logout_loading === true ? 'Loading.....':( <><i className="fa fa-sign-out d-md-inline-block d-none" /> Logout </> )  }
 
                           </span>

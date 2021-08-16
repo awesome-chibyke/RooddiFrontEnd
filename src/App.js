@@ -13,8 +13,11 @@ import LoginAuthentication from "./Screens/LoginAuthentication";
 import Dashboard from "./Screens/Dashboard";
 import ForgotPassword from "./Screens/ForgotPassword";
 import ChangePassword from "./Screens/ChangePassword";
+import TwoFactorAuthForPasswordChange from "./Screens/TwoFactorAuthForPasswordChange";
+import ConfirmPasswordAuth from "./Screens/ConfirmPasswordAuth";
 import P2P from  "./Screens/P2P";
 import GoogleAuth from "./Screens/GoogleAuth"
+
 
 import { Provider } from "react-redux";
 import {store, persistedStore} from "./redux/store";
@@ -31,6 +34,12 @@ function App() {
                   <Route path="/signup" component={Register} />
                   <Route path="/activation/:email">
                       <AccountActivation />
+                  </Route>
+                  <Route path="/forgotpassword_two_factor">
+                      <TwoFactorAuthForPasswordChange />
+                  </Route>
+                  <Route path="/confirm_auth_token/:email">
+                      <ConfirmPasswordAuth />
                   </Route>
                   <Route path="/dashboard" component={Dashboard} />
                   <Route path="/forgotpassword" >

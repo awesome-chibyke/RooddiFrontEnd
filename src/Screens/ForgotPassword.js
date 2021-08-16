@@ -24,7 +24,11 @@ const ForgotPassword = () => {
     let { login, forgotpassword:forgotPasswordState } = allStateObject;
 
     //check errors
-    const {error:errorMessage, success:successMessage} = ErrorSuccessHook(forgotPasswordState.success, forgotPasswordState.error, forgotPasswordState.message, forgotPasswordState);
+    let loadingStatus = false;
+    if(forgotPasswordState.send_forgot_email_loading === true || forgotPasswordState.verify_token_loading === true || forgotPasswordState.change_password_loading === true){
+        loadingStatus = true;
+    }
+    const {error:errorMessage, success:successMessage} = ErrorSuccessHook(forgotPasswordState.success, forgotPasswordState.error, forgotPasswordState.message, forgotPasswordState, loadingStatus);
 
     const dispatch = useDispatch(); //for action dispatch
 
@@ -210,7 +214,7 @@ const ForgotPassword = () => {
                                                             disabled={forgotPasswordState.verify_token_loading === true ? true : false}
                                                             onClick={async (e) => {
                                                                 dispatch(
-                                                                    await verifyTokenPost(forgotPasswordState.user_data.email, token, 'forgot_password_email_auth')
+                                                                    await verifyTokenPost(forgotPasswordState.user_data.email, token, forgotPasswordState.message_type)
                                                                 );
                                                             }}
                                                             className="btn btn-info w-p100 mt-15"

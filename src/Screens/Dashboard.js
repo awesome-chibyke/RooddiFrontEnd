@@ -1,7 +1,7 @@
+import { useSelector, useDispatch  } from "react-redux";
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect} from "react";
 import { activateTwoFactorAction } from "../redux";
-import { connect, useSelector, useDispatch  } from "react-redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import DynamiicModal from "../components/DynamiicModal";
 import Try from "../components/Try";
