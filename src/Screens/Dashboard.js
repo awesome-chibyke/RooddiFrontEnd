@@ -1,18 +1,34 @@
 /* eslint-disable no-unused-vars */
+import React, { useState, useEffect} from "react";
+import { activateTwoFactorAction } from "../redux";
 import { connect, useSelector, useDispatch  } from "react-redux";
-import React, { useState } from 'react';
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import DynamiicModal from "../components/DynamiicModal";
 import Try from "../components/Try";
 import Try_ from "../components/Try_";
 
 const Dashboard = () => {
-
-    let allStateObject = useSelector(state => state);
-
-
+    const dispatch = useDispatch();
+    const allStateObject = useSelector(state => state);
     let {login:loginData} = allStateObject;
 
+    // useEffect(() => {
+    //   dispatch(activateTwoFactorAction( loginData ));
+    // }, [activateTwofactor]);
+    // let {isLogged, user_data} = loginData;
+    // if(isLogged === true){
+    //     //check if the islogged is true
+    //     var {token} = user_data;
+    //   }
+
+    const activateTwoFactorHandler = async (loginData) =>{
+        if(loginData.isLogged === true){
+            dispatch(await activateTwoFactorAction(loginData));
+        }
+            
+    }
+
+    
     const [displaySecondModal, setDisplaySecondModal] = useState('none');
     const [displayFirstModal, setDisplayFirstModal] = useState('none');
 
@@ -31,6 +47,8 @@ const Dashboard = () => {
                          <br /><br />
 
                         <button  className="text-white" className="btn btn-success" onClick={() => setDisplaySecondModal(displaySecondModal === 'none' ? 'block': 'none') }>Open Modal</button>
+                            <br></br>
+                        <span className="btn btn-success mt-4 mb-4" onClick={() => activateTwoFactorHandler(loginData)}> Activate Two Factor</span>
 
                         <DynamiicModal
                             widthSize={'100%'}
