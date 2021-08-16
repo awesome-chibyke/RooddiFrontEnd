@@ -43,12 +43,12 @@ const Login = () => {
     }, [])
 
     //check errors
+
   let loadingStatus = false;
   if(login.loading === true){
     loadingStatus = true;
   }
   const {error:errorMessage, success:successMessage} = ErrorSuccessHook(login.logout_success, login.error_message, login.message, login, loadingStatus);
-
 
   return (
     <>
@@ -259,6 +259,7 @@ const Login = () => {
             </div>
           </div>
         </section>
+
         /* main Modal */
 
           <DynamiicModal

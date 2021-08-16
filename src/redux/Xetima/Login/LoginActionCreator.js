@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { LOGIN, LOGIN_FAILURE, LOGIN_SUCCESS,UPDATE_LOGIN_SUCCESS, USER_LOGOUT, USER_LOGOUT_SUCCESS,USER_LOGOUT_FAILURE, CHANGE_AUTHENTICATION_STATUS, AUTHENTICATION,
     AUTHENTICATION_SUCCESS,
     AUTHENTICATION_FAILURE,
@@ -5,6 +6,7 @@ import { LOGIN, LOGIN_FAILURE, LOGIN_SUCCESS,UPDATE_LOGIN_SUCCESS, USER_LOGOUT, 
     RESEND_AUTHENTICATION_CODE,
     RESEND_AUTHENTICATION_AUTHENTICATION_CODE_SUCCESS,
     LOGOUT_AUTH_DISABLE, REMOVE_MESSAGE } from "./LoginActionTypes";
+
 import { BACKEND_BASE_URL, headerIncluder } from "../../../common_variables";
 import * as Validator from 'validatorjs';
 import validateModule from "../../../validation/validate_module";
@@ -106,12 +108,22 @@ export const LoginPost = async (userData) => {
             let returnedData = handleLogin.data;
 
             let {message, status, message_type, data} = returnedData
-
             if(status === true){
                 dispatch(loginUserSuccess({data, message_type, message}));
             }else{
-                validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
-                dispatch(loginUserFailure('A Error Occurred'));
+                if(message_type === 'activate_account'){
+                    //validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
+                    dispatch({
+                        type:ACCOUNT_ACTIVATION_SWITCH,
+                        message:message.general_error[0],
+                        message_type:message_type,
+                        payload:data
+                    });
+                }else{
+                    validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
+                    dispatch(loginUserFailure('A Error Occurred'));
+                }
+                
             }
         }catch(e){
             validateModule.handleErrorStatement({general_error:[e.message]}, '', 'on', 'no', 'no');
@@ -271,7 +283,7 @@ export const GoogleAuthPost = async (GoogleAuthData) => {
             let formBody =
                 "email=" + GoogleAuthData.email + "&token=" + GoogleAuthData.token+ "&device_name=" + GoogleAuthData.device_name;
             let handleGoogleAuth = await postRequest(
-                BACKEND_BASE_URL + "authenticate_login_with_two_factor",
+                BACKEND_BASE_URL + "login/authenticate_login_with_two_factor",
                 formBody,
                 { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
             );

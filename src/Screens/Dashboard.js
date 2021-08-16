@@ -1,19 +1,34 @@
-import React, { useState } from 'react';
 import { useSelector, useDispatch  } from "react-redux";
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect} from "react";
+import { activateTwoFactorAction } from "../redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import DynamiicModal from "../components/DynamiicModal";
 import Try from "../components/Try";
 import Try_ from "../components/Try_";
 
-
 const Dashboard = () => {
+    const dispatch = useDispatch();
+    const allStateObject = useSelector(state => state);
+    let {login:loginData} = allStateObject;
 
-    let allStateObject = useSelector(state => state);
+    // useEffect(() => {
+    //   dispatch(activateTwoFactorAction( loginData ));
+    // }, [activateTwofactor]);
+    // let {isLogged, user_data} = loginData;
+    // if(isLogged === true){
+    //     //check if the islogged is true
+    //     var {token} = user_data;
+    //   }
 
-    let dispatch = useDispatch();
+    const activateTwoFactorHandler = async (loginData) =>{
+        if(loginData.isLogged === true){
+            dispatch(await activateTwoFactorAction(loginData));
+        }
+            
+    }
 
-    let {registration:registrationData, activation:activationData, login:loginData} = allStateObject;
-
+    
     const [displaySecondModal, setDisplaySecondModal] = useState('none');
     const [displayFirstModal, setDisplayFirstModal] = useState('none');
 
@@ -32,6 +47,8 @@ const Dashboard = () => {
                          <br /><br />
 
                         <button  className="text-white" className="btn btn-success" onClick={() => setDisplaySecondModal(displaySecondModal === 'none' ? 'block': 'none') }>Open Modal</button>
+                            <br></br>
+                        <span className="btn btn-success mt-4 mb-4" onClick={() => activateTwoFactorHandler(loginData)}> Activate Two Factor</span>
 
                         <DynamiicModal
                             widthSize={'100%'}
@@ -41,6 +58,7 @@ const Dashboard = () => {
                             headerTitleText={'Dynamic Modal'}
                             displayModal={displayFirstModal}
                             closeModal={setDisplayFirstModal}
+                            
                             optionForStyleOrClass={'use_style'}
                         />
 
@@ -48,7 +66,7 @@ const Dashboard = () => {
                             widthSize={'100%'}
                             marginLeft={'0%'}
                             marginRight={'0%'}
-                            contents={<Try_ />}
+                            contents={<Try_/>}
                             headerTitleText={'Another One'}
                             displayModal={displaySecondModal}
                             closeModal={setDisplaySecondModal}

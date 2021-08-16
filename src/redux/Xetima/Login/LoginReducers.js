@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE, UPDATE_LOGIN_SUCCESS, USER_LOGOUT, USER_LOGOUT_SUCCESS, USER_LOGOUT_FAILURE, CHANGE_AUTHENTICATION_STATUS, AUTHENTICATION,
     AUTHENTICATION_SUCCESS,
     AUTHENTICATION_FAILURE,
@@ -10,6 +11,7 @@ import { LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE, UPDATE_LOGIN_SUCCESS, USER_LOGOUT,
 const initialState = {
     user_data: [],
     message:'',
+    message_type:'normal',
     loading:false,
     error_message:false,
     logout_error:false,
@@ -22,6 +24,7 @@ const initialState = {
 
 const UserLoginReducer = (state = initialState, action) => {
     switch (action.type) {
+        
         case LOGIN:
             return {
                 ...state,

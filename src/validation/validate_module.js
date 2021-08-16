@@ -1,3 +1,6 @@
+/* eslint-disable no-useless-escape */
+/* eslint-disable no-throw-literal */
+/* eslint-disable no-unused-vars */
 import jQuery from "jquery";
 import $ from "jquery";
 import Swal from 'sweetalert2'
@@ -748,7 +751,7 @@ let validateModule = function(){
     let fileId = explodedValue[0];
     let fileField = document.getElementById(fileId);
 
-    if(fileField.files.length == 0){ return; }
+    if(fileField.files.length === 0){ return; }
     if (fileField.files[0].size > fileSizeNo){
       returnValidationMessage(className, fieldName+' must be less than or equal to '+fileSizeReadable);
     }
@@ -841,7 +844,7 @@ let validateModule = function(){
   //['fileId|className|fieldName|type']
   async function validateEmptyFileField(fileId, fieldName, className){
     console.log(document.getElementById(fileId).files.length)
-    if( document.getElementById(fileId).files.length == 0 ){
+    if( document.getElementById(fileId).files.length === 0 ){
       returnValidationMessage(className, fieldName+' is required!');
     }
   }
@@ -884,7 +887,7 @@ let validateModule = function(){
 
       let explodedValidationDetails = thingsToValidate[i].split('|');
 
-      if (explodedValidationDetails.length != 4) {
+      if (explodedValidationDetails.length !== 4) {
         throw 'Please make sure you supplied parameters for validation in correct format'
       }
 
@@ -956,12 +959,12 @@ let validateModule = function(){
     let errorStatementLenght = Object.keys(error_statement).length;
     let incomingErrorArray = [];
     for (var i in error_statement) {
-      if (counter == 0) {
+      if (counter === 0) {
         theKey = i;
       }
 
       if (typeof error_statement[i] === 'string') {
-        if (error_statement[i].indexOf(':') != -1) {
+        if (error_statement[i].indexOf(':') !== -1) {
           error_statement[i] = error_statement[i].split(':');
         }
       }
@@ -988,7 +991,7 @@ let validateModule = function(){
 
       } else {
 
-        if (i.indexOf('.') != -1) {
+        if (i.indexOf('.') !== -1) {
 
           //split the value at point i
           let mainIndex = i.split('.');
@@ -996,10 +999,10 @@ let validateModule = function(){
           let currentPoint = parseFloat(mainIndex[1]);
           let selectedMainErrorClass = $('.err_' + mainErrorClass);
           for (let e = 0; e < selectedMainErrorClass.length; e++) {
-            if (e == currentPoint) {
+            if (e === currentPoint) {
               $(selectedMainErrorClass[e]).html(txt).removeClass('hidden');
 
-              if (counter == 0) {
+              if (counter === 0) {
                 let newClass = mainErrorClass +
                     currentPoint; //create a new class from the combination of the field class and current index
                 $(selectedMainErrorClass[e]).siblings('input').addClass(
@@ -1018,7 +1021,7 @@ let validateModule = function(){
           //$('.err_'+i).html(txt).removeClass('hidden');
         }
         //show the field with the first error message
-        if (parseFloat(counter) == parseFloat(errorStatementLenght - 1)) {
+        if (parseFloat(counter) === parseFloat(errorStatementLenght - 1)) {
           if (showField === 'on') {
             this.scrollIntoDomView(theKey, useClassForFieldFocus);
             //returnFunctions.showSuccessToaster('Some validation errors occurred.', 'warning');
@@ -1038,7 +1041,7 @@ let validateModule = function(){
     $(".errorAreaHolder").html(error);
     $(".errorCarrierBox").removeClass("hidden");
     let elementHeight = $(".errorAreaHolderMain").height();
-    if (elementHeight == 500) {
+    if (elementHeight === 500) {
       $(".errorCarrierBox").attr({
         'title': 'scroll down with scroll the bar to view more errors'
       })
@@ -1050,7 +1053,7 @@ let validateModule = function(){
     let stringValue = '';
     let mainLen = parseFloat(fileTypeArray.length) - parseFloat(1);
     for (let i = 0; i < fileTypeArray.length; i++) {
-      if (mainLen == i) {
+      if (mainLen === i) {
         stringValue += 'or ' + fileTypeArray[i] + ' file';
       } else {
         stringValue += fileTypeArray[i] + ' file,';
@@ -1085,7 +1088,7 @@ let validateModule = function(){
   }
 
   function chckForLogout(incomingErrorArray) {
-    if (this.checkIfInArray('Please Login to continue', incomingErrorArray) != -1) {
+    if (this.checkIfInArray('Please Login to continue', incomingErrorArray) !== -1) {
       setTimeout(async function() {
         //get the user details
         /*let userType = await getRequest('../getTypeOfUser.php?get_user_type');

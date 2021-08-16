@@ -15,6 +15,9 @@ import ForgotPassword from "./Screens/ForgotPassword";
 import ChangePassword from "./Screens/ChangePassword";
 import TwoFactorAuthForPasswordChange from "./Screens/TwoFactorAuthForPasswordChange";
 import ConfirmPasswordAuth from "./Screens/ConfirmPasswordAuth";
+import P2P from  "./Screens/P2P";
+import GoogleAuth from "./Screens/GoogleAuth"
+
 
 import { Provider } from "react-redux";
 import {store, persistedStore} from "./redux/store";
@@ -46,11 +49,13 @@ function App() {
                       <ChangePassword />
                   </Route>
                   <Route path="/authentication/:email" component={LoginAuthentication} />
+                  <Route path="/two_factor_authentication/:email" component={GoogleAuth} />
                   <Route path="/login" component={Login} />
                   <Route path="/fees" component={Fees} />
                   <Route path="/features" component={Features} />
                   <Route path="/wallet" component={Wallet} />
                   <Route path="/buy-crypto-card" component={BuyCrptoCard} />
+                  <Route path="/buy-sell-p2p" component={P2P} />
                   <Footer />
               </Router>
           </PersistGate>
