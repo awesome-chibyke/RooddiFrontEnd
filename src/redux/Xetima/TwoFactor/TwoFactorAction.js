@@ -33,6 +33,7 @@ const twoFactorActivationFailure = (message) => {
 
 export const activateTwoFactorAction = (loginData) => async (dispatch) => {
 
+
     try{
 
         if(loginData.isLogged === true){
