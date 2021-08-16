@@ -31,18 +31,14 @@ const twoFactorActivationFailure = (message) => {
     }
 }
 
-export const activateTwoFactorAction = (image, loginData) => async (dispatch) => {
+export const activateTwoFactorAction = (loginData) => async (dispatch) => {
     dispatch(twoFactorActivation());
-    // console.log(image)
-    // console.log(loginData)
+    console.log(loginData)
     try{
-        if(image.length > 0){
-            dispatch(twoFactorActivationSuccess({bar_code_data:image}, ''));
-        }else{
-            if(loginData === true){
+        if(loginData.isLogged === true){
                 let handleaTwoFactorAction = await getRequest(BACKEND_BASE_URL+"two_factor/activate_two_factor_auth", headerIncluder(loginData.user_data.token));
+                // console.log(handleaTwoFactorAction)
                 let returnedObject = handleaTwoFactorAction.data;
-                console.log(handleaTwoFactorAction)
                 console.log(handleaTwoFactorAction.data)
                 let {message, status, message_type, data} = returnedObject
                 if(status === true){
@@ -55,7 +51,6 @@ export const activateTwoFactorAction = (image, loginData) => async (dispatch) =>
                     });
                 }
             }
-        }
     }catch(err){
         dispatch(twoFactorActivationFailure(err.message));
     }

@@ -21,9 +21,9 @@ const Dashboard = () => {
     //     var {token} = user_data;
     //   }
 
-    const activateTwoFactorHandler = async (loginData) =>{
+    const activateTwoFactorHandler = (loginData) =>{
         if(loginData.isLogged === true){
-            dispatch(await activateTwoFactorAction(loginData));
+            dispatch(activateTwoFactorAction(loginData));
         }
             
     }
