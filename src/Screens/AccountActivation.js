@@ -49,7 +49,13 @@ const AcccountActivation = () => {
 
   }, [registrationData]);
 
-  const {error:errorMessage, success:successMessage} = ErrorSuccessHook(registrationData.success_message, registrationData.error_message, registrationData.message, registrationData);
+  //check errors
+  let loadingStatus = false;
+  if(registrationData.loading === true){
+    loadingStatus = true;
+  }
+
+  const {error:errorMessage, success:successMessage} = ErrorSuccessHook(registrationData.success_message, registrationData.error_message, registrationData.message, registrationData, loadingStatus);
 
   if(loginData.isLogged === true){
     setTimeout(() => {

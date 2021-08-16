@@ -1,29 +1,19 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-
-/* eslint-disable no-unused-vars */
-/* eslint-disable jsx-a11y/heading-has-content */
-/* eslint-disable no-script-url */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react";
-import { sendEmailPost, verifyTokenPost, changePasswordPost, resetPasswordChangeKey } from "../redux";
-import { connect, useSelector, useDispatch } from "react-redux";
-import { Route, Redirect, Switch, Link } from "react-router-dom";
+import { sendEmailPost, resetForgotPasswordState } from "../redux";
+import { useSelector, useDispatch } from "react-redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
+import RedirectHook from "../redux/RedirectHook";
 
-const ChangePassword = () => {
+const TwoFactorAuthForPasswordChange = () => {
 
-    const [password, setPassword] = useState("");
-
-    const [redirect, setRedirect] = useState(false);//redirect state
+    const [email, setEmail] = useState("");
+    const [disabled, setDisabled] = useState(false);
 
     let passwordObject = { type: "password", class_name: "fa-eye-slash" };
-    const [inputType, changePaswordInputType] = useState(passwordObject);
 
     let allStateObject = useSelector((state) => state);
     let { login, forgotpassword:forgotPasswordState } = allStateObject;
-
-    const dispatch = useDispatch(); //for action dispatch
 
     //check errors
     let loadingStatus = false;
@@ -32,12 +22,13 @@ const ChangePassword = () => {
     }
     const {error:errorMessage, success:successMessage} = ErrorSuccessHook(forgotPasswordState.success, forgotPasswordState.error, forgotPasswordState.message, forgotPasswordState, loadingStatus);
 
-    useEffect(() =>{//use this the use effect to chenge component state
-        if(forgotPasswordState.change_password_status === true){
-            setRedirect(true);
-            dispatch(resetPasswordChangeKey());
-        }
-    }, [forgotPasswordState])
+    const dispatch = useDispatch(); //for action dispatch
+
+    const redirect = RedirectHook(forgotPasswordState.initial_send_mail_status, forgotPasswordState);
+
+    useEffect(() => {
+        dispatch(resetForgotPasswordState());
+    }, [])
 
     return (
 
@@ -69,30 +60,23 @@ const ChangePassword = () => {
                             <div className="col-lg-5 col-md-5 col-12">
                                 <div className="box box-body">
                                     <div className="content-top-agile pb-0 pt-20">
-                                        <h2 className="text-primary">Change Password</h2>
+                                        <h2 className="text-primary">Forgot Password</h2>
                                         {/*<p className="mb-0">
                                             Forgot Password
                                         </p>*/}
                                         <center>
                                             <small className="text-success">
                                                 <i className="fa fa-warning" />
-                                                Please provide your new password below
+                                                Please provide Your email address
                                             </small>
                                         </center>
                                         <p />
                                     </div>
                                     <div>
                                         <form action method="post">
-
                                             <div className="form-group">
                                                 <div className="form-group">
 
-
-                                                    {successMessage && (
-                                                        <p className="alert alert-success  text-center">
-                                                            {successMessage}
-                                                        </p>
-                                                    )}
 
                                                     {errorMessage && (
                                                         <p className="alert alert-danger  text-center">
@@ -100,52 +84,39 @@ const ChangePassword = () => {
                                                         </p>
                                                     )}
 
-                                                    {redirect === true ? (
+                                                    {successMessage && (
+                                                        <p className="alert alert-success  text-center">
+                                                            {successMessage}
+                                                        </p>
+                                                    )}
+
+                                                    {redirect === true && forgotPasswordState.message_type === 'forgot_password_auth_app' ? (
                                                         <DelayedRedirect
-                                                            to={`/login`}
+                                                            to={`/confirm_auth_token/${email}`}
                                                             delay={4000}
                                                         />
                                                     ) : (
                                                         ""
                                                     )}
 
-
                                                 </div>
-                                            </div>
 
-                                            <div className="form-group">
                                                 <div className="input-group mb-15">
-                                              <span className="input-group-text  bg-transparent">
-                                                <i className="ti-lock" />
-                                              </span>
+                          <span className="input-group-text bg-transparent">
+                            <i className="ti-email" />
+                          </span>
                                                     <input
-                                                        id="password"
+                                                        type="email"
+                                                        id="email"
                                                         className="form-control ps-15 bg-transparent"
-                                                        placeholder="Password"
-                                                        value={password}
-                                                        onChange={(e) => setPassword(e.target.value)}
-                                                        type={inputType.type}
+                                                        placeholder="Email"
+                                                        value={email}
+                                                        onChange={(e) => setEmail(e.target.value)}
                                                     />
-                                                    <span
-                                                        onClick={(e) =>
-                                                            changePaswordInputType({
-                                                                type:
-                                                                    inputType.type === "text"
-                                                                        ? "password"
-                                                                        : "text",
-                                                                class_name:
-                                                                    inputType.class_name === "fa-eye"
-                                                                        ? "fa-eye-slash"
-                                                                        : "fa-eye",
-                                                            })
-                                                        }
-                                                        className="passwordChanger"
-                                                    >
-                                                    <i className={`fa ${inputType.class_name}`}> </i>
-                                                  </span>
-                                                    <span className="passwordChanger"></span>
                                                 </div>
-                                                <span className="error_displayer err_password"></span>
+
+                                                <span className="error_displayer err_email"></span>
+
                                             </div>
 
                                             <div className="row">
@@ -153,23 +124,23 @@ const ChangePassword = () => {
                                                 <div className="col-12 text-center">
                                                     <button
                                                         type="button"
-                                                        disabled={forgotPasswordState.verify_token_loading === true ? true : false}
+                                                        disabled={forgotPasswordState.send_forgot_email_loading === true ? true : false}
                                                         onClick={async (e) => {
                                                             dispatch(
-                                                                await changePasswordPost({email:forgotPasswordState.user_data.email,token:forgotPasswordState.user_data.token,password,password_confirmation:password, message_type:forgotPasswordState.message_type})
+                                                                await sendEmailPost(email)
                                                             );
                                                         }}
                                                         className="btn btn-info w-p100 mt-15"
                                                     >
-                                                        {forgotPasswordState.change_password_loading === true
+                                                        {forgotPasswordState.send_forgot_email_loading === true
                                                             ? forgotPasswordState.message
-                                                            : "Submit"}
+                                                            : "Verify Email"}
                                                     </button>
-
                                                 </div>
                                             </div>
 
                                         </form>
+
                                         <div className="text-center">
                                             <p className="mt-15 mb-0">
                                                 <a href="/login" className="text-warning ms-5">
@@ -190,4 +161,4 @@ const ChangePassword = () => {
     );
 };
 
-export default ChangePassword;
+export default TwoFactorAuthForPasswordChange;
