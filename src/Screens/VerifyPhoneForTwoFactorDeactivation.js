@@ -1,36 +1,47 @@
 import React, { useState, useEffect } from "react";
-import { sendEmailForTwoFactorDeactivationPost, verifyTokenSentToEmailForTwoFactorDeactivation, resetTwoFactorDeactivationState } from "../redux";
+import {
+    sendPhoneForTwoFactorDeactivationPost,
+    sendPhoneTokenForTwoFactorDeactivationPost
+} from "../redux";
+
 import { useSelector, useDispatch } from "react-redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
 import RedirectHook from "../redux/RedirectHook";
-import VerifyPhoneForTwoFactorDeactivation from "./VerifyPhoneForTwoFactorDeactivation";
+import TwoFactorAuthForPasswordChange from "./TwoFactorAuthForPasswordChange";
+import CoutryCode from "../components/Includes/CountryCode";
+import {allCountryCode} from "../components/Includes/AllCountryCodeArray";
 
-const  VerifyEmailForTwoFactorDeactivation = () => {
+const  VerifyPhoneForTwoFactorDeactivation = () => {
 
-    const [email, setEmail] = useState('');
+    const allState = useSelector(state => state);
+    let {TwoFactorDeactivationState, getCurrency} = allState;
+
+    const [phone, setPhone] = useState('');
     const [token, setToken] = useState('');
+
+
+    let defaultCountryCode = {"value": "+234",  "label": "Nigeria"};
+    for(let i in allCountryCode){
+        if(allCountryCode[i].label.toLowerCase() === getCurrency.default_currency.country_name.toLowerCase()){
+            defaultCountryCode = allCountryCode[i];
+        }
+    }
+    const [country_code, setCountryCode] = useState(defaultCountryCode);
 
     const dispatch = useDispatch();
 
     let passwordObject = { type: "password", class_name: "fa-eye-slash" }; //password display controller
     const [inputType, changePaswordInputType] = useState(passwordObject);
 
-    const allState = useSelector(state => state);
-    let {TwoFactorDeactivationState} = allState;
-
     //check errors
     let loadingStatus = false;
-    if(TwoFactorDeactivationState.verify_email_loading === true || TwoFactorDeactivationState.verify_email_token_loading === true){
+    if(TwoFactorDeactivationState.verify_email_loading === true || TwoFactorDeactivationState.verify_phone_loading === true){
         loadingStatus = true;
     }
     const {error:errorMessage, success:successMessage} = ErrorSuccessHook(TwoFactorDeactivationState.success, TwoFactorDeactivationState.error, TwoFactorDeactivationState.message, TwoFactorDeactivationState, loadingStatus);
 
-    const redirect = RedirectHook(TwoFactorDeactivationState.verify_email_token_status, TwoFactorDeactivationState);
-
-    useEffect(() => {
-        dispatch(resetTwoFactorDeactivationState());
-    }, []);
+    const redirect = RedirectHook(TwoFactorDeactivationState.verify_phone_token_status, TwoFactorDeactivationState);
 
     return (
         <>
@@ -66,17 +77,17 @@ const  VerifyEmailForTwoFactorDeactivation = () => {
                                             Forgot Password
                                         </p>*/}
                                     <center>
-                                        {TwoFactorDeactivationState.verify_email_status === false ? (
+                                        {TwoFactorDeactivationState.verify_phone_status === false ? (
                                             <small className="text-success">
                                                 <i className="fa fa-warning" />
                                                 Please provide Your email address attached to your account
                                             </small>
                                             ) : ('')}
 
-                                        {TwoFactorDeactivationState.verify_email_status === true ? (
+                                        {TwoFactorDeactivationState.verify_phone_status === true ? (
                                             <small className="text-success">
                                             <i className="fa fa-warning" />
-                                            Please provide the token sent to your email address
+                                            Please provide the phone number attached to your account
                                             </small>
                                             ) : ('')}
                                     </center>
@@ -104,7 +115,7 @@ const  VerifyEmailForTwoFactorDeactivation = () => {
 
                                                 {redirect === true ? (
                                                     <DelayedRedirect
-                                                        to={`/deactivate_two_factor_phone/${email}`}
+                                                        to={`/login`}
                                                         delay={4000}
                                                     />
                                                 ) : (
@@ -115,37 +126,40 @@ const  VerifyEmailForTwoFactorDeactivation = () => {
 
                                         </div>
 
+                                        <div className="form-group">
 
-
-                                            {TwoFactorDeactivationState.verify_email_status === false ? (
+                                            {TwoFactorDeactivationState.verify_phone_status === false ? (
                                                 <>
-                                                <div className="form-group">
-                                                    <div className="input-group mb-15">
-                                                          <span className="input-group-text bg-transparent">
-                                                            <i className="ti-email" />
-                                                          </span>
-                                                        <input
-                                                            type="email"
-                                                            id="email"
-                                                            className="form-control ps-15 bg-transparent"
-                                                            placeholder="Email"
-                                                            value={email}
-                                                            onChange={(e) => setEmail(e.target.value)}
-                                                        />
-                                                    </div>
+                                                <div className="col-4 col-sm-4" style={{display:"inline-block"}}>
+                                                    <CoutryCode selectedCountry={country_code}  setCountry={setCountryCode} />
+                                                </div>
+                                                <div className="col-8 col-sm-8" style={{display:"inline-block"}}>
 
-                                                    <span className="error_displayer err_email"></span>
+                                                    <input
+
+                                                        type="text"
+                                                        id="phone"
+                                                        className="form-control ps-15 bg-transparent"
+                                                        placeholder="Phone"
+                                                        value={phone}
+                                                        onChange={(e) => setPhone(e.target.value)}
+                                                    />
+
+                                                </div>
+                                                <div className="col-12 col-sm-12" >
+                                                    <div className="err_country_code error_displayer"></div>
+                                                    <div className="error_displayer err_phone"></div>
                                                 </div>
                                                 </>
                                             ) : ('')}
 
-                                            {TwoFactorDeactivationState.verify_email_status === true ? (
+                                            {TwoFactorDeactivationState.verify_phone_status === true ? (
                                                 <>
                                                     <div className="form-group">
                                                         <div className="input-group mb-15">
-                                                          <span className="input-group-text  bg-transparent">
-                                                            <i className="fa fa-asterisk" />
-                                                          </span>
+                                                              <span className="input-group-text  bg-transparent">
+                                                                <i className="ti-lock" />
+                                                              </span>
                                                             <input
                                                                 id="token"
                                                                 className="form-control ps-15 bg-transparent"
@@ -169,48 +183,53 @@ const  VerifyEmailForTwoFactorDeactivation = () => {
                                                                 }
                                                                 className="passwordChanger"
                                                             >
-                            <i className={`fa ${inputType.class_name}`}> </i>
-                          </span>
+                                                                    <i className={`fa ${inputType.class_name}`}> </i>
+                                                                  </span>
                                                             <span className="passwordChanger"></span>
                                                         </div>
-                                                        <span className="error_displayer err_token"></span>
+                                                        <span className="error_displayer err_phone"></span>
                                                     </div>
                                                 </>
                                             ) : ('')}
 
+
+
+                                        </div>
+
                                         <div className="row">
-                                            {TwoFactorDeactivationState.verify_email_status === false ? (
+                                            {TwoFactorDeactivationState.verify_phone_status === false ? (
                                                 <div className="col-12 text-center">
                                                     <button
                                                         type="button"
-                                                        disabled={TwoFactorDeactivationState.verify_email_loading === true ? true : false}
+                                                        disabled={TwoFactorDeactivationState.verify_phone_loading === true ? true : false}
                                                         onClick={() => {
                                                             dispatch(
-                                                                sendEmailForTwoFactorDeactivationPost(email)
+                                                                sendPhoneForTwoFactorDeactivationPost({phone, token, country_code, email:TwoFactorDeactivationState.email})
                                                             );
                                                         }}
                                                         className="btn btn-info w-p100 mt-15"
                                                     >
-                                                        {TwoFactorDeactivationState.verify_email_loading === true
+                                                        {TwoFactorDeactivationState.verify_phone_loading === true
                                                             ? TwoFactorDeactivationState.message
-                                                            : "Verify Email"}
+                                                            : "Verify Phone Number"}
                                                     </button>
                                                 </div>
                                             ) : ('')}
 
-                                            {TwoFactorDeactivationState.verify_email_status === true ? (
+
+                                            {TwoFactorDeactivationState.verify_phone_status === true ? (
                                                 <div className="col-12 text-center">
                                                     <button
                                                         type="button"
-                                                        disabled={TwoFactorDeactivationState.verify_email_token_loading === true ? true : false}
-                                                        onClick={() => {
+                                                        disabled={TwoFactorDeactivationState.verify_phone_token_loading === true ? true : false}
+                                                        onClick={async () => {
                                                             dispatch(
-                                                                verifyTokenSentToEmailForTwoFactorDeactivation({email:TwoFactorDeactivationState.email, token})
+                                                                sendPhoneTokenForTwoFactorDeactivationPost({phone, token, country_code, email:TwoFactorDeactivationState.email})
                                                             );
                                                         }}
                                                         className="btn btn-info w-p100 mt-15"
                                                     >
-                                                        {TwoFactorDeactivationState.verify_email_token_loading === true
+                                                        {TwoFactorDeactivationState.verify_phone_token_loading === true
                                                             ? TwoFactorDeactivationState.message
                                                             : "Verify Token"}
                                                     </button>
@@ -242,4 +261,4 @@ const  VerifyEmailForTwoFactorDeactivation = () => {
 
 }
 
-export default VerifyEmailForTwoFactorDeactivation;
+export default VerifyPhoneForTwoFactorDeactivation;

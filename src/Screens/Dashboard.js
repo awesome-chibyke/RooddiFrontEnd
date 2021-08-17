@@ -8,18 +8,10 @@ import Try from "../components/Try";
 import Try_ from "../components/Try_";
 
 const Dashboard = () => {
+
     const dispatch = useDispatch();
     const allStateObject = useSelector(state => state);
     let {login:loginData} = allStateObject;
-
-    // useEffect(() => {
-    //   dispatch(activateTwoFactorAction( loginData ));
-    // }, [activateTwofactor]);
-    // let {isLogged, user_data} = loginData;
-    // if(isLogged === true){
-    //     //check if the islogged is true
-    //     var {token} = user_data;
-    //   }
 
     const activateTwoFactorHandler = async (loginData) =>{
         if(loginData.isLogged === true){
@@ -27,7 +19,6 @@ const Dashboard = () => {
         }
             
     }
-
     
     const [displaySecondModal, setDisplaySecondModal] = useState('none');
     const [displayFirstModal, setDisplayFirstModal] = useState('none');
