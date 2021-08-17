@@ -76,6 +76,7 @@ code {
     animation-duration: 0.4s;
   }
 }
+
 @media (min-width: 768px) {
     .modal-width-control{
         width: 80%;
