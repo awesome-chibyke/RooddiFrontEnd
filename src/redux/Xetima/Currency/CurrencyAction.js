@@ -48,8 +48,7 @@ const choseCurrencySuccess = (data, message) =>{
 };
 
 
-export const getAllCurrencyPost = (currencyArray, default_currency, loginData) => {
-    return  async (dispatch) => {
+export const getAllCurrencyPost = (currencyArray, default_currency, loginData) => {return  async (dispatch) => {
         dispatch(getAllCurrency());
         try{
             if(currencyArray.length > 0){

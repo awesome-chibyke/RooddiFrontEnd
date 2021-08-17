@@ -1,40 +1,34 @@
-import { useSelector, useDispatch  } from "react-redux";
 /* eslint-disable no-unused-vars */
+import { useSelector, useDispatch  } from "react-redux";
 import React, { useState, useEffect} from "react";
 import { activateTwoFactorAction } from "../redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import DynamiicModal from "../components/DynamiicModal";
 import Try from "../components/Try";
 import Try_ from "../components/Try_";
+import { Markup } from 'interweave';
 
 const Dashboard = () => {
     const dispatch = useDispatch();
     const allStateObject = useSelector(state => state);
-    let {login:loginData} = allStateObject;
+    let {login:loginData, activate_twofactor} = allStateObject;
+    const { barCode, otpauth_url } = activate_twofactor;
 
-    // useEffect(() => {
-    //   dispatch(activateTwoFactorAction( loginData ));
-    // }, [activateTwofactor]);
-    // let {isLogged, user_data} = loginData;
-    // if(isLogged === true){
-    //     //check if the islogged is true
-    //     var {token} = user_data;
-    //   }
+    let splittedValue = []; console.log(barCode)
+    if(barCode !== null){
+        splittedValue = barCode.split(',');
+    }
 
     const activateTwoFactorHandler = (loginData) =>{
         if(loginData.isLogged === true){
             dispatch(activateTwoFactorAction(loginData));
-        }
-            
-    }
-
-    
+        }    
+    }  
     const [displaySecondModal, setDisplaySecondModal] = useState('none');
     const [displayFirstModal, setDisplayFirstModal] = useState('none');
 
 
     if(loginData.isLogged === false){ window.location.href = '/login' }
-
     return (
         <>
             {loginData.isLogged === false ? <DelayedRedirect to={`/login`} delay={500} />  :'' }
@@ -50,7 +44,12 @@ const Dashboard = () => {
                             <br></br>
                         <span className="btn btn-success mt-4 mb-4" onClick={() => activateTwoFactorHandler(loginData)}> Activate Two Factor</span>
 
-                        <DynamiicModal
+                            <div>
+                            {/* src={`data:image/png;base64,${splittedValue.length > 0 ? splittedValue[1] : ''}`} */}
+                            <image style={{width:"100px"}} src={otpauth_url} />
+                            </div>                        
+                            {/* <image style={{width:"100px"}} src={`data:image/png;base64,${splittedValue.length > 0 ? splittedValue[1] : ''}`} /> */}
+                            <DynamiicModal
                             widthSize={'100%'}
                             marginLeft={'0%'}
                             marginRight={'0%'}

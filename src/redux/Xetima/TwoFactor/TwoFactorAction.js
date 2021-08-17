@@ -15,7 +15,7 @@ const twoFactorActivation = () => {
         message:''
     };
 };
-
+//action.payload.bar_code_data
 const twoFactorActivationSuccess = ({data, message }) => {
     return {
         type:ACTIVATE_TWOFACTOR_SUCCESS,
@@ -32,20 +32,16 @@ const twoFactorActivationFailure = (message) => {
 }
 
 export const activateTwoFactorAction = (loginData) => async (dispatch) => {
-
-
+    dispatch(twoFactorActivation());
     try{
-
         if(loginData.isLogged === true){
-            dispatch(twoFactorActivation());
             let handleaTwoFactorAction = await getRequest(BACKEND_BASE_URL+"two_factor/activate_two_factor_auth", headerIncluder(loginData.user_data.token));
-
             let returnedObject = handleaTwoFactorAction.data;
-            console.log(handleaTwoFactorAction)
-            console.log(handleaTwoFactorAction.data)
-            let {message, status, message_type, data} = returnedObject
+            let {status, message, data} = returnedObject;
+            let {bar_code_data, otpauth_url} = data;
             if(status === true){
-                dispatch(twoFactorActivationSuccess(data, message));
+                // dispatch(twoFactorActivationSuccess(data, message));
+                dispatch({type:ACTIVATE_TWOFACTOR_SUCCESS, payload:bar_code_data, otpauth_url});
             }else{
                 validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
                 dispatch({
@@ -53,9 +49,6 @@ export const activateTwoFactorAction = (loginData) => async (dispatch) => {
                     message:message
                 });
             }
-        }else{
-            throw new Error('User Authentication Failed');
-            window.location.href = '/login';
         }
     }catch(err){
         dispatch(twoFactorActivationFailure(err.message));

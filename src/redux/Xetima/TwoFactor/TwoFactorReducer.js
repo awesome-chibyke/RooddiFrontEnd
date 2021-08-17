@@ -8,7 +8,8 @@ const initialState = {
     user_data: [],
     message:'',
     activate_twofactor:false,
-    twofactor:'',
+    barCode:null,
+    otpauth_url:null,
     error:false,
     success:false,
 };
@@ -21,7 +22,7 @@ const ActivtateTwoFactorReducer = (state = initialState, action) => {
                 user_data: [],
                 message:action.message,
                 activate_twofactor:true,
-                twofactor:'',
+                barCode:null,
                 error:false,
                 success:false,
             };
@@ -31,7 +32,8 @@ const ActivtateTwoFactorReducer = (state = initialState, action) => {
                 user_data: [],
                 message:action.message,
                 activate_twofactor:true,
-                twofactor:action.payload,
+                barCode:action.payload,
+                otpauth_url:action.otpauth_url,
                 error:false,
                 success:true,
             };
@@ -40,7 +42,6 @@ const ActivtateTwoFactorReducer = (state = initialState, action) => {
                 ...state,
                 message:action.message,
                 activate_twofactor:false,
-                twofactor:'',
                 error:true,
                 success:false,
             };
