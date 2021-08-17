@@ -9,6 +9,7 @@ import Try_ from "../components/Try_";
 import { Markup } from 'interweave';
 
 const Dashboard = () => {
+
     const dispatch = useDispatch();
     const allStateObject = useSelector(state => state);
     let {login:loginData, activate_twofactor} = allStateObject;
@@ -24,6 +25,7 @@ const Dashboard = () => {
             dispatch(activateTwoFactorAction(loginData));
         }    
     }  
+    
     const [displaySecondModal, setDisplaySecondModal] = useState('none');
     const [displayFirstModal, setDisplayFirstModal] = useState('none');
 
