@@ -15,7 +15,7 @@ const rootReducer = combineReducers({
   display_modal:ModalReducer,
   TwoFactorDeactivationState:TwoFactorDeactivationReducer,
   getCurrency:GetCurrencyReducer,
-  activate_twofactor:ActivtateTwoFactorReducer
+  twofactor:ActivtateTwoFactorReducer
 });
 
 export default rootReducer;
