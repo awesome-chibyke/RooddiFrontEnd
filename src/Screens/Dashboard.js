@@ -8,10 +8,12 @@ import Try from "../components/Try";
 import Try_ from "../components/Try_";
 
 const Dashboard = () => {
+
     const dispatch = useDispatch();
     const allStateObject = useSelector(state => state);
     let {login:loginData} = allStateObject;
     let {login} = allStateObject;
+
     const [displaySecondModal, setDisplaySecondModal] = useState('none');
     const [displayFirstModal, setDisplayFirstModal] = useState('none');
 

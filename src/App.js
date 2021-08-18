@@ -19,6 +19,9 @@ import P2P from  "./Screens/P2P";
 import GoogleAuth from "./Screens/GoogleAuth"
 import TwoFactor from "./Screens/TwoFactor";
 import FinaliseTwoFactor from "./Screens/FinaliseTwoFactor";
+import VerifyEmailForTwoFactorDeactivation from "./Screens/VerifyEmailForTwoFactorDeactivation";
+import VerifyPhoneForTwoFactorDeactivation from "./Screens/VerifyPhoneForTwoFactorDeactivation";
+
 
 
 import { Provider } from "react-redux";
@@ -49,6 +52,13 @@ function App() {
                   </Route>
                   <Route path="/change_password">
                       <ChangePassword />
+                  </Route>
+                  <Route path="/disable_two_factor">
+                      <VerifyEmailForTwoFactorDeactivation />
+                  </Route>
+
+                  <Route path="/deactivate_two_factor_phone/:email">
+                      <VerifyPhoneForTwoFactorDeactivation />
                   </Route>
                   <Route path="/authentication/:email" component={LoginAuthentication} />
                   <Route path="/two_factor_authentication/:email" component={GoogleAuth} />
