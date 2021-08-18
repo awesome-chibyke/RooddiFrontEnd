@@ -1,31 +1,19 @@
 /* eslint-disable no-unused-vars */
 import { useSelector, useDispatch  } from "react-redux";
 import React, { useState, useEffect} from "react";
-import { activateTwoFactorAction } from "../redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import DynamiicModal from "../components/DynamiicModal";
+import { Link } from "react-router-dom";
 import Try from "../components/Try";
 import Try_ from "../components/Try_";
-import { Markup } from 'interweave';
 
 const Dashboard = () => {
 
     const dispatch = useDispatch();
     const allStateObject = useSelector(state => state);
-    let {login:loginData, activate_twofactor} = allStateObject;
-    const { barCode, otpauth_url } = activate_twofactor;
+    let {login:loginData} = allStateObject;
+    let {login} = allStateObject;
 
-    let splittedValue = []; console.log(barCode)
-    if(barCode !== null){
-        splittedValue = barCode.split(',');
-    }
-
-    const activateTwoFactorHandler = (loginData) =>{
-        if(loginData.isLogged === true){
-            dispatch(activateTwoFactorAction(loginData));
-        }    
-    }  
-    
     const [displaySecondModal, setDisplaySecondModal] = useState('none');
     const [displayFirstModal, setDisplayFirstModal] = useState('none');
 
@@ -44,13 +32,14 @@ const Dashboard = () => {
 
                         <button  className="text-white" className="btn btn-success" onClick={() => setDisplaySecondModal(displaySecondModal === 'none' ? 'block': 'none') }>Open Modal</button>
                             <br></br>
-                        <span className="btn btn-success mt-4 mb-4" onClick={() => activateTwoFactorHandler(loginData)}> Activate Two Factor</span>
-
-                            <div>
-                            {/* src={`data:image/png;base64,${splittedValue.length > 0 ? splittedValue[1] : ''}`} */}
-                            <image style={{width:"100px"}} src={otpauth_url} />
-                            </div>                        
-                            {/* <image style={{width:"100px"}} src={`data:image/png;base64,${splittedValue.length > 0 ? splittedValue[1] : ''}`} /> */}
+                            {login.message_type === 'login_auth_app' ? (
+                                <Link className="btn btn-success mt-4 mb-4" to="/two_factor"> Click To Activate Two Factor</Link>
+                                
+                             ) : (
+                                <Link className="btn btn-success mt-4 mb-4" to="/"> Click To Disable Two Factor</Link>
+                                 )}
+                            
+                            
                             <DynamiicModal
                             widthSize={'100%'}
                             marginLeft={'0%'}

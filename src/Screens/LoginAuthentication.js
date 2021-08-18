@@ -28,7 +28,7 @@ const LoginAuthentication = () => {
   const [inputType, changePaswordInputType] = useState(passwordObject);
 
   let allStateObject = useSelector((state) => state);
-  let { login: loginData } = allStateObject;// all the available states
+  let { login:loginData } = allStateObject;// all the available states
 
   const dispatch = useDispatch(); //for action dispatch
 

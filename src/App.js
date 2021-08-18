@@ -17,8 +17,11 @@ import TwoFactorAuthForPasswordChange from "./Screens/TwoFactorAuthForPasswordCh
 import ConfirmPasswordAuth from "./Screens/ConfirmPasswordAuth";
 import P2P from  "./Screens/P2P";
 import GoogleAuth from "./Screens/GoogleAuth"
+import TwoFactor from "./Screens/TwoFactor";
+import FinaliseTwoFactor from "./Screens/FinaliseTwoFactor";
 import VerifyEmailForTwoFactorDeactivation from "./Screens/VerifyEmailForTwoFactorDeactivation";
 import VerifyPhoneForTwoFactorDeactivation from "./Screens/VerifyPhoneForTwoFactorDeactivation";
+
 
 
 import { Provider } from "react-redux";
@@ -65,6 +68,8 @@ function App() {
                   <Route path="/wallet" component={Wallet} />
                   <Route path="/buy-crypto-card" component={BuyCrptoCard} />
                   <Route path="/buy-sell-p2p" component={P2P} />
+                  <Route path="/two_factor" component={TwoFactor} />
+                  <Route path="/two_factor_finalize" component={FinaliseTwoFactor} />
                   <Footer />
               </Router>
           </PersistGate>

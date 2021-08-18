@@ -184,8 +184,7 @@ const authenticationUserFailure = (message) => {
     };
 };
 
-export const AuthenticationPost = async (AuthenticationData) => {
-    return async (dispatch) => {
+export const AuthenticationPost = async (AuthenticationData) => { return async (dispatch) => {
         validateModule.ClearErrorFields(); //clear error fields
 
         dispatch(authenticationUserAction());
