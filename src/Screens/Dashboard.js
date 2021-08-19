@@ -19,6 +19,7 @@ const Dashboard = () => {
 
 
     if(loginData.isLogged === false){ window.location.href = '/login' }
+
     return (
         <>
             {loginData.isLogged === false ? <DelayedRedirect to={`/login`} delay={500} />  :'' }
