@@ -192,6 +192,15 @@ const UserLoginReducer = (state = initialState, action) => {
             return {
                 ...state,
                 message:'',
+                message_type:'normal',
+                loading:false,
+                error_message:false,
+                logout_error:false,
+                logout_success:false,
+                success_message:false,
+                isLogged:false,
+                logout_loading:false,
+                resend_code_loading:false
             }
         default:
             return state;
