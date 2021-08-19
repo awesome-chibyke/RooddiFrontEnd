@@ -14,11 +14,11 @@ const P2PModal = ({closeModal, toggleAccountModal, accountModalStatus}) => {
               
             <div className=" col-12 col-sm-8">
                 <div className="row">
-                    <h6>
+                    <h6 style={fontStyles}>
                     ⭐Madu Ifeanyi Emmanuel &nbsp;2293 orders &nbsp;|&nbsp; 97.91% completion
                     </h6>
                     <div className="col-12 col-sm-6 price-payment" style={{marginTop: '0.5rem'}}>
-                        <h6>Price &nbsp;
+                        <h6 style={fontStyles}>Price &nbsp;
                             <span 
                             style={{
                                 fontSize: '1.2rem',
@@ -28,15 +28,15 @@ const P2PModal = ({closeModal, toggleAccountModal, accountModalStatus}) => {
                             </span>
                             24s 
                         </h6>
-                        <h6>
+                        <h6 style={fontStyles}>
                             Payment Time Limit <span style={{fontSize: '1rem'}}>15 Minutes</span> 
                         </h6>
                     </div>
                     <div className="col-12 col-sm-6">
-                        <h6>
+                        <h6 style={fontStyles}>
                             Available <span style={{fontSize: '1rem'}}>15.35 USDT</span> 
                         </h6>
-                        <h6>
+                        <h6 style={fontStyles}>
                             Seller's payments method &nbsp;
                             <OverlayTrigger 
                                     placement="bottom"
@@ -60,8 +60,8 @@ const P2PModal = ({closeModal, toggleAccountModal, accountModalStatus}) => {
                     </p>
                 </div>
             </div>
-              <div className="col-12 col-sm-4" style={{borderLeft: '1px solid gray'}}>
-              <Form.Label style={{fontWeight: '500'}}>I want to pay</Form.Label>
+              <div className="col-12 col-sm-4" style={{borderLeft: '1px solid #e4e6ef'}}>
+              <Form.Label style={fontStyles}>I want to pay</Form.Label>
               <InputGroup className="mb-3">
                         <FormControl
                         placeholder="Enter amount in naira"
@@ -72,7 +72,7 @@ const P2PModal = ({closeModal, toggleAccountModal, accountModalStatus}) => {
                         NGN
                         </Button>
                 </InputGroup>
-                <Form.Label style={{fontWeight: '500'}}>I will receive</Form.Label>
+                <Form.Label style={fontStyles}>I will receive</Form.Label>
               <InputGroup className="mb-3">
                         <FormControl
                         placeholder="Equivalent in crypto"
