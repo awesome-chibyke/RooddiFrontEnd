@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { finaliseTwoFactor } from "../redux";
+import { finaliseTwoFactor, activateTwoFactorAction } from "../redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
+import {Link} from "react-router-dom";
 
 const FinaliseTwoFactor = () => {
   const dispatch = useDispatch();
@@ -32,6 +33,10 @@ const FinaliseTwoFactor = () => {
     loginData
   );
 
+  useEffect(() => {
+    dispatch(activateTwoFactorAction(loginData))
+  }, [])
+
   return (
     <>
       {/*Redirect to login if isLogged is false  */}
@@ -50,7 +55,11 @@ const FinaliseTwoFactor = () => {
             <div className="row">
               <div className="col-1 col-sm-4"></div>
               <div className="col-10 col-sm-4">
-                <img src={barCode} alt="" />
+
+                {loginData.user_data.user.auth_type === 'email' ? (
+                    <img src={barCode} alt="" />
+                ) : ('')}
+
 
                 <form action method="post">
                   {successMessage && (
@@ -62,35 +71,46 @@ const FinaliseTwoFactor = () => {
                   {errorMessage && (
                     <p className="alert alert-danger">{errorMessage}</p>
                   )}
-                  <div className="form-group">
-                    <input
-                      style={{ marginTop: "20px" }}
-                      id="token"
-                      className="form-control ps-15 bg-transparent"
-                      placeholder="Enter Token"
-                      value={token}
-                      onChange={(e) => setToken(e.target.value)}
-                    />
-                    <div className="row">
-                      <div className="col-12 text-center">
-                        {loginData.isLogged === true ? (
-                            <button
-                            type="button"
-                            onClick={async () =>
-                              dispatch(
-                                await finaliseTwoFactor({token, loginData})
-                              )
-                            }
-                            className="btn btn-primary w-p100 mt-15"
-                          >
-                            Submit
-                          </button>
-                        ) : (
-                          ""
-                        )}
-                      </div>
-                    </div>
-                  </div>
+
+
+                    {loginData.user_data.user.auth_type === 'email' ? (
+                        <>
+                          <div className="form-group">
+                          <input
+                              style={{ marginTop: "20px" }}
+                              id="token"
+                              className="form-control ps-15 bg-transparent"
+                              placeholder="Enter Token"
+                              value={token}
+                              onChange={(e) => setToken(e.target.value)}
+                          />
+
+                          <div className="row">
+                            <div className="col-12 text-center">
+                              {loginData.isLogged === true ? (
+                                  <button
+                                      type="button"
+                                      onClick={async () =>
+                                          dispatch(
+                                              await finaliseTwoFactor({token, loginData})
+                                          )
+                                      }
+                                      className="btn btn-primary w-p100 mt-15"
+                                  >
+                                    Submit
+                                  </button>
+                              ) : (
+                                  ""
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                        </>
+                    ) : (
+                        <Link className="btn btn-success mt-4 mb-4" to="/"> Click To Disable Two Factor</Link>
+                    )}
+
+
                 </form>
                 {twofactor.finalise_twofactor === true ? (
                   <div>{secretCode}</div>

@@ -33,8 +33,8 @@ const Dashboard = () => {
 
                         <button  className="text-white" className="btn btn-success" onClick={() => setDisplaySecondModal(displaySecondModal === 'none' ? 'block': 'none') }>Open Modal</button>
                             <br></br>
-                            {login.message_type === 'login_auth_app' ? (
-                                <Link className="btn btn-success mt-4 mb-4" to="/two_factor"> Click To Activate Two Factor</Link>
+                            {login.user_data.user.auth_type === 'email' ? (
+                                <Link className="btn btn-success mt-4 mb-4" to="/two_factor_finalize"> Click To Activate Two Factor</Link>
                                 
                              ) : (
                                 <Link className="btn btn-success mt-4 mb-4" to="/"> Click To Disable Two Factor</Link>

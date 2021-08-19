@@ -73,7 +73,6 @@ const ActivtateTwoFactorReducer = (state = initialState, action) => {
                 activate_twofactor:true,
                 finalise_twofactor:true,
                 barCode:null,
-                otpauth_url:action.otpauth_url,
                 error:false,
                 success:true,
             };

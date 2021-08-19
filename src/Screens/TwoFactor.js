@@ -30,7 +30,7 @@ const TwoFactor = () => {
             <h3 className="text-white">Activate Two Factor</h3>
             <span
               className="btn btn-success mt-4 mb-4"
-              onClick={() => activateTwoFactorHandler(loginData)}
+              /*onClick={() => activateTwoFactorHandler(loginData)}*/
             >
               {" "}
               Activate Two Factor
