@@ -68,3 +68,28 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+export const activateTwoFactorAction = (loginData) => async (dispatch) => {
+    dispatch(twoFactorActivation());
+    console.log(loginData)
+    try{
+        if(loginData.isLogged === true){
+                let handleaTwoFactorAction = await getRequest(BACKEND_BASE_URL+"two_factor/activate_two_factor_auth", headerIncluder(loginData.user_data.token));
+                // console.log(handleaTwoFactorAction)
+                let returnedObject = handleaTwoFactorAction.data;
+                console.log(handleaTwoFactorAction.data)
+                let {message, status, message_type, data} = returnedObject
+                if(status === true){
+                    dispatch(twoFactorActivationSuccess(data, message));
+                }else{
+                    validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
+                    dispatch({
+                        type:ACTIVATE_TWOFACTOR_FAILURE,
+                        message:message
+                    });
+                }
+            }
+    }catch(err){
+        dispatch(twoFactorActivationFailure(err.message));
+    }
+}

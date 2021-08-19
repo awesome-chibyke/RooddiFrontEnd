@@ -1,7 +1,6 @@
-/* eslint-disable no-unused-vars */
-import { SEND_EMAIL,SEND_EMAIL_SUCCESS,SEND_EMAIL_FAILURE,VERIFY_EMAIL,VERIFY_EMAIL_SUCCESS,VERIFY_EMAIL_FAILURE,VERIFY_TOKEN,VERIFY_TOKEN_SUCCESS,VERIFY_TOKEN_FAILURE,CHANGE_PASSWORD,CHANGE_PASSWORD_SUCCESS,CHANGE_PASSWORD_FAILURE, RESET_PASSWORD_CHANGE_KEY } from "./ForgotPasswordActionTypes";
-
-
+import { SEND_EMAIL,SEND_EMAIL_SUCCESS,SEND_EMAIL_FAILURE,VERIFY_EMAIL,VERIFY_EMAIL_SUCCESS,VERIFY_EMAIL_FAILURE,VERIFY_TOKEN,
+        VERIFY_TOKEN_SUCCESS,VERIFY_TOKEN_FAILURE,CHANGE_PASSWORD,CHANGE_PASSWORD_SUCCESS,CHANGE_PASSWORD_FAILURE, 
+        RESET_PASSWORD_CHANGE_KEY, RESET_FORGOT_PASSWORD_STATE } from "./ForgotPasswordActionTypes";
 
 import { BACKEND_BASE_URL, headerIncluder } from "../../../common_variables";
 import * as Validator from 'validatorjs';
@@ -17,11 +16,12 @@ const sendEmailAction = () => {//for user login
     };
 };
 
-const sendEmailSuccess = (data) => {
+const sendEmailSuccess = (data, message_type, message) => {
     return {
         type:SEND_EMAIL_SUCCESS,
-        payload:data.data,
-        message:data.message
+        payload:data,
+        message_type:message_type,
+        message:message
     }
 }
 
@@ -57,9 +57,13 @@ export const sendEmailPost = async (email) => {
         try{
             let formBody = 'email='+email;
             let handleSendEmail = await postRequest(BACKEND_BASE_URL+"forgot-password", formBody, {headers: {'Content-Type': 'application/x-www-form-urlencoded'} });
-            let data = handleSendEmail.data;
-            if(data.status === true){
-                dispatch(sendEmailSuccess(data));
+
+            let {status,message,message_type, data} = handleSendEmail.data;//data forgot_password_auth_app
+
+            if(status === true){
+
+                dispatch(sendEmailSuccess(data, message_type, message));
+
                 //window.location.reload();
             }else{
                 validateModule.handleErrorStatement(data.message, '', 'on', 'no', 'no');
@@ -127,7 +131,7 @@ export const verifyTokenPost = async (email, token, message_type) => {
                 dispatch(verifyTokenSuccess(data));
                 //window.location.reload();
             }else{
-                console.log(data.message)
+                //console.log(data.message)
                 validateModule.handleErrorStatement(data.message, '', 'on', 'no', 'no');
                 dispatch(verifyTokenError('A Error Occurred'));
             }
@@ -164,7 +168,7 @@ const changePasswordError = (message) => {
     }
 }
 
-export const changePasswordPost = async ({email,token,password,password_confirmation}) => {
+export const changePasswordPost = async ({email,token,password,password_confirmation, message_type}) => {
     return  async (dispatch) => {
 
         validateModule.ClearErrorFields();//clear error fields
@@ -187,7 +191,7 @@ export const changePasswordPost = async ({email,token,password,password_confirma
         }
 
         try{
-            let formBody = 'email='+email+'&token='+token+'&password='+password+"&password_confirmation="+password;
+            let formBody = 'email='+email+'&token='+token+'&password='+password+"&password_confirmation="+password+"&message_type="+message_type;
             let handlePasswordChange = await postRequest(BACKEND_BASE_URL+"forgot-password/change-password", formBody, {headers: {'Content-Type': 'application/x-www-form-urlencoded'} });
             let data = handlePasswordChange.data;
             if(data.status === true){
@@ -211,6 +215,17 @@ export const resetPasswordChangeKey = () => {
 
         dispatch({
             type:RESET_PASSWORD_CHANGE_KEY
+        });
+
+    }
+}
+
+
+export const resetForgotPasswordState = () => {
+    return  async (dispatch) => {
+
+        dispatch({
+            type:RESET_FORGOT_PASSWORD_STATE
         });
 
     }

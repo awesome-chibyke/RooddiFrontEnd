@@ -39,7 +39,7 @@ code {
   -webkit-animation-name: fadeIn; /* Fade in the background */
   -webkit-animation-duration: 0.4s;
   animation-name: fadeIn;
-  animation-duration: 0.4s
+  animation-duration: 0.4s;
 }
 
 .modal-width-control{
@@ -59,6 +59,7 @@ code {
   animation-duration: 0.4s;
   max-height: 80vh;
 }
+
 @media (max-width: 767px) {
     .modal-width-control{
         width: 100%;
@@ -72,7 +73,7 @@ code {
     -webkit-animation-name: slideIn;
     -webkit-animation-duration: 0.4s;
     animation-name: slideIn;
-    animation-duration: 0.4s
+    animation-duration: 0.4s;
   }
 }
 
@@ -89,7 +90,7 @@ code {
     -webkit-animation-name: slideIn;
     -webkit-animation-duration: 0.4s;
     animation-name: slideIn;
-    animation-duration: 0.4s
+    animation-duration: 0.4s;
   }
 }
 @media (min-width: 1200px) {
@@ -105,7 +106,7 @@ code {
     -webkit-animation-name: slideIn;
     -webkit-animation-duration: 0.4s;
     animation-name: slideIn;
-    animation-duration: 0.4s
+    animation-duration: 0.4s;
   }
 }
 

@@ -13,8 +13,17 @@ import LoginAuthentication from "./Screens/LoginAuthentication";
 import Dashboard from "./Screens/Dashboard";
 import ForgotPassword from "./Screens/ForgotPassword";
 import ChangePassword from "./Screens/ChangePassword";
+import TwoFactorAuthForPasswordChange from "./Screens/TwoFactorAuthForPasswordChange";
+import ConfirmPasswordAuth from "./Screens/ConfirmPasswordAuth";
 import P2P from  "./Screens/P2P";
 import GoogleAuth from "./Screens/GoogleAuth"
+import TwoFactor from "./Screens/TwoFactor";
+import FinaliseTwoFactor from "./Screens/FinaliseTwoFactor";
+import VerifyEmailForTwoFactorDeactivation from "./Screens/VerifyEmailForTwoFactorDeactivation";
+import VerifyPhoneForTwoFactorDeactivation from "./Screens/VerifyPhoneForTwoFactorDeactivation";
+import Profile from "./Screens/Profile";
+
+
 
 import { Provider } from "react-redux";
 import {store, persistedStore} from "./redux/store";
@@ -32,12 +41,25 @@ function App() {
                   <Route path="/activation/:email">
                       <AccountActivation />
                   </Route>
+                  <Route path="/forgotpassword_two_factor">
+                      <TwoFactorAuthForPasswordChange />
+                  </Route>
+                  <Route path="/confirm_auth_token/:email">
+                      <ConfirmPasswordAuth />
+                  </Route>
                   <Route path="/dashboard" component={Dashboard} />
                   <Route path="/forgotpassword" >
                       <ForgotPassword />
                   </Route>
                   <Route path="/change_password">
                       <ChangePassword />
+                  </Route>
+                  <Route path="/disable_two_factor">
+                      <VerifyEmailForTwoFactorDeactivation />
+                  </Route>
+
+                  <Route path="/deactivate_two_factor_phone/:email">
+                      <VerifyPhoneForTwoFactorDeactivation />
                   </Route>
                   <Route path="/authentication/:email" component={LoginAuthentication} />
                   <Route path="/two_factor_authentication/:email" component={GoogleAuth} />
@@ -47,6 +69,9 @@ function App() {
                   <Route path="/wallet" component={Wallet} />
                   <Route path="/buy-crypto-card" component={BuyCrptoCard} />
                   <Route path="/buy-sell-p2p" component={P2P} />
+                  <Route path="/two_factor" component={TwoFactor} />
+                  <Route path="/two_factor_finalize" component={FinaliseTwoFactor} />
+                  <Route path="/profile" component={Profile} />
                   <Footer />
               </Router>
           </PersistGate>

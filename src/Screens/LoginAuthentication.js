@@ -28,12 +28,16 @@ const LoginAuthentication = () => {
   const [inputType, changePaswordInputType] = useState(passwordObject);
 
   let allStateObject = useSelector((state) => state);
-  let { login: loginData } = allStateObject;// all the available states
+  let { login:loginData } = allStateObject;// all the available states
 
   const dispatch = useDispatch(); //for action dispatch
 
   //check errors
-  const {error:errorMessage, success:successMessage} = ErrorSuccessHook(loginData.success_message, loginData.error_message, loginData.message, loginData);
+  let loadingStatus = false;
+  if(loginData.loading === true){
+    loadingStatus = true;
+  }
+  const {error:errorMessage, success:successMessage} = ErrorSuccessHook(loginData.success_message, loginData.error_message, loginData.message, loginData, loadingStatus);
 
   if(loginData.isLogged === true){
     setTimeout(() => {
