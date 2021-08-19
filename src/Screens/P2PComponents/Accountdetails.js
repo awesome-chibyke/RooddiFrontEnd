@@ -43,7 +43,7 @@ const Account = () => {
                             <span style={{fontSize: '1.1rem'}}>2021-08-13 02:30:35:55</span> 
                         </h6>
                         <h6>Order number:&nbsp; 
-                            <span style={{fontSize: '1.1rem'}}>65774635273965169</span> 
+                            <span style={{fontSize: '1.1rem'}}>65774635273965169</span>&nbsp;<i class="fa fa-copy" ></i>
                         </h6>
                     </div>
                 </div>
@@ -121,7 +121,7 @@ const Account = () => {
                         </div>
                             <div className="row" style={{display: 'flex', justifyContent: 'space-between'}}>
                                 <div className="col-12 col-sm-3 mt-25 ml-75">
-                                    <Button style={{width:"100%"}} className="btn-block" variant="primary">Transfer Fund</Button>{' '}
+                                    <Button style={{width:"100%"}} className="btn-block" variant="primary">Transfer Fund&nbsp;&nbsp;<i class="fa fa-arrow-right" ></i></Button>{' '}
                                 </div>
                             <div className="col-12 col-sm-3 mt-25 ml-75">
                                 <Button style={{width:"100%"}} className="btn-block" variant="light">Cancel</Button>{' '}
