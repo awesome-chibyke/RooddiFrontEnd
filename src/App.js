@@ -21,6 +21,7 @@ import TwoFactor from "./Screens/TwoFactor";
 import FinaliseTwoFactor from "./Screens/FinaliseTwoFactor";
 import VerifyEmailForTwoFactorDeactivation from "./Screens/VerifyEmailForTwoFactorDeactivation";
 import VerifyPhoneForTwoFactorDeactivation from "./Screens/VerifyPhoneForTwoFactorDeactivation";
+import Profile from "./Screens/Profile";
 
 
 
@@ -70,6 +71,7 @@ function App() {
                   <Route path="/buy-sell-p2p" component={P2P} />
                   <Route path="/two_factor" component={TwoFactor} />
                   <Route path="/two_factor_finalize" component={FinaliseTwoFactor} />
+                  <Route path="/profile" component={Profile} />
                   <Footer />
               </Router>
           </PersistGate>

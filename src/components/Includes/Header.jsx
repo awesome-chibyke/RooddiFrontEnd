@@ -76,7 +76,6 @@ function Header() {
                 <div className="topbar-call text-center text-lg-end topbar-right">
                   <ul className="list-inline d-lg-flex justify-content-end">
                     <li className="me-10 ps-10 lng-drop">
-
                         <select value={selectedCurrency} onChange={ e => changeCurrency(e) } style={{overflowY:"auto"}} className="header-lang-bx selectpicker " >
                         {currencyArray.map((currency, index)=>(
                           <option key={index} value={currency.unique_id} > {currency.second_currency} </option>

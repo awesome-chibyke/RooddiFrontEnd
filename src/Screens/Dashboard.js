@@ -38,8 +38,8 @@ const Dashboard = () => {
                              ) : (
                                 <Link className="btn btn-success mt-4 mb-4" to="/"> Click To Disable Two Factor</Link>
                                  )}
-                            
-                            
+                                 <br></br>
+                            <Link className="btn btn-success mt-4 mb-4" to="/profile">Profile</Link>
                             <DynamiicModal
                             widthSize={'100%'}
                             marginLeft={'0%'}
