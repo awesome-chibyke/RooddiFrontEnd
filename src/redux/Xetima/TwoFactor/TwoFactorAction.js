@@ -10,6 +10,7 @@ import { BACKEND_BASE_URL, headerIncluder } from "../../../common_variables";
 import * as Validator from 'validatorjs';
 import validateModule from "../../../validation/validate_module";
 import { getRequest, postRequest } from "../../axios_call";
+import {CHANGE_USER_OBJECT} from "../Login/LoginActionTypes";
 
 
 const twoFactorActivation = () => {
@@ -36,14 +37,15 @@ const twoFactorActivationFailure = (message) => {
 
 
 export const activateTwoFactorAction = (loginData) => async (dispatch) => {
+
     dispatch(twoFactorActivation());
     try{
         if(loginData.isLogged === true){
             let handleaTwoFactorAction = await getRequest(BACKEND_BASE_URL+"two_factor/activate_two_factor_auth", headerIncluder(loginData.user_data.token) );
             let returnedObject = handleaTwoFactorAction.data;
-            console.log(handleaTwoFactorAction.data)
             let {status, message, data} = returnedObject;
             let {bar_code_data, otpauth_url} = data;
+
             if(status === true){
                 // dispatch(twoFactorActivationSuccess(data, message));
                 dispatch({type:ACTIVATE_TWOFACTOR_SUCCESS, payload:bar_code_data, otpauth_url});
@@ -69,11 +71,10 @@ const finalisetwoFactorActivation = () => {
     };
 };
 
-const finalisetwoFactorActivationSuccess = ({message, otpauth_url }) => {
+const finalisetwoFactorActivationSuccess = (message) => {
     return {
         type:FINALISE_TWOFACTOR_SUCCESS,
-        message:message,
-        otpauth_url:otpauth_url
+        message:message
     }
 }
 
@@ -105,14 +106,20 @@ export const finaliseTwoFactor = ({loginData, token}) => async (dispatch)=>{
     }
     try {
         if(loginData.isLogged === true){
+
         let formBody = "token="+token;
         let handleFinaliseTwoFactor = await postRequest(BACKEND_BASE_URL + "two_factor/finalise_two_factor_activation", formBody,  headerIncluder(loginData.user_data.token));
         let returnedObject = handleFinaliseTwoFactor.data;
-        console.log(handleFinaliseTwoFactor.data)
         let {status, message, data} = returnedObject;
         if (status === true) {
-            let {otpauth_url} = data;
-            dispatch(finalisetwoFactorActivationSuccess(message, otpauth_url));
+            let {user} = data;
+            let userData = loginData.user_data;
+            userData.user = user;
+            dispatch({//hange the user object
+                type:CHANGE_USER_OBJECT,
+                payload:userData
+            })
+            dispatch(finalisetwoFactorActivationSuccess(message));
         } else {
             validateModule.handleErrorStatement(
                 message, "", "on", "no", "no"
