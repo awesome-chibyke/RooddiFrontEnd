@@ -6,6 +6,7 @@ import GetCurrencyReducer from "./Xetima/Currency/CurrencyReducer";
 import ActivtateTwoFactorReducer from "./Xetima/TwoFactor/TwoFactorReducer";
 import ModalReducer from "./Xetima/DynamicModal/ModalReducers";
 import TwoFactorDeactivationReducer from './Xetima/TwoFactorDeactivation/TwoFactorDeactivationReducers';
+import TwoFactorDisableRequest from "./Xetima/TwoFactorDisableRequest/TwoFactorDisableRequestReducer"
 
 
 const rootReducer = combineReducers({
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
   display_modal:ModalReducer,
   TwoFactorDeactivationState:TwoFactorDeactivationReducer,
   getCurrency:GetCurrencyReducer,
-  twofactor:ActivtateTwoFactorReducer
+  twofactor:ActivtateTwoFactorReducer,
+  disable_two_factor:TwoFactorDisableRequest
 });
 
 export default rootReducer;

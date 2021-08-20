@@ -37,10 +37,14 @@ const Dashboard = () => {
                                 <Link className="btn btn-success mt-4 mb-4" to="/two_factor_finalize"> Click To Activate Two Factor</Link>
                                 
                              ) : (
-                                <Link className="btn btn-success mt-4 mb-4" to="/"> Click To Disable Two Factor</Link>
+                                <Link className="btn btn-success mt-4 mb-4" to="/deactivate_twofactor"> Click To Disable Two Factor</Link>
                                  )}
                                  <br></br>
                             <Link className="btn btn-success mt-4 mb-4" to="/profile">Profile</Link>
+
+                            <br></br>
+                            <h4 className="text-white">Click this button to disable your twoFactor request</h4>
+                            <Link className="btn btn-success mt-4 mb-4" to="/disable_two_factor_request">Disable Two Factor Request</Link>
                             <DynamiicModal
                             widthSize={'100%'}
                             marginLeft={'0%'}
