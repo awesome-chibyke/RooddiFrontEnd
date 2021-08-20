@@ -22,6 +22,8 @@ import FinaliseTwoFactor from "./Screens/FinaliseTwoFactor";
 import VerifyEmailForTwoFactorDeactivation from "./Screens/VerifyEmailForTwoFactorDeactivation";
 import VerifyPhoneForTwoFactorDeactivation from "./Screens/VerifyPhoneForTwoFactorDeactivation";
 import Profile from "./Screens/Profile";
+import DeactivateTwoFactor from "./Screens/DeactivateTwoFactor"
+import DisableTwofactorRequest from "./Screens/DisableTwofactorRequest";
 
 
 
@@ -72,6 +74,8 @@ function App() {
                   <Route path="/two_factor" component={TwoFactor} />
                   <Route path="/two_factor_finalize" component={FinaliseTwoFactor} />
                   <Route path="/profile" component={Profile} />
+                  <Route path="/deactivate_twofactor" component={DeactivateTwoFactor} />
+                  <Route path="/disable_two_factor_request" component={DisableTwofactorRequest} />
                   <Footer />
               </Router>
           </PersistGate>
