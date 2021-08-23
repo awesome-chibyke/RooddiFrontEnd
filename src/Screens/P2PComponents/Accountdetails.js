@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
+import P2pChatBox from "../../components/P2pChatBox";
 
 const Account = ({closeModal, displayTransferModal}) => {
 
@@ -33,7 +34,7 @@ const Account = ({closeModal, displayTransferModal}) => {
    
     return (
         <>
-            <div className="container">
+            <div className="container" style={{position:"relative"}}>
                 <div className="row">
                     <div className="col-2"></div>
                     <div className="col-12 col-sm-4">
@@ -149,6 +150,9 @@ const Account = ({closeModal, displayTransferModal}) => {
                         </p>
                     </div>
                 </div>
+
+                <P2pChatBox />
+
             </div>
         </>
     )
