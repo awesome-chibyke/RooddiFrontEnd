@@ -4,6 +4,7 @@ import {OverlayTrigger, Button} from 'react-bootstrap'
 import Account from './Accountdetails'
 import P2PModal from './P2PModal'
 import DynamiicModal from '../../components/DynamiicModal'
+import ModalFooter from '../../components/ModalFooter'
 
 const Table = () => {
 
@@ -233,7 +234,7 @@ const Table = () => {
                     headerTitleText={''}
                     displayModal={displayAccountdetailsModal}
                     closeModal={setDisplayAccountdetailsModal}
-                    
+                    footer={<ModalFooter />}
                     optionForStyleOrClass={'use_style'}
                 />
             </div>
