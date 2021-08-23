@@ -225,7 +225,6 @@ const Table = () => {
                     headerTitleText={''}
                     displayModal={displayOrderModal}
                     closeModal={setDisplayOrderModal}
-                    
                     optionForStyleOrClass={'use_style'}
                 />
             
@@ -249,7 +248,6 @@ const Table = () => {
                     headerTitleText={''}
                     displayModal={displayTransferModal}
                     closeModal={setDisplayTransferModal}
-                    
                     optionForStyleOrClass={'use_style'}
                 />
             </div>
