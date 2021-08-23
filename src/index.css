@@ -342,7 +342,7 @@ code {
     width: 52px;
     height: 52px;*/
     color: #fff;
-    background-color: #0360a5;
+    background-color: #172b4c;
     background-position: center center;
     background-repeat: no-repeat;
     -webkit-box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.15);
@@ -418,7 +418,7 @@ textarea::placeholder {
     width: 100%;
     padding: 16px;
     color: #fff;
-    background-color: #0360a5;
+    background-color: #172b4c;
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
@@ -430,7 +430,7 @@ textarea::placeholder {
 
 .chatbox-popup .chatbox-popup__header .chatbox-popup__avatar {
     margin-top: -32px;
-    background-color: #0360a5;
+    background-color: #172b4c;
     border: 5px solid rgba(0, 0, 0, 0.1);
     border-radius: 50%;
 }
@@ -555,7 +555,7 @@ textarea::placeholder {
     width: 100%;
     padding: 16px;
     color: #fff;
-    background-color: #0360a5;
+    background-color: #172b4c;
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;

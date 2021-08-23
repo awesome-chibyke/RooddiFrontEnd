@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {  } from "react";
 import $ from 'jquery';
 
 const P2pChatBox = () => {
@@ -47,13 +47,13 @@ const P2pChatBox = () => {
                         <i className="fa fa-user-circle fa-4x chatbox-popup__avatar" aria-hidden="true"></i>
                     </aside>
                     <aside style={{flex:"6"}}>
-                        <h1>Sussanah Austin</h1> Agent (Online)
+                        <h1>Madu IP</h1> Seller (Online)
                     </aside>
                     <aside style={{flex:"3"}}>
                         <button className="chatbox-close chat-button"><i className="fa fa-close" aria-hidden="true"></i>
                         </button>
                         <button className="chatbox-maximize chat-button"><i className="fa fa-window-maximize"
-                                                                aria-hidden="true"></i></button>
+                        aria-hidden="true"></i></button>
                     </aside>
                 </header>
                 <main className="chatbox-popup__main">
@@ -78,7 +78,7 @@ const P2pChatBox = () => {
                         <i className="fa fa-user-circle fa-3x chatbox-popup__avatar" aria-hidden="true"></i>
                     </aside>
                     <aside style={{flex:"6"}}>
-                        <h1>Sussanah Austin</h1> Agent (Online)
+                        <h1>Madu IP</h1> Seller (Online)
                     </aside>
                     <aside style={{flex:"3", textAlign:"right"}}>
                         <button className="chatbox-minimize chat-button"><i className="fa fa-window-restore" aria-hidden="true"></i>

@@ -6,7 +6,7 @@ const Faq = () => {
            <section className="py-50 cust-accordion" style={{
                 backgroundColor: '#e0fdfb'}}>
                 <div className="container" style={{margin: '0 auto'}}>
-                    <div className="row">
+                    <div className="row col-12 col-sm-12">
                         <div className="col-2"></div>
                         <div className="col-8">
                         <h1 style=
