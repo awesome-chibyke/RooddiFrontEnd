@@ -7,6 +7,7 @@ import DynamiicModal from "../components/DynamiicModal";
 import ForgetPasswordTwoFactorDisableOptions from "./ForgetPasswordTwoFactorDisableOptions";
 import ForgotPasswordOptions from "./ForgotPasswordOptions";
 import ModalFooter from "../components/ModalFooter";
+import P2pChatBox from "../components/P2pChatBox";
 
 
 const Login = () => {
@@ -231,6 +232,7 @@ const Login = () => {
                         </a>
                       </p>
                     </div>
+
                   </div>
                 </div>
                 {/*<div className="text-center">
@@ -270,7 +272,6 @@ const Login = () => {
               displayModal={displayForgotPasswordOrTwoFactorDisableOptionModal}
               closeModal={setDisplayForgotPasswordOrTwoFactorDisableOptionModal}
               optionForStyleOrClass={'use_class'}
-              footer={<ModalFooter />}
           />
 
           <DynamiicModal
@@ -283,6 +284,8 @@ const Login = () => {
               closeModal={setChangePasswordOptionModal}
               optionForStyleOrClass={'use_class'}
           />
+
+        <P2pChatBox />
 
       </div>
     </>
