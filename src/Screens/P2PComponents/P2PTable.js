@@ -6,7 +6,7 @@ import Transfer from './Transfer'
 import P2PModal from './P2PModal'
 import DynamiicModal from '../../components/DynamiicModal'
 import AccountFooterModal from '../../components/AccountFooterModal'
-import ModalFooter from '../../components/ModalFooter'
+
 
 const Table = () => {
 
@@ -249,7 +249,7 @@ const Table = () => {
                     headerTitleText={''}
                     displayModal={displayTransferModal}
                     closeModal={setDisplayTransferModal}
-                    footer={<ModalFooter />}
+                    
                     optionForStyleOrClass={'use_style'}
                 />
             </div>
