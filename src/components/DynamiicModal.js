@@ -1,7 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable jsx-a11y/heading-has-content */
-/* eslint-disable no-script-url */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react";
 //import { closeModal } from "../redux";
 import { connect, useSelector, useDispatch } from "react-redux";
@@ -15,7 +11,6 @@ const DynamiicModal = (props) => {
 
     const allState = useSelector( state => state );
     //const {display_modal:displayModal} = allState;
-
 
     return (
         <>

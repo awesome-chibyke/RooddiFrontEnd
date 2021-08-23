@@ -285,8 +285,6 @@ const Login = () => {
               optionForStyleOrClass={'use_class'}
           />
 
-        <P2pChatBox />
-
       </div>
     </>
   );

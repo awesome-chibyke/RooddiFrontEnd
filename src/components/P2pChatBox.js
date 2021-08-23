@@ -34,22 +34,24 @@ const P2pChatBox = () => {
 
     return (
         <>
-            <button className="chat-button chatbox-open">
+            {/*<button className="">
                 <i className="fa fa-comment fa-2x" aria-hidden="true"></i>
             </button>
             <button className="chat-button chatbox-close">
                 <i className="fa fa-close fa-2x" aria-hidden="true"></i>
-            </button>
+            </button>*/}
 
             <section className="chatbox-popup">
                 <header className="chatbox-popup__header">
                     <aside style={{flex:"3"}}>
                         <i className="fa fa-user-circle fa-4x chatbox-popup__avatar" aria-hidden="true"></i>
                     </aside>
-                    <aside style={{flex:"8"}}>
+                    <aside style={{flex:"6"}}>
                         <h1>Sussanah Austin</h1> Agent (Online)
                     </aside>
-                    <aside style={{flex:"1"}}>
+                    <aside style={{flex:"3"}}>
+                        <button className="chatbox-close chat-button"><i className="fa fa-close" aria-hidden="true"></i>
+                        </button>
                         <button className="chatbox-maximize chat-button"><i className="fa fa-window-maximize"
                                                                 aria-hidden="true"></i></button>
                     </aside>
