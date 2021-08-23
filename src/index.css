@@ -498,7 +498,9 @@ textarea::placeholder {
         display: none;
         bottom: calc(2 * 16px + 52px);
         right: 0px;
-        width: 100%;
+        width: 96%;
+        margin-left:2%;
+        margin-right:2%;
         height: auto;
         background-color: #fff;
         border-radius: 16px;
@@ -560,6 +562,8 @@ textarea::placeholder {
         bottom: calc(2 * 16px + 52px);
         right: 16px;
         width: 377px;
+        margin-left:0%;
+        margin-right:0%;
         height: auto;
         background-color: #fff;
         border-radius: 16px;
@@ -601,6 +605,8 @@ textarea::placeholder {
         bottom: calc(2 * 16px + 52px);
         right: 16px;
         width: 377px;
+        margin-left:0%;
+        margin-right:0%;
         height: auto;
         background-color: #fff;
         border-radius: 16px;
