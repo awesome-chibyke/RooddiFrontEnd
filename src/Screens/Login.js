@@ -6,6 +6,7 @@ import ErrorSuccessHook from "../redux/ErrorSuccessHook";
 import DynamiicModal from "../components/DynamiicModal";
 import ForgetPasswordTwoFactorDisableOptions from "./ForgetPasswordTwoFactorDisableOptions";
 import ForgotPasswordOptions from "./ForgotPasswordOptions";
+import ModalFooter from "../components/ModalFooter";
 
 
 const Login = () => {
@@ -260,8 +261,6 @@ const Login = () => {
           </div>
         </section>
 
-        /* main Modal */
-
           <DynamiicModal
               widthSize={'100%'}
               marginLeft={'0%'}
@@ -271,6 +270,7 @@ const Login = () => {
               displayModal={displayForgotPasswordOrTwoFactorDisableOptionModal}
               closeModal={setDisplayForgotPasswordOrTwoFactorDisableOptionModal}
               optionForStyleOrClass={'use_class'}
+              footer={<ModalFooter />}
           />
 
           <DynamiicModal

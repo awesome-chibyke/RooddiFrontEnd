@@ -142,6 +142,12 @@ code {
   color: #0c1a32;
 }
 
+.modal-footer_2 {
+    padding: 2px 16px;
+    background-color: #0c1a32;
+    color: white;
+}
+
 /* Add Animation */
 @-webkit-keyframes slideIn {
   from {bottom: -300px; opacity: 0}

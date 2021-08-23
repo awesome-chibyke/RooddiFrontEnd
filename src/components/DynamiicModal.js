@@ -7,12 +7,15 @@ import React, { useState, useEffect } from "react";
 import { connect, useSelector, useDispatch } from "react-redux";
 import { Markup } from 'interweave';
 
-const DynamiicModal = ({widthSize, marginLeft, marginRight, contents, headerTitleText, displayModal, closeModal, optionForStyleOrClass}) => {
+const DynamiicModal = (props) => {
+
+    const {widthSize, marginLeft, marginRight, contents, headerTitleText, displayModal, closeModal, optionForStyleOrClass} = props;
 
     const dispatch = useDispatch();
 
     const allState = useSelector( state => state );
     //const {display_modal:displayModal} = allState;
+
 
     return (
         <>
@@ -30,9 +33,15 @@ const DynamiicModal = ({widthSize, marginLeft, marginRight, contents, headerTitl
                                 {contents}
                                 {/*<Markup content={contents} />*/}
                             </div>
-                            <div className="modal-footer">
-                                <h3>Modal Footer</h3>
-                            </div>
+                            {!'footer' in props ? (
+                                <div className="modal-footer">
+                                    <h3>Modal Footer</h3>
+                                </div>
+                            ) : (
+                                <div className="modal-footer_2">
+                                    {props.footer}
+                                </div>
+                            )}
                         </div>
 
                     </div>
@@ -46,11 +55,17 @@ const DynamiicModal = ({widthSize, marginLeft, marginRight, contents, headerTitl
                             </div>
                             <div className="modal-body">
                                 {contents}
-                                {/*<Markup content={contents} />*/}
                             </div>
-                            <div className="modal-footer">
-                                <h3>Modal Footer</h3>
-                            </div>
+                            {!'footer' in props ? (
+                                <div className="modal-footer">
+                                    <h3>Modal Footer</h3>
+                                </div>
+                            ) : (
+                                <div className="modal-footer_2">
+                                    {props.footer}
+                                </div>
+                            )}
+
                         </div>
 
                     </div>
