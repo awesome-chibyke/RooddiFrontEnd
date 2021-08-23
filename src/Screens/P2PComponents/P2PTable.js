@@ -2,14 +2,17 @@ import React, {useState} from 'react'
 import renderTooltip from './Tootip'
 import {OverlayTrigger, Button} from 'react-bootstrap'
 import Account from './Accountdetails'
+import Transfer from './Transfer'
 import P2PModal from './P2PModal'
 import DynamiicModal from '../../components/DynamiicModal'
+import AccountFooterModal from '../../components/AccountFooterModal'
 import ModalFooter from '../../components/ModalFooter'
 
 const Table = () => {
 
     const [displayOrderModal, setDisplayOrderModal] = useState('none');
     const [displayAccountdetailsModal, setDisplayAccountdetailsModal] = useState('none');
+    const [displayTransferModal, setDisplayTransferModal] = useState('none');
 
     return (
         <>
@@ -225,15 +228,27 @@ const Table = () => {
                     
                     optionForStyleOrClass={'use_style'}
                 />
+            
+                <DynamiicModal
+                    widthSize={'100%'}
+                    marginLeft={'0%'}
+                    marginRight={'0%'}
+                    contents={<Account closeModal={setDisplayAccountdetailsModal} displayTransferModal={setDisplayTransferModal}  />}
+                    headerTitleText={''}
+                    displayModal={displayAccountdetailsModal}
+                    closeModal={setDisplayAccountdetailsModal}
+                    footer={<AccountFooterModal />}
+                    optionForStyleOrClass={'use_style'}
+                />
 
                 <DynamiicModal
                     widthSize={'100%'}
                     marginLeft={'0%'}
                     marginRight={'0%'}
-                    contents={<Account closeModal={setDisplayAccountdetailsModal} />}
+                    contents={<Transfer closeModal={setDisplayTransferModal} />}
                     headerTitleText={''}
-                    displayModal={displayAccountdetailsModal}
-                    closeModal={setDisplayAccountdetailsModal}
+                    displayModal={displayTransferModal}
+                    closeModal={setDisplayTransferModal}
                     footer={<ModalFooter />}
                     optionForStyleOrClass={'use_style'}
                 />
