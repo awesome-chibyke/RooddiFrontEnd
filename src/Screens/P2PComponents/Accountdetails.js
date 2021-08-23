@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
 
-const Account = () => {
+const Account = ({closeModal, displayTransferModal}) => {
 
     const container = {
         marginTop: '2rem',
@@ -29,6 +29,7 @@ const Account = () => {
         color: 'white',
         marginBottom: '1rem'
     }
+    
    
     return (
         <>
@@ -47,6 +48,7 @@ const Account = () => {
                         </h6>
                     </div>
                 </div>
+                
                 <hr style={{width: '70%'}}/>
                 <div className="row mt-3">
                     <div className="col-2"></div>
@@ -121,10 +123,10 @@ const Account = () => {
                         </div>
                             <div className="row" style={{display: 'flex', justifyContent: 'space-between'}}>
                                 <div className="col-12 col-sm-3 mt-25 ml-75">
-                                    <Button style={{width:"100%"}} className="btn-block" variant="primary">Transfer Fund&nbsp;&nbsp;<i class="fa fa-arrow-right" ></i></Button>{' '}
+                                    <Button onClick={() => displayTransferModal('block')} style={{width:"100%"}} className="btn-block" variant="primary">Transfer Fund&nbsp;&nbsp;<i class="fa fa-arrow-right" ></i></Button>{' '}
                                 </div>
                             <div className="col-12 col-sm-3 mt-25 ml-75">
-                                <Button style={{width:"100%"}} className="btn-block" variant="light">Cancel</Button>{' '}
+                                <Button style={{width:"100%"}} className="btn-block" onClick={() => closeModal()} variant="light">Cancel</Button>{' '}
                             </div>
                         </div>
                     </div>
