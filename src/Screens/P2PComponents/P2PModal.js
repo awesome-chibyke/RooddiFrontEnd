@@ -4,10 +4,10 @@ import {Form, InputGroup, FormControl, Button, OverlayTrigger} from 'react-boots
 
 const P2PModal = ({closeModal, toggleAccountModal, accountModalStatus}) => {
 
-    console.log(toggleAccountModal)
     const fontStyles = {
         fontWeight: 'bold'
     }
+    
     return (
         <>
           <div className="row" style={{marginTop: '1rem'}}>
