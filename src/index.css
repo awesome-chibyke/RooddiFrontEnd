@@ -146,6 +146,7 @@ code {
     padding: 2px 16px;
     background-color: #0c1a32;
     color: white;
+    min-height: 40px;
 }
 
 /* Add Animation */

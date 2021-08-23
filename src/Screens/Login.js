@@ -270,7 +270,6 @@ const Login = () => {
               displayModal={displayForgotPasswordOrTwoFactorDisableOptionModal}
               closeModal={setDisplayForgotPasswordOrTwoFactorDisableOptionModal}
               optionForStyleOrClass={'use_class'}
-              footer={<ModalFooter />}
           />
 
           <DynamiicModal
