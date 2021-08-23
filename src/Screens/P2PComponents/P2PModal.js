@@ -15,7 +15,7 @@ const P2PModal = ({closeModal, toggleAccountModal, accountModalStatus}) => {
             <div className=" col-12 col-sm-8">
                 <div className="row">
                     <h6 style={fontStyles}>
-                    ⭐Madu Ifeanyi Emmanuel &nbsp;2293 orders &nbsp;|&nbsp; 97.91% completion
+                    ⭐&nbsp;Madu Ifeanyi Emmanuel &nbsp;2293 orders &nbsp;|&nbsp; 97.91% completion
                     </h6>
                     <div className="col-12 col-sm-6 price-payment" style={{marginTop: '0.5rem'}}>
                         <h6 style={fontStyles}>Price &nbsp;
@@ -83,7 +83,7 @@ const P2PModal = ({closeModal, toggleAccountModal, accountModalStatus}) => {
                         USDT
                         </Button>
                 </InputGroup>
-                    <div className="row">
+                    <div className="row" style={{marginBottom: '1.5rem'}}>
                         <div className="col-12 col-sm-6 mt-25 ml-75">
                             <Button onClick={() => closeModal('none') } className="btn-block cancel-btn" style={{width:'100%'}} variant="light">Cancel</Button>{' '}
                         </div>
