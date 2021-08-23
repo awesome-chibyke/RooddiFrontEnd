@@ -56,13 +56,13 @@ const DynamiicModal = (props) => {
                             <div className="modal-body">
                                 {contents}
                             </div>
-                            {!'footer' in props ? (
-                                <div className="modal-footer">
-                                    <h3>Modal Footer</h3>
-                                </div>
-                            ) : (
+                            {props.hasOwnProperty('footer') ? (
                                 <div className="modal-footer_2">
                                     {props.footer}
+                                </div>
+                            ) : (
+                                <div className="modal-footer">
+                                    <h3>Modal Footer</h3>
                                 </div>
                             )}
 
