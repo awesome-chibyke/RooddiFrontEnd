@@ -122,7 +122,7 @@ const Account = ({closeModal, displayTransferModal}) => {
                                 ATTENTION! After making the fiat transfer, please the button below to inform the seller to receive payment, fail to do so will result in automatically cancellation of order and potentialy loss of all your assets. 
                             </p>
                         </div>
-                            <div className="row" style={{display: 'flex', justifyContent: 'space-between'}}>
+                            <div className="row" style={{display: 'flex', justifyContent: 'space-between' }}>
                                 <div className="col-12 col-sm-3 mt-25 ml-75">
                                     <Button onClick={() => displayTransferModal('block')} style={{width:"100%"}} className="btn-block" variant="primary">Transfer Fund&nbsp;&nbsp;<i class="fa fa-arrow-right" ></i></Button>{' '}
                                 </div>
