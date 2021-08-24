@@ -6,22 +6,23 @@ import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
 
 const Profile = ({ history }) => {
-  const [email, setEmail] = useState("");
-  const [first_name, setFirstname] = useState("");
-  const [description, setDescription] = useState("");
-  const [middle_name, setMiddlename] = useState("");
-  const [country_code, setCountryCode] = useState("");
-  const [passport, setPassport] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
-  const [state, setState] = useState("");
-  const [country, setCountry] = useState("");
-  const [preferred_currency, setPreferredCurrency] = useState("");
 
   const dispatch = useDispatch();
   const allStateObject = useSelector((state) => state);
   let { login: loginData, profile } = allStateObject;
-  const { userData } = profile;
+  const { user:userData } = loginData.user_data;
+
+  const [email, setEmail] = useState(userData.email);
+  const [first_name, setFirstname] = useState(userData.first_name);
+  const [description, setDescription] = useState(userData.description);
+  const [middle_name, setMiddlename] = useState(userData.middle_name);
+  const [country_code, setCountryCode] = useState(userData.country_code);
+  const [passport, setPassport] = useState(userData.passport);
+  const [phone, setPhone] = useState(userData.phone);
+  const [address, setAddress] = useState(userData.state);
+  const [state, setState] = useState(userData.state);
+  const [country, setCountry] = useState(userData.country);
+  const [preferred_currency, setPreferredCurrency] = useState(userData.preferred_currency);
 
   let loadingStatus = false;
   if (profile.loading === true) {
@@ -36,27 +37,15 @@ const Profile = ({ history }) => {
     loginData
   );
 
-  useEffect(() => {
-    if (loginData.isLogged === false) {
-      history.push("/login");
-    } else {
-      if (!userData || !userData.email) {
-        dispatch(getUserProfileAction(loginData));
-      } else {
-        setEmail(userData.email);
-        setFirstname(userData.first_name);
-        setDescription(userData.description);
-        setMiddlename(userData.middle_name);
-        setCountryCode(userData.country_code);
-        setPassport(userData.passport);
-        setPhone(userData.phone);
-        setAddress(userData.address);
-        setState(userData.state);
-        setCountry(userData.country);
-        setPreferredCurrency(userData.preferred_currency);
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (loginData.isLogged === false) {
+  //     history.push("/login");
+  //   } else {
+  //     if (!userData || !userData.email) {
+  //       dispatch(getUserProfileAction(loginData));
+  //     }
+  //   }
+  // }, []);
 
   // const submitHandler = (e) => {
   //   e.preventDefault();

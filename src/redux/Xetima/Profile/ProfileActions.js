@@ -45,7 +45,6 @@ export const getUserProfileAction = (loginData) => async (dispatch) => {
         if(loginData.isLogged === true){
             let handleagetUserProfileAction = await getRequest(BACKEND_BASE_URL+"edit/user_profile", headerIncluder(loginData.user_data.token) );
             let returnedObject = handleagetUserProfileAction.data;
-            console.log(handleagetUserProfileAction.data)
             let {status, message, data} = returnedObject;
             let {user} = data;
             if(status === true){
