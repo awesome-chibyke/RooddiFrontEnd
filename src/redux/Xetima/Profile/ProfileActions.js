@@ -1,66 +1,67 @@
 import{
-    GET_USER_PROFILE,
-    GET_USER_PROFILE_SUCCESS,
-    GET_USER_PROFILE_FAIL,
+    // GET_USER_PROFILE,
+    // GET_USER_PROFILE_SUCCESS,
+    // GET_USER_PROFILE_FAIL,
 
     UPDATE_PROFILE,
     UPDATE_PROFILE_SUCCESS,
-    UPDATE_PROFILE_FAIL
+    UPDATE_PROFILE_FAIL,
+    RESET_PROFILE_STATE
 }from "./ProfileTypes"
 
 import { BACKEND_BASE_URL, headerIncluder } from "../../../common_variables";
 import * as Validator from 'validatorjs';
 import validateModule from "../../../validation/validate_module";
-import { getRequest, postRequest } from "../../axios_call";
+import { postRequest } from "../../axios_call";
 import {CHANGE_USER_OBJECT} from "../Login/LoginActionTypes";
 
 
-const getProfileAction = () => {
-    return {
-        type: GET_USER_PROFILE,
-        message:''
-    };
-};
+// const getProfileAction = () => {
+//     return {
+//         type: GET_USER_PROFILE,
+//         message:''
+//     };
+// };
 
-const getProfileActionSuccess = ({data, message }) => {
-    return {
-        type:GET_USER_PROFILE_SUCCESS,
-        payload:data,
-        message:message,
-    }
-}
+// const getProfileActionSuccess = ({data, message }) => {
+//     return {
+//         type:GET_USER_PROFILE_SUCCESS,
+//         payload:data,
+//         message:message,
+//     }
+// }
 
-const getProfileActionFailure = (message) => {
-    return {
-        type:GET_USER_PROFILE_FAIL,
-        message:message
-    }
-}
+// const getProfileActionFailure = (message) => {
+//     return {
+//         type:GET_USER_PROFILE_FAIL,
+//         message:message
+//     }
+// }
 
 
-export const getUserProfileAction = (loginData) => async (dispatch) => {
+// export const getUserProfileAction = (loginData) => async (dispatch) => {
 
-    dispatch(getProfileAction());
-    try{
-        if(loginData.isLogged === true){
-            let handleagetUserProfileAction = await getRequest(BACKEND_BASE_URL+"edit/user_profile", headerIncluder(loginData.user_data.token) );
-            let returnedObject = handleagetUserProfileAction.data;
-            let {status, message, data} = returnedObject;
-            let {user} = data;
-            if(status === true){
-                dispatch({type:GET_USER_PROFILE_SUCCESS, payload:user});
-            }else{
-                validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
-                dispatch({
-                    type:GET_USER_PROFILE_FAIL,
-                    message:message
-                });
-            }
-        }
-    }catch(err){
-        dispatch(getProfileActionFailure(err.message));
-    }
-}
+//     dispatch(getProfileAction());
+//     try{
+//         if(loginData.isLogged === true){
+//             let handleagetUserProfileAction = await getRequest(BACKEND_BASE_URL+"edit/user_profile", headerIncluder(loginData.user_data.token) );
+//             let returnedObject = handleagetUserProfileAction.data;
+//             let {status, message, data} = returnedObject;
+//             let {user} = data;
+//             if(status === true){
+//                 dispatch({type:GET_USER_PROFILE_SUCCESS, payload:user});
+//             }else{
+//                 validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
+//                 dispatch({
+//                     type:GET_USER_PROFILE_FAIL,
+//                     message:message
+//                 });
+//             }
+//         }
+//     }catch(err){
+//         dispatch(getProfileActionFailure(err.message));
+//     }
+// }
 
 //.............................................Edit user details.......................................//
 
@@ -86,33 +87,27 @@ const editProfileActionFailure = (message) => {
 }
 
 
-export const editUserProfileAction = ({loginData, first_name, description, middle_name, country_code, passport, phone, address, state, country,preferred_currency }) => async (dispatch)=>{
+export const editUserProfileAction = ({loginData, first_name, last_name, country, state, city, address, zip_code}) => async (dispatch)=>{
     validateModule.ClearErrorFields();
     dispatch(editProfileAction());
 
     let data = {
         first_name:first_name,
-        description:description,
-        middle_name:middle_name,
-        country_code:country_code,
-        passport:passport,
-        phone:phone,
-        address:address,
-        state:state,
+        last_name:last_name,
         country:country,
-        preferred_currency:preferred_currency
+        state:state,
+        city:city,
+        address:address,
+        zip_code:zip_code
     };
     let rules = {
         first_name:"required|string",
-        description:"required|string",
-        middle_name:"required|string",
-        country_code:"required|numeric",
-        passport:"required|string",
-        phone:"required|numeric",
-        address:"required|string",
-        state:"required|string",
+        last_name:"required|string",
         country:"required|string",
-        preferred_currency:"required|string",
+        state:"required|string",
+        city:"required|string",
+        address:"required|string",
+        zip_code:"required|numeric"
     };
 
     let validation = new Validator(data, rules);
@@ -124,7 +119,7 @@ export const editUserProfileAction = ({loginData, first_name, description, middl
     try {
         if(loginData.isLogged === true){
 
-        let formBody = 'first_name='+first_name+'&description='+description+'&middle_name'+middle_name+'&country_code'+country_code+'&passport'+passport+'&phone'+phone+'&address'+address+'&state'+state+'&country'+country+'&preferred_currency'+preferred_currency;
+        let formBody = 'first_name='+first_name+'&last_name='+last_name+'&country='+country+'&state='+state+'&city='+city+'&address='+address+'&zip_code='+zip_code;
         let handleEditUserProfile = await postRequest(BACKEND_BASE_URL + "edit", formBody,  headerIncluder(loginData.user_data.token));
         let returnedObject = handleEditUserProfile.data;
         console.log(handleEditUserProfile.data)
@@ -148,8 +143,15 @@ export const editUserProfileAction = ({loginData, first_name, description, middl
         }
     } catch (err) {
         dispatch(editProfileActionFailure(err.message));
+        console.log(err.message)
     }
 }
 
-//first_name, description, middle_name, country_code, passport, phone, address, state, country,preferred_currency
+export const resetProfileState = () => {
+    return (dispatch) => {
+        dispatch({
+            type:RESET_PROFILE_STATE
+        });
+    }
+}
 
