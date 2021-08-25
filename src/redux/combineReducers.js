@@ -8,6 +8,7 @@ import ModalReducer from "./Xetima/DynamicModal/ModalReducers";
 import TwoFactorDeactivationReducer from './Xetima/TwoFactorDeactivation/TwoFactorDeactivationReducers';
 import TwoFactorDisableRequest from "./Xetima/TwoFactorDisableRequest/TwoFactorDisableRequestReducer"
 import ProfileReducer from "./Xetima/Profile/ProfileReducer"
+import phoneVerificationReducer from "./Xetima/PhoneVerification/PhoneVerificationReducer";
 
 
 const rootReducer = combineReducers({
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
   getCurrency:GetCurrencyReducer,
   twofactor:ActivtateTwoFactorReducer,
   disable_two_factor:TwoFactorDisableRequest,
-  profile:ProfileReducer
+  profile:ProfileReducer,
+  PhoneVerify:phoneVerificationReducer
 });
 
 export default rootReducer;
