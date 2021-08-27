@@ -54,8 +54,8 @@ export const savePhonePost = async ({loginData, phone, country_code}) => {
         };
 
         let rules = {
-            phone: 'required|string',
-            country_code: 'required',
+            phone: 'required|numeric',
+            country_code: 'numeric',
         };
 
         let validation = new Validator(data, rules);
@@ -104,7 +104,7 @@ const resendPhoneVerificationCodeAction = () => {
 const resendPhoneVerificationCodeActionSuccess = (data, message) => {
     return {
         type: RESEND_PHONE_VERIFICATION_CODE_SUCCESS,
-        payload: data.data,
+        payload: data,
         message: message,
     };
 };
@@ -116,7 +116,7 @@ const resendPhoneVerificationCodeActionFailure = (message) => {
     };
 };
 
-export const ResendVerificationCodePost = async ({loginData, phone}) => {
+export const ResendVerificationCodePost = async ({loginData, phone, country_code}) => {
     return async (dispatch) => {
         validateModule.ClearErrorFields();
 
@@ -124,10 +124,12 @@ export const ResendVerificationCodePost = async ({loginData, phone}) => {
 
         let data = {
             phone: phone,
+            country_code:country_code
         };
 
         let rules = {
-            phone: "required|string",
+            phone: "required|numeric",
+            country_code: "required|numeric"
         };
 
         let validation = new Validator(data, rules);
@@ -144,9 +146,9 @@ export const ResendVerificationCodePost = async ({loginData, phone}) => {
         }
         try {
             if(loginData.isLogged === true){
-            let formBody = 'phone='+phone;
+            let formBody = 'phone='+phone+'&country_code='+country_code;
             let handleResendVerificationCode = await postRequest(
-                BACKEND_BASE_URL + "resend_token_to_phone_number",
+                BACKEND_BASE_URL + "phone/resend_token_to_phone_number",
                 formBody,
                 headerIncluder(loginData.user_data.token)
             );
@@ -212,7 +214,7 @@ export const ValidatePhonePost = async (loginData, phone, country_code, token) =
         let rules = {
             token: "required|numeric",
             country_code: "required|numeric",
-            phone: "required|string",
+            phone: "required|numeric",
         };
 
         let validation = new Validator(data, rules);
@@ -231,7 +233,7 @@ export const ValidatePhonePost = async (loginData, phone, country_code, token) =
         try {
             if(loginData.isLogged === true){
             let formBody =
-                "phone=" + phone + "&token=" + token+ "&country_code=" + country_code;
+                "phone="+phone+"&token="+token+"&country_code="+country_code;
             let handlePhoneValidation = await postRequest(
                 BACKEND_BASE_URL + "verify_phone_number",
                 formBody,

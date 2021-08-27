@@ -3,23 +3,28 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  savePhonePost,
-  // ResendVerificationCodePost,
-  // ValidatePhonePost,
+  ResendVerificationCodePost,
+  ValidatePhonePost,
   resetPhoneState,
 } from "../redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
+import { useParams } from "react-router-dom";
 
-const PhoneVerify = () => {
+const ValidatePhone = () => {
   const dispatch = useDispatch();
   const allStateObject = useSelector((state) => state);
-  let { login: loginData, PhoneVerify, login } = allStateObject;
-  // const { user: userData } = loginData.user_data;
+  let { login: loginData, PhoneVerify } = allStateObject;
+  const { user: userData } = loginData.user_data;
 
-  const [phone, setPhone] = useState("");
-  const [country_code, setCountryCode] = useState("");
-  // const [token, setToken] = useState("");
+  let userPhone =  userData.phone
+  let countryCode = userData.country_code
+  console.log(countryCode)
+  console.log(userPhone)
+
+//   const [phone, setPhone] = useState("");
+//   const [country_code, setCountryCode] = useState("");
+  const [token, setToken] = useState("");
 
   let loadingStatus = false;
   if (PhoneVerify.loading === true) {
@@ -68,99 +73,9 @@ const PhoneVerify = () => {
           </div>
         </div>
       </section>
-      {/* Save Phone section start */}
-      {/* {loginData.user_data.user.phone !== null ? (
-        ""
-      ) : ( */}
-      <section className="py-50" style={{ backgroundColor: "#fafbfd" }}>
-        <div className="container">
-          <div className="row justify-content-center g-0">
-            <div className="col-lg-5 col-md-5 col-12">
-              <div className="box box-body">
-                <div className="content-top-agile pb-0 pt-20">
-                  <h2 className="text-primary">Verify Your Phone</h2>
-                </div>
-                <div>
-                  <form action method="post">
-                    <div className="form-group">
-                      {PhoneVerify.success === true ||
-                      loginData.user_data.user.phone !== null ? (
-                        <DelayedRedirect
-                          to={`/validate_phone`}
-                          delay={500}
-                        />
-                      ) : (
-                        ""
-                      )}
-
-                      {errorMessage && (
-                        <p className="alert alert-danger  text-center">
-                          {errorMessage}
-                        </p>
-                      )}
-
-                      {successMessage && (
-                        <p className="alert alert-success  text-center">
-                          {successMessage}
-                        </p>
-                      )}
-                    </div>
-                    <div className="form-group">
-                      <label>Phone</label>
-                      <div className="input-group mb-15">
-                        <input
-                          id="phone"
-                          className="form-control ps-15 bg-transparent"
-                          value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
-                        />
-                      </div>
-                      <span className="error_displayer err_phone"></span>
-                    </div>
-
-                    <div className="form-group">
-                      <label>Country Code</label>
-                      <div className="input-group mb-15">
-                        <input
-                          id="country_code"
-                          className="form-control ps-15 bg-transparent"
-                          value={country_code}
-                          onChange={(e) => setCountryCode(e.target.value)}
-                        />
-                      </div>
-                      <span className="error_displayer err_country_code"></span>
-                    </div>
-                    <div className="row">
-                      <div className="col-12 text-center">
-                        <button
-                          type="button"
-                          className="btn btn-info w-p100 mt-15"
-                          onClick={async (e) => {
-                            dispatch(
-                              await savePhonePost({
-                                loginData,
-                                phone: phone,
-                                country_code: country_code,
-                              })
-                            );
-                          }}
-                        >
-                          Update Phone
-                        </button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      {/* )} */}
 
       {/* Validate phone section */}
-
-      {/* {PhoneVerify.success === true ||
+      {PhoneVerify.success === true ||
       loginData.user_data.user.phone !== null ? (
         <section className="py-50" style={{ backgroundColor: "#fafbfd" }}>
           <div className="container">
@@ -183,7 +98,7 @@ const PhoneVerify = () => {
                           <p className="alert alert-danger">{errorMessage}</p>
                         )}
                       </div>
-                      <div className="form-group">
+                      {/* <div className="form-group">
                         <label>Phone</label>
                         <div className="input-group mb-15">
                           <input
@@ -207,7 +122,7 @@ const PhoneVerify = () => {
                           />
                         </div>
                         <span className="error_displayer err_country_code"></span>
-                      </div>
+                      </div> */}
                       <div className="form-group">
                         <div className="input-group mb-15">
                           <span className="input-group-text bg-transparent">
@@ -222,15 +137,12 @@ const PhoneVerify = () => {
                             onChange={(e) => setToken(e.target.value)}
                           />
 
-                          <input type="hidden" value={phone} />
+                          {/* <input type="hidden" value={userPhone} /> */}
 
                           <small
                             onClick={async () =>
                               dispatch(
-                                await ResendVerificationCodePost({
-                                  loginData,
-                                  phone,
-                                })
+                                await ResendVerificationCodePost({loginData, userPhone, countryCode})
                               )
                             }
                             style={{
@@ -241,13 +153,11 @@ const PhoneVerify = () => {
                             }}
                             className="text-right"
                           >
-                            {PhoneVerify.resend_code_loading === true
-                              ? PhoneVerify.message
-                              : "Resend Token"}
+                           Resend Token
                           </small>
                         </div>
                         <span className="error_displayer err_token"></span>
-                        <span className="error_displayer err_phone"></span>
+                        {/* <span className="error_displayer err_phone"></span> */}
                       </div>
                       <div className="row">
                         <div className="col-12 text-center">
@@ -259,8 +169,9 @@ const PhoneVerify = () => {
                                 await ValidatePhonePost({
                                   loginData,
                                   token: token,
-                                  phone: phone,
-                                  country_code: country_code,
+                                  phone: userPhone,
+                                  countryCode:countryCode
+                                //   country_code: country_code,
                                 })
                               )
                             }
@@ -279,9 +190,9 @@ const PhoneVerify = () => {
         </section>
       ) : (
         ""
-      )} */}
+      )}
     </>
   );
 };
 
-export default PhoneVerify;
+export default ValidatePhone;

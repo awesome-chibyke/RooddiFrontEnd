@@ -113,7 +113,7 @@ export const editUserProfileAction = ({loginData, first_name, last_name, country
     let validation = new Validator(data, rules);
 
     if (validation.fails()) {
-        dispatch(editProfileActionFailure("Your profile update Failed"));
+        dispatch(editProfileActionFailure("Validation Error Occured"));
         return validateModule.handleErrorStatement( validation.errors.errors, "", "on", "no", "no" );
     }
     try {

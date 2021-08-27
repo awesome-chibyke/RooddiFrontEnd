@@ -25,6 +25,8 @@ import Profile from "./Screens/Profile";
 import DeactivateTwoFactor from "./Screens/DeactivateTwoFactor"
 import DisableTwofactorRequest from "./Screens/DisableTwofactorRequest";
 import PhoneVerify from './Screens/PhoneVerify'
+import UploadID from "./Screens/UploadID";
+import ValidatePhone from "./Screens/ValidatePhone";
 
 
 
@@ -78,6 +80,8 @@ function App() {
                   <Route path="/deactivate_twofactor" component={DeactivateTwoFactor} />
                   <Route path="/disable_two_factor_request" component={DisableTwofactorRequest} />
                   <Route path="/phone_verify" component={PhoneVerify} />
+                  <Route path="/upload_id" component={UploadID} />
+                  <Route path="/validate_phone" component={ValidatePhone} />
                   <Footer />
               </Router>
           </PersistGate>
