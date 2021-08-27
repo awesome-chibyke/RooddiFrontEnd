@@ -46,7 +46,11 @@ const Dashboard = () => {
                                 <Link className="btn btn-success mt-4 mb-4" to="/deactivate_twofactor"> Click To Disable Two Factor</Link>
                                  )}
                                  <br></br>
-                            <a className="btn btn-success mt-4 mb-4" href="/profile">Profile</a>
+                            <Link className="btn btn-success mt-4 mb-4" to="/profile">Profile</Link>
+                                    <br/>
+                            <Link className="btn btn-success mt-4 mb-4" to="/phone_verify">Phone</Link>
+                                <br/>
+                            <Link className="btn btn-success mt-4 mb-4" to="/upload_id">Upload ID</Link>
 
                             <br></br>
                             <h4 className="text-white">Click this button to disable your twoFactor request</h4>
