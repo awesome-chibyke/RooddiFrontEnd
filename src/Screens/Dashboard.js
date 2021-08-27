@@ -6,6 +6,7 @@ import DynamiicModal from "../components/DynamiicModal";
 import { Link } from "react-router-dom";
 import Try from "../components/Try";
 import Try_ from "../components/Try_";
+import Stepper from "../components/Includes/Stepper";
 
 const Dashboard = () => {
 
@@ -16,6 +17,11 @@ const Dashboard = () => {
 
     const [displaySecondModal, setDisplaySecondModal] = useState('none');
     const [displayFirstModal, setDisplayFirstModal] = useState('none');
+
+    /*for the stepper*/
+    const [selectedStepper, setSelectedStepper] = useState(0);
+    const stepperArray = [1, 2, 3, 4, 5];
+    const titleArray = ['Account Activation', 'Phone Number Activation', 'Edit Profile', 'Upload Face', 'Upload ID'];
 
 
     if(loginData.isLogged === false){ window.location.href = '/login' }
@@ -67,6 +73,11 @@ const Dashboard = () => {
                             closeModal={setDisplaySecondModal}
                             optionForStyleOrClass={'use_class'}
                         />
+                        <div className="row">
+                            <div className='col-12 col-sm-12'>
+                                <Stepper selectedStepper={selectedStepper} setSelectedStepper={setSelectedStepper} stepperArray={stepperArray} titleArray={titleArray} />
+                            </div>
+                        </div>
                     </div>
                 </section>
             </div>

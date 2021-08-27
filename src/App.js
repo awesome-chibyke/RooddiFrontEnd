@@ -30,12 +30,19 @@ import DisableTwofactorRequest from "./Screens/DisableTwofactorRequest";
 import { Provider } from "react-redux";
 import {store, persistedStore} from "./redux/store";
 import { PersistGate } from 'redux-persist/integration/react'
+import CoinContext from "./Contexts/CoinContext";
+import TestContext from "./Screens/TestContext";
+import ContextPostGet from "./Contexts/ContextPostGet";
+import TestPostContext from "./Screens/TestPostContext";
+import Stepper from "./components/Includes/Stepper";
+import ToolTipContext from "./Contexts/ToolTipContext";
 
 function App() {
   return (
     <>
       <Provider store={store}>
           <PersistGate loading={null} persistor={persistedStore} >
+              <ToolTipContext >
               <Router>
                   <Header />
                   <Route path="/" component={Home} exact />
@@ -60,8 +67,23 @@ function App() {
                       <VerifyEmailForTwoFactorDeactivation />
                   </Route>
 
+                  <Route path="/test_context">
+                      <CoinContext >
+                          <TestContext />
+                      </CoinContext>
+                  </Route>
+
+                  <Route path="/test_data_context">
+                      <ContextPostGet >
+                          <TestPostContext />
+                      </ContextPostGet>
+                  </Route>
+
                   <Route path="/deactivate_two_factor_phone/:email">
                       <VerifyPhoneForTwoFactorDeactivation />
+                  </Route>
+                  <Route path="/stepper">
+                      <Stepper />
                   </Route>
                   <Route path="/authentication/:email" component={LoginAuthentication} />
                   <Route path="/two_factor_authentication/:email" component={GoogleAuth} />
@@ -78,6 +100,7 @@ function App() {
                   <Route path="/disable_two_factor_request" component={DisableTwofactorRequest} />
                   <Footer />
               </Router>
+              </ToolTipContext>
           </PersistGate>
       </Provider>
     </>
