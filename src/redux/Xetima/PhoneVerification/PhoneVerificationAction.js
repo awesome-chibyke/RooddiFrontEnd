@@ -116,15 +116,16 @@ const resendPhoneVerificationCodeActionFailure = (message) => {
     };
 };
 
-export const ResendVerificationCodePost = async ({loginData, phone, country_code}) => {
+export const ResendVerificationCodePost = ({loginData, userPhone, countryCode}) => {
+    
     return async (dispatch) => {
         validateModule.ClearErrorFields();
 
         dispatch(resendPhoneVerificationCodeAction());
 
         let data = {
-            phone: phone,
-            country_code:country_code
+            phone: userPhone,
+            country_code:countryCode
         };
 
         let rules = {
@@ -146,7 +147,7 @@ export const ResendVerificationCodePost = async ({loginData, phone, country_code
         }
         try {
             if(loginData.isLogged === true){
-            let formBody = 'phone='+phone+'&country_code='+country_code;
+            let formBody = 'phone='+userPhone+'&country_code='+countryCode;
             let handleResendVerificationCode = await postRequest(
                 BACKEND_BASE_URL + "phone/resend_token_to_phone_number",
                 formBody,
@@ -200,14 +201,14 @@ const validateUserPhoneActionFailure = (message) => {
     };
 };
 
-export const ValidatePhonePost = async (loginData, phone, country_code, token) => { return async (dispatch) => {
+export const ValidatePhonePost = async ({loginData, userPhone, countryCode, token}) => { return async (dispatch) => {
         validateModule.ClearErrorFields();
-
+        
         dispatch(validateUserPhoneAction());
 
         let data = {
-            phone: phone,
-            country_code: country_code,
+            phone: userPhone,
+            country_code: countryCode,
             token: token,
         };
 
@@ -233,9 +234,9 @@ export const ValidatePhonePost = async (loginData, phone, country_code, token) =
         try {
             if(loginData.isLogged === true){
             let formBody =
-                "phone="+phone+"&token="+token+"&country_code="+country_code;
+                "phone="+userPhone+"&token="+token+"&country_code="+countryCode;
             let handlePhoneValidation = await postRequest(
-                BACKEND_BASE_URL + "verify_phone_number",
+                BACKEND_BASE_URL + "phone/verify_phone_number",
                 formBody,
                 headerIncluder(loginData.user_data.token)
             );
