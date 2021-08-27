@@ -20,7 +20,7 @@ function Stepper({selectedStepper, setSelectedStepper, titleArray, stepperArray}
 
                             <>
                                 {parseFloat(index) <= parseFloat(stepperArray.length) - parseFloat(2) ? (
-                                    <div className="item" style={selectedStepper > parseFloat(index) + parseFloat(1) ? styleForStepperColored : styleForStepper}>
+                                    <div className="stepper-item" style={selectedStepper > parseFloat(index) + parseFloat(1) ? styleForStepperColored : styleForStepper}>
 
                                                                     <span title={titleArray[index]} onClick={() => setSelectedStepper(parseFloat(index) + parseFloat(1)) } style={selectedStepper >= parseFloat(index) + parseFloat(1) ?  greenVal : {} } className="round-box">
                                                                         <>

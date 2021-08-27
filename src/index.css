@@ -682,7 +682,7 @@ textarea::placeholder {
     justify-content: space-between;
     align-items: center;
 }
-.item{
+.stepper-item{
     background-color:#ccc;
     flex-grow: 1;
 }
@@ -755,7 +755,7 @@ textarea::placeholder {
         justify-content: space-between;
         align-items: center;
     }
-    .item{
+    .stepper-item{
         background-color:#ccc;
         flex-grow: 1;
     }
@@ -792,7 +792,7 @@ textarea::placeholder {
         justify-content: space-between;
         align-items: center;
     }
-    .item{
+    .stepper-item{
         background-color:#ccc;
         flex-grow: 1;
     }
