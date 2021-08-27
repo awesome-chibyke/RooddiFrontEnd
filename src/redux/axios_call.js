@@ -79,3 +79,17 @@ export const putRequest = (url, data, header = {}) => {
     }
   });
 };
+
+export const fetchGetRequest = (url, header = {}) => {
+  return new Promise(function (resolve, reject) {
+
+    fetch(url, {
+      method: 'DELETE'
+    }).then((response) => response.json())
+        .then((response) => resolve(response) )
+        .catch((error) => {
+        reject(error);
+    });
+
+  });
+};
