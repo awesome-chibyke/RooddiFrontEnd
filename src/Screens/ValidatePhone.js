@@ -9,7 +9,6 @@ import {
 } from "../redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
-import { useParams } from "react-router-dom";
 
 const ValidatePhone = () => {
   const dispatch = useDispatch();
@@ -18,9 +17,8 @@ const ValidatePhone = () => {
   const { user: userData } = loginData.user_data;
 
   let userPhone =  userData.phone
-  let countryCode = userData.country_code
-  console.log(countryCode)
-  console.log(userPhone)
+  let countryCode = userData.country_code;
+  
 
 //   const [phone, setPhone] = useState("");
 //   const [country_code, setCountryCode] = useState("");
@@ -137,12 +135,10 @@ const ValidatePhone = () => {
                             onChange={(e) => setToken(e.target.value)}
                           />
 
-                          {/* <input type="hidden" value={userPhone} /> */}
-
                           <small
-                            onClick={async () =>
+                            onClick={() =>
                               dispatch(
-                                await ResendVerificationCodePost({loginData, userPhone, countryCode})
+                                ResendVerificationCodePost({loginData, userPhone, countryCode})
                               )
                             }
                             style={{
@@ -157,22 +153,14 @@ const ValidatePhone = () => {
                           </small>
                         </div>
                         <span className="error_displayer err_token"></span>
-                        {/* <span className="error_displayer err_phone"></span> */}
                       </div>
                       <div className="row">
                         <div className="col-12 text-center">
                           <button
                             type="button"
-                            disabled={loginData.loading === true ? true : false}
                             onClick={async () =>
                               dispatch(
-                                await ValidatePhonePost({
-                                  loginData,
-                                  token: token,
-                                  phone: userPhone,
-                                  countryCode:countryCode
-                                //   country_code: country_code,
-                                })
+                                await ValidatePhonePost({loginData, token, userPhone, countryCode})
                               )
                             }
                             className="btn btn-primary w-p100 mt-15"
