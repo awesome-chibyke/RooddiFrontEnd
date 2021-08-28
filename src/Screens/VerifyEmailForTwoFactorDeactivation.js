@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { sendEmailForTwoFactorDeactivationPost, verifyTokenSentToEmailForTwoFactorDeactivation, resetTwoFactorDeactivationState } from "../redux";
+import {
+    sendEmailForTwoFactorDeactivationPost,
+    verifyTokenSentToEmailForTwoFactorDeactivation,
+    resetTwoFactorDeactivationState,
+    ResendAuthenticationPost, resendEmailForTwoFactorDeactivationPost
+} from "../redux";
 import { useSelector, useDispatch } from "react-redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
@@ -171,7 +176,25 @@ const  VerifyEmailForTwoFactorDeactivation = () => {
                                                             >
                             <i className={`fa ${inputType.class_name}`}> </i>
                           </span>
+
                                                             <span className="passwordChanger"></span>
+                                                            <small
+                                                                onClick={async () =>
+                                                                    dispatch(await resendEmailForTwoFactorDeactivationPost(email))
+                                                                }
+                                                                style={{
+                                                                    width: "100%",
+                                                                    color: "green",
+                                                                    textAlign: "right",
+                                                                    cursor: "pointer",
+                                                                }}
+                                                                className="text-right"
+                                                            >
+                                                                {TwoFactorDeactivationState.resend_email_token_loading === true
+                                                                    ? TwoFactorDeactivationState.message
+                                                                    : "Resend Token"}
+                                                            </small>
+
                                                         </div>
                                                         <span className="error_displayer err_token"></span>
                                                     </div>
