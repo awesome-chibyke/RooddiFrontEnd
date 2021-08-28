@@ -1,4 +1,4 @@
-import {VERIFY_EMAIL_LOADING, VERIFY_EMAIL_SUCCESS,VERIFY_EMAIL_FAILURE, VERIFY_PHONE_LOADING, VERIFY_PHONE_SUCCESS, VERIFY_PHONE_FAILURE, RESET_TWO_FACTOR_DEATIVATION_STATE, VERIFY_EMAIL_TOKEN_LOADING, VERIFY_EMAIL_TOKEN_SUCCESS, VERIFY_EMAIL_TOKEN_FAILURE, VERIFY_PHONE_TOKEN_LOADING, VERIFY_PHONE_TOKEN_SUCCESS, VERIFY_PHONE_TOKEN_FAILURE} from "./TwoFactorDeactivationTypes";
+import {VERIFY_EMAIL_LOADING, VERIFY_EMAIL_SUCCESS,VERIFY_EMAIL_FAILURE, VERIFY_PHONE_LOADING, VERIFY_PHONE_SUCCESS, VERIFY_PHONE_FAILURE, RESET_TWO_FACTOR_DEATIVATION_STATE, VERIFY_EMAIL_TOKEN_LOADING, VERIFY_EMAIL_TOKEN_SUCCESS, VERIFY_EMAIL_TOKEN_FAILURE, VERIFY_PHONE_TOKEN_LOADING, VERIFY_PHONE_TOKEN_SUCCESS, VERIFY_PHONE_TOKEN_FAILURE, RESEND_TOKEN_TO_EMAIL_FAILURE, RESEND_TOKEN_TO_EMAIL_SUCCESS, RESEND_TOKEN_TO_EMAIL_LOADING} from "./TwoFactorDeactivationTypes";
 
 const initialState = {
     verify_email_loading:false,
@@ -20,6 +20,9 @@ const initialState = {
 
     verify_phone_status:false,
     verify_phone_token_status:false,
+
+    resend_email_token_loading:false,
+
 }
 
 const TwoFactorDeactivationReducer = (state = initialState, action) => {
@@ -291,7 +294,39 @@ const TwoFactorDeactivationReducer = (state = initialState, action) => {
                 verify_phone_status:false,
                 verify_phone_token_status:false,
             }
+        case RESEND_TOKEN_TO_EMAIL_LOADING:
+            return {
+                ...state,
 
+                error:false,
+                success:false,
+
+                message:action.message,
+
+                resend_email_token_loading:true
+            }
+        case RESEND_TOKEN_TO_EMAIL_SUCCESS:
+            return {
+                ...state,
+
+                error:false,
+                success:true,
+
+                message:action.message,
+
+                resend_email_token_loading:false
+            }
+        case RESEND_TOKEN_TO_EMAIL_FAILURE:
+            return {
+                ...state,
+
+                error:true,
+                success:false,
+
+                message:action.message,
+
+                resend_email_token_loading:false
+            }
         default:
             return state;
     }
