@@ -1,11 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/heading-has-content */
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { resetIdUploadState, editUserProfileAction } from "../redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
+import {postRequest} from "../redux/axios_call"
+import {BACKEND_BASE_URL, headerIncluder} from "../common_variables"
 
+// import { Form } from "react-bootstrap";
 const UploadID = () => {
   const dispatch = useDispatch();
   const allStateObject = useSelector((state) => state);
@@ -15,6 +19,7 @@ const UploadID = () => {
   const [upload_id_card_front, setUploadIdCardFront] = useState("");
   const [upload_id_card_back, setUploadIdCardBack] = useState("");
   const [document_number, setDocumentNumber] = useState("");
+  const [uploading, setUploading] = useState(false);
 
   let loadingStatus = false;
   if (idUpload.loading === true) {
@@ -33,6 +38,36 @@ const UploadID = () => {
       dispatch(resetIdUploadState());
     };
   }, []);
+  //Image upload handler
+  const uploadFileHandler = async (e) => {
+
+    const IdFront = document.getElementById('').files[0];
+    const idBack = document.getElementById('').files[0];
+    const formData = new FormData();
+
+    formData.append("upload_id_card_back", IdFront);
+    formData.append("upload_id_card_front", idBack);
+    setUploading(true);
+
+    try {
+
+      // const config = {
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //   },
+      // };
+
+      const { data } = await postRequest(`${BACKEND_BASE_URL}/identity_management/upload_id_card`, formData, headerIncluder(loginData.user_data.token, "multipart/form-data"));
+
+      // setUploadIdCardFront(data);
+      // setUploadIdCardBack(data);
+      setUploading(false);
+    } catch (error) {
+      console.error(error);
+      setUploading(false);
+    }
+  };
+
   return (
     <>
       {/*Redirect to login if isLogged is false  */}
@@ -95,10 +130,11 @@ const UploadID = () => {
                             class="form-control-file"
                             id="upload_id_card_front"
                             value={upload_id_card_front}
-                            onChange={(e) =>
-                            setUploadIdCardFront(e.target.value)
-                            }
+                            onChange={(e) => {
+                              setUploadIdCardFront(e);
+                            }}
                           />
+                          {uploading}
                         </div>
                         <span className="error_displayer err_upload_id_card_front"></span>
                       </div>
@@ -113,9 +149,9 @@ const UploadID = () => {
                             class="form-control-file"
                             id="upload_id_card_back"
                             value={upload_id_card_back}
-                            onChange={(e) =>
-                            setUploadIdCardBack(e.target.value)
-                            }
+                            onChange={(e) => {
+                              setUploadIdCardBack(e);
+                            }}
                           />
                         </div>
                         <span className="error_displayer err_upload_id_card_back"></span>
@@ -149,6 +185,7 @@ const UploadID = () => {
                                   })
                                 )
                               }
+                              onSubmit={uploadFileHandler}
                               className="btn btn-primary btn-block w-p100 mt-15"
                             >
                               Submit
