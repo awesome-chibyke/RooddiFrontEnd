@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/heading-has-content */
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import CoutryCode from "../components/Includes/CountryCode";
 import {
   savePhonePost,
   // ResendVerificationCodePost,
@@ -130,8 +131,17 @@ const PhoneVerify = () => {
                       </div>
                       <span className="error_displayer err_country_code"></span>
                     </div>
+
+                    <div className="form-group">
+                      <label>Country Code</label>
+                      <CoutryCode/>
+                      
+                      <span className="error_displayer err_country_code"></span>
+                    </div>
+                    
                     <div className="row">
                       <div className="col-12 text-center">
+                        
                         <button
                           type="button"
                           className="btn btn-info w-p100 mt-15"
@@ -145,7 +155,7 @@ const PhoneVerify = () => {
                             );
                           }}
                         >
-                          Update Phone
+                          {PhoneVerify.loading === true ? ('Verifying Phone.....') : ('Submit')}
                         </button>
                       </div>
                     </div>

@@ -240,7 +240,7 @@ const Profile = () => {
                                     }
                                     className="btn btn-primary btn-block w-p100 mt-15"
                                   >
-                                    Submit
+                                    {profile.loading === true ? ('Updating Profile.....') : ('Submit')}
                                   </button>
                                 ) : (
                                   ""
