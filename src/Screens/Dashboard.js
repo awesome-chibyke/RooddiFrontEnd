@@ -22,6 +22,7 @@ const Dashboard = () => {
     const [selectedStepper, setSelectedStepper] = useState(0);
     const stepperArray = [1, 2, 3, 4, 5];
     const titleArray = ['Account Activation', 'Phone Number Activation', 'Edit Profile', 'Upload Face', 'Upload ID'];
+    const linkArray = ['login1', 'login2', 'login3', 'login4', 'login5'];
 
 
     if(loginData.isLogged === false){ window.location.href = '/login' }
@@ -79,7 +80,7 @@ const Dashboard = () => {
                         />
                         <div className="row">
                             <div className='col-12 col-sm-12'>
-                                <Stepper selectedStepper={selectedStepper} setSelectedStepper={setSelectedStepper} stepperArray={stepperArray} titleArray={titleArray} />
+                                <Stepper selectedStepper={selectedStepper} setSelectedStepper={setSelectedStepper} stepperArray={stepperArray} titleArray={titleArray} linkArray={linkArray} />
                             </div>
                         </div>
                     </div>
