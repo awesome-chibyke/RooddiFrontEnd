@@ -57,7 +57,7 @@ alert(document_number)
     formData.append("document_number", document_number);
 
     if (validation.fails()) {
-        dispatch(idUploaddActionFailure("Validation Error Occured"));
+        dispatch(idUploaddActionFailure("Validation Error Occurred"));
         return validateModule.handleErrorStatement( validation.errors.errors, "", "on", "no", "no" );
     }
     try {
