@@ -1,0 +1,5 @@
+export const ID_UPLOAD = 'ID_UPLOAD'
+export const ID_UPLOAD_SUCCESS = 'ID_UPLOAD_SUCCESS'
+export const ID_UPLOAD_FAIL = 'ID_UPLOAD_FAIL'
+
+export const RESET_ID_UPLOAD_STATE = 'RESET_ID_UPLOAD_STATE'

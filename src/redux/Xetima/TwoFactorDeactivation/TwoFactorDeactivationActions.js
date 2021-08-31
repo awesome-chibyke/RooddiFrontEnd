@@ -1,4 +1,4 @@
-import {VERIFY_EMAIL_LOADING, VERIFY_EMAIL_SUCCESS,VERIFY_EMAIL_FAILURE, VERIFY_PHONE_LOADING, VERIFY_PHONE_SUCCESS, VERIFY_PHONE_FAILURE, RESET_TWO_FACTOR_DEATIVATION_STATE, VERIFY_EMAIL_TOKEN_LOADING, VERIFY_EMAIL_TOKEN_SUCCESS, VERIFY_EMAIL_TOKEN_FAILURE, VERIFY_PHONE_TOKEN_LOADING, VERIFY_PHONE_TOKEN_SUCCESS, VERIFY_PHONE_TOKEN_FAILURE} from "./TwoFactorDeactivationTypes";
+import {VERIFY_EMAIL_LOADING, VERIFY_EMAIL_SUCCESS,VERIFY_EMAIL_FAILURE, VERIFY_PHONE_LOADING, VERIFY_PHONE_SUCCESS, VERIFY_PHONE_FAILURE, RESET_TWO_FACTOR_DEATIVATION_STATE, VERIFY_EMAIL_TOKEN_LOADING, VERIFY_EMAIL_TOKEN_SUCCESS, VERIFY_EMAIL_TOKEN_FAILURE, VERIFY_PHONE_TOKEN_LOADING, VERIFY_PHONE_TOKEN_SUCCESS, VERIFY_PHONE_TOKEN_FAILURE, RESEND_TOKEN_TO_EMAIL_FAILURE, RESEND_TOKEN_TO_EMAIL_SUCCESS, RESEND_TOKEN_TO_EMAIL_LOADING} from "./TwoFactorDeactivationTypes";
 import validateModule from "../../../validation/validate_module";
 import {postRequest} from "../../axios_call";
 import {BACKEND_BASE_URL} from "../../../common_variables";
@@ -96,7 +96,7 @@ export const verifyTokenSentToEmailForTwoFactorDeactivation = ({email, token}) =
     return async (dispatch) => {
         validateModule.ClearErrorFields();//clear error fields
 
-        dispatch(VerifyEmailTokenLoading);
+        dispatch(VerifyEmailTokenLoading());
 
         let data = {
             email: email,
@@ -118,14 +118,16 @@ export const verifyTokenSentToEmailForTwoFactorDeactivation = ({email, token}) =
         try{
             let formBody = 'email='+email+'&token='+token;
             let handlePasswordChange = await postRequest(BACKEND_BASE_URL+"two_factor/verify_email_token_for_two_factor_deactivation", formBody, {headers: {'Content-Type': 'application/x-www-form-urlencoded'} });
-            let returnedData = handlePasswordChange.data;
-            let {status,message,message_type, data} = returnedData;
-            if(status === true){
-                dispatch(VerifyEmailTokenSuccess({email:data.email, message}));
-            }else{
-                validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
-                dispatch(VerifyEmailTokenFailure('A Error Occurred'));
-            }
+            setTimeout(() => {
+                let returnedData = handlePasswordChange.data;
+                let {status,message,message_type, data} = returnedData;
+                if(status === true){
+                    dispatch(VerifyEmailTokenSuccess({email:data.email, message}));
+                }else{
+                    validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
+                    dispatch(VerifyEmailTokenFailure('A Error Occurred'));
+                }
+            }, 3000)
         }catch(e){
             validateModule.handleErrorStatement({general_error:[e.message]}, '', 'on', 'no', 'no');
             dispatch(VerifyEmailTokenFailure(e.message));
@@ -184,11 +186,11 @@ export const sendPhoneForTwoFactorDeactivationPost = ({phone, country_code, emai
         //SELECT * FROM `users` WHERE phone = '8164327283' AND email = 'realtestzer13@gmail.com' AND country_code = '+234'
         try{
 
-            //let formBody = 'phone='+phone.trim()+'&country_code='+country_code.value.trim()+'&email='+email.trim();
-            let formBody = 'phone=08164327283'+'&country_code=+234'+'&email=realtestzer13@gmail.com';
+            let formBody = 'phone='+phone.trim()+'&country_code='+country_code.value.trim()+'&email='+email.trim();
+            //let formBody = 'phone=08164327283'+'&country_code=+234'+'&email=realtestzer13@gmail.com';
 
             let handlePhoneNumberSendingForTwoFactorDeactivation = await postRequest(BACKEND_BASE_URL+"two_factor/send_token_by_sms_for_two_factor_deactivation", formBody, {headers: {'Content-Type': 'application/x-www-form-urlencoded'} });
-            console.log(handlePhoneNumberSendingForTwoFactorDeactivation.data);
+
             let returnedData = handlePhoneNumberSendingForTwoFactorDeactivation.data;
             let {status,message,message_type, data} = returnedData;
             if(status === true){
@@ -281,4 +283,67 @@ export const resetTwoFactorDeactivationState = () => {
         });
 
     }
+}
+
+
+//.................................................resend email to token...................................//
+const resendTokenToEmailLoading = () => {
+    return {
+        type:RESEND_TOKEN_TO_EMAIL_LOADING,
+        message:'Loading......'
+    }
+}
+
+const  resendTokenToEmailSuccess = ({email, message}) => {
+    return {
+        type:RESEND_TOKEN_TO_EMAIL_SUCCESS,
+        payload:email,
+        message:message
+    }
+}
+
+const resendTokenToEmailError = (message) => {
+    return {
+        type:RESEND_TOKEN_TO_EMAIL_FAILURE,
+        message:message
+    }
+}
+
+export const resendEmailForTwoFactorDeactivationPost = (email) => {
+    return async (dispatch) => {
+        validateModule.ClearErrorFields();//clear error fields
+
+        dispatch(resendTokenToEmailLoading());
+
+        let data = {
+            email:email,
+        };
+
+        let rules = {
+            email: 'required|email'
+        };
+
+        let validation = new Validator(data, rules);
+
+        if(validation.fails()){
+            dispatch(resendTokenToEmailError('A Validation Error Occurred'));
+            return validateModule.handleErrorStatement(validation.errors.errors, '', 'on', 'no', 'no');
+        }
+
+        try{
+            let formBody = 'email='+email;
+            let handlePasswordChange = await postRequest(BACKEND_BASE_URL+"two_factor/disable_two_factor_email_auth", formBody, {headers: {'Content-Type': 'application/x-www-form-urlencoded'} });
+            let returnedData = handlePasswordChange.data;
+            let {status,message,message_type, data} = returnedData;
+            if(status === true){
+                dispatch(resendTokenToEmailSuccess({email:data.email, message}));
+            }else{
+                validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
+                dispatch(resendTokenToEmailError('A Error Occurred'));
+            }
+        }catch(e){
+            validateModule.handleErrorStatement({general_error:[e.message]}, '', 'on', 'no', 'no');
+            dispatch(resendTokenToEmailError(e.message));
+        }
+    };
 }

@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { finaliseTwoFactor, activateTwoFactorAction } from "../redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
-import { Link } from "react-router-dom";
 
 const FinaliseTwoFactor = () => {
   const dispatch = useDispatch();
