@@ -24,7 +24,7 @@ import VerifyPhoneForTwoFactorDeactivation from "./Screens/VerifyPhoneForTwoFact
 import Profile from "./Screens/Profile";
 import DeactivateTwoFactor from "./Screens/DeactivateTwoFactor"
 import DisableTwofactorRequest from "./Screens/DisableTwofactorRequest";
-
+import Trasnferred from './Screens/Transferred'
 
 
 import { Provider } from "react-redux";
@@ -76,6 +76,9 @@ function App() {
                   <Route path="/profile" component={Profile} />
                   <Route path="/deactivate_twofactor" component={DeactivateTwoFactor} />
                   <Route path="/disable_two_factor_request" component={DisableTwofactorRequest} />
+                  <Route path="/transferred">
+                      <Trasnferred />
+                  </Route>
                   <Footer />
               </Router>
           </PersistGate>
