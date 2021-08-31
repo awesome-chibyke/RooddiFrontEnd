@@ -24,10 +24,12 @@ import VerifyPhoneForTwoFactorDeactivation from "./Screens/VerifyPhoneForTwoFact
 import Profile from "./Screens/Profile";
 import DeactivateTwoFactor from "./Screens/DeactivateTwoFactor"
 import DisableTwofactorRequest from "./Screens/DisableTwofactorRequest";
+import Trasnferred from './Screens/Transferred'
 import PhoneVerify from './Screens/PhoneVerify'
 import UploadID from "./Screens/UploadID";
 import ValidatePhone from "./Screens/ValidatePhone";
 import StepVerify from "./Screens/StepVerify";
+
 
 
 
@@ -102,6 +104,9 @@ function App() {
                   <Route path="/profile" component={Profile} />
                   <Route path="/deactivate_twofactor" component={DeactivateTwoFactor} />
                   <Route path="/disable_two_factor_request" component={DisableTwofactorRequest} />
+                  <Route path="/transferred">
+                      <Trasnferred />
+                  </Route>
                   <Route path="/phone_verify" component={PhoneVerify} />
                   <Route path="/upload_id" component={UploadID} />
                   <Route path="/validate_phone" component={ValidatePhone} />

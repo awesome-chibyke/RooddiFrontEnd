@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import P2pChatBox from "../../components/P2pChatBox";
 
@@ -9,8 +10,8 @@ const Account = ({closeModal, displayTransferModal}) => {
         marginLeft: '0.2rem', 
         border: '1px solid #e4e6ef',
         borderRadius: '0.3rem'
-    }
-
+    }       
+    
     const content = {
         marginTop: '2rem',
         marginLeft: '0.2rem',
@@ -124,10 +125,12 @@ const Account = ({closeModal, displayTransferModal}) => {
                         </div>
                             <div className="row" style={{display: 'flex', justifyContent: 'space-between' }}>
                                 <div className="col-12 col-sm-3 mt-25 ml-75">
-                                    <Button onClick={() => displayTransferModal('block')} style={{width:"100%"}} className="btn-block" variant="primary">Transfer Fund&nbsp;&nbsp;<i class="fa fa-arrow-right" ></i></Button>{' '}
+                                    <Link style={{width:"100%"}}                className="btn-block btn btn-primary" variant="primary" to="/transferred">
+                                    Transfer Fund&nbsp;&nbsp;<i class="fa fa-arrow-right" ></i>
+                                    </Link>
                                 </div>
                             <div className="col-12 col-sm-3 mt-25 ml-75">
-                                <Button style={{width:"100%"}} className="btn-block" onClick={() => closeModal()} variant="light">Cancel</Button>{' '}
+                                <Button style={{width:"100%"}} className="btn-block" onClick={() => closeModal()} variant="lig">Cancel</Button>{' '}
                             </div>
                         </div>
                     </div>
