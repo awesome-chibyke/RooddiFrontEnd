@@ -130,7 +130,7 @@ const Account = ({closeModal, displayTransferModal}) => {
                                     </Link>
                                 </div>
                             <div className="col-12 col-sm-3 mt-25 ml-75">
-                                <Button style={{width:"100%"}} className="btn-block" onClick={() => closeModal()} variant="light">Cancel</Button>{' '}
+                                <Button style={{width:"100%"}} className="btn-block" onClick={() => closeModal()} variant="lig">Cancel</Button>{' '}
                             </div>
                         </div>
                     </div>

@@ -24,14 +24,12 @@ import VerifyPhoneForTwoFactorDeactivation from "./Screens/VerifyPhoneForTwoFact
 import Profile from "./Screens/Profile";
 import DeactivateTwoFactor from "./Screens/DeactivateTwoFactor"
 import DisableTwofactorRequest from "./Screens/DisableTwofactorRequest";
-<<<<<<< HEAD
 import Trasnferred from './Screens/Transferred'
-=======
 import PhoneVerify from './Screens/PhoneVerify'
 import UploadID from "./Screens/UploadID";
 import ValidatePhone from "./Screens/ValidatePhone";
 
->>>>>>> f3679b52aee6d1a9a10e0b25ea488fb8fd343238
+
 
 
 import { Provider } from "react-redux";
@@ -105,15 +103,12 @@ function App() {
                   <Route path="/profile" component={Profile} />
                   <Route path="/deactivate_twofactor" component={DeactivateTwoFactor} />
                   <Route path="/disable_two_factor_request" component={DisableTwofactorRequest} />
-<<<<<<< HEAD
                   <Route path="/transferred">
                       <Trasnferred />
                   </Route>
-=======
                   <Route path="/phone_verify" component={PhoneVerify} />
                   <Route path="/upload_id" component={UploadID} />
                   <Route path="/validate_phone" component={ValidatePhone} />
->>>>>>> f3679b52aee6d1a9a10e0b25ea488fb8fd343238
                   <Footer />
               </Router>
               </ToolTipContext>
