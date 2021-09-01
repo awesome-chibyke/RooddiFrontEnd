@@ -28,7 +28,6 @@ import Trasnferred from './Screens/Transferred'
 import PhoneVerify from './Screens/PhoneVerify'
 import UploadID from "./Screens/UploadID";
 import ValidatePhone from "./Screens/ValidatePhone";
-import StepVerify from "./Screens/StepVerify";
 
 
 
@@ -110,7 +109,6 @@ function App() {
                   <Route path="/phone_verify" component={PhoneVerify} />
                   <Route path="/upload_id" component={UploadID} />
                   <Route path="/validate_phone" component={ValidatePhone} />
-                  <Route path="/step" component={StepVerify} />
                   <Footer />
               </Router>
               </ToolTipContext>

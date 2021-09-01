@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {resetIdUploadState, uploadFileHandler} from "../redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
+import Stepper from "../components/Includes/Stepper";
 
 // import { Form } from "react-bootstrap";
 const UploadID = () => {
@@ -13,6 +14,7 @@ const UploadID = () => {
   const dispatch = useDispatch();
   const allStateObject = useSelector((state) => state);
   let { login: loginData, idUpload } = allStateObject;
+  const { user: userData } = loginData.user_data;
 
   const [document_number, setDocumentNumber] = useState("");
 
@@ -33,6 +35,22 @@ const UploadID = () => {
       dispatch(resetIdUploadState());
     };
   }, []);
+
+  let validtionArray = userData.verifiation_details_object.verification_steps
+
+  let accountVericationStep = userData.account_verification_step
+
+  let Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed;
+
+  [Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed] = validtionArray;
+  let step;
+  
+  step = validtionArray.indexOf(accountVericationStep);
+  //Stepper setup
+  const [selectedStepper, setSelectedStepper] = useState(step+1);
+  const stepperArray = [0, 1, 2, 3, 4, 5];
+  const titleArray = [Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed ];
+  const linkArray = ['/activation/:email', '/phone_verify', '/profile', '/upload_face', '/upload_id', '/completed'];
 
   return (
     <>
@@ -63,6 +81,11 @@ const UploadID = () => {
             </div>
           </div>
         </section>
+        <div className="row">
+        <div className='col-12 col-sm-12'>
+            <Stepper selectedStepper={selectedStepper} setSelectedStepper={setSelectedStepper} stepperArray={stepperArray} titleArray={titleArray} linkArray={linkArray} />
+        </div>
+      </div>
         <section className="py-50" style={{ backgroundColor: "#fafbfd" }}>
           <div className="container">
             <div className="row justify-content-center g-0">
