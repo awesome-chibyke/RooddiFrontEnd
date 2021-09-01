@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { editUserProfileAction, resetProfileState } from "../redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
+import Stepper from "../components/Includes/Stepper";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -39,6 +40,22 @@ const Profile = () => {
     };
   }, []);
 
+  let validtionArray = userData.verifiation_details_object.verification_steps
+
+  let accountVericationStep = userData.account_verification_step
+
+  let Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed;
+
+  [Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed] = validtionArray;
+  let step;
+  
+  step = validtionArray.indexOf(accountVericationStep);
+  //Stepper setup
+  const [selectedStepper, setSelectedStepper] = useState(step+1);
+  const stepperArray = [0, 1, 2, 3, 4, 5];
+  const titleArray = [Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed ];
+  const linkArray = ['/activation/:email', '/phone_verify', '/profile', '/upload_face', '/upload_id', '/completed'];
+
   return (
     <>
       {/*Redirect to login if isLogged is false  */}
@@ -68,6 +85,11 @@ const Profile = () => {
             </div>
           </div>
         </section>
+        <div className="row">
+        <div className='col-12 col-sm-12'>
+            <Stepper selectedStepper={selectedStepper} setSelectedStepper={setSelectedStepper} stepperArray={stepperArray} titleArray={titleArray} linkArray={linkArray} />
+        </div>
+      </div>
         <section className="py-50" style={{ backgroundColor: "#fafbfd" }}>
           <div className="container">
             <div className="row justify-content-center g-0">
@@ -240,7 +262,7 @@ const Profile = () => {
                                     }
                                     className="btn btn-primary btn-block w-p100 mt-15"
                                   >
-                                    Submit
+                                    {profile.loading === true ? ('Updating Profile.....') : ('Submit')}
                                   </button>
                                 ) : (
                                   ""

@@ -9,6 +9,7 @@ import {
 } from "../redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
+import Stepper from "../components/Includes/Stepper";
 
 const ValidatePhone = () => {
   const dispatch = useDispatch();
@@ -42,6 +43,22 @@ const ValidatePhone = () => {
     };
   }, []);
 
+  let validtionArray = userData.verifiation_details_object.verification_steps
+
+  let accountVericationStep = userData.account_verification_step
+
+  let Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed;
+
+  [Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed] = validtionArray;
+  let step;
+  
+  step = validtionArray.indexOf(accountVericationStep);
+  //Stepper setup
+  const [selectedStepper, setSelectedStepper] = useState(step+1);
+  const stepperArray = [0, 1, 2, 3, 4, 5];
+  const titleArray = [Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed ];
+  const linkArray = ['/activation/:email', '/phone_verify', '/profile', '/upload_face', '/upload_id', '/completed'];
+
   return (
     <>
       {/*Redirect to login if isLogged is false  */}
@@ -73,6 +90,11 @@ const ValidatePhone = () => {
       </section>
 
       {/* Validate phone section */}
+      <div className="row">
+        <div className='col-12 col-sm-12'>
+            <Stepper selectedStepper={selectedStepper} setSelectedStepper={setSelectedStepper} stepperArray={stepperArray} titleArray={titleArray} linkArray={linkArray} />
+        </div>
+      </div>
       {PhoneVerify.success === true ||
       loginData.user_data.user.phone !== null ? (
         <section className="py-50" style={{ backgroundColor: "#fafbfd" }}>

@@ -60,7 +60,6 @@ function Stepper({selectedStepper, setSelectedStepper, titleArray, stepperArray,
                 {/*<div className="item" style={styleForStepper}>
                                                 <span className="round-box">3</span>
                                             </div>
-
                                             <div className="item" style={styleForStepper}>
                                                 <span className="round-box">3</span>
                                             </div>

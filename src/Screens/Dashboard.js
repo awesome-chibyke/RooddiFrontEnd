@@ -53,6 +53,9 @@ const Dashboard = () => {
                                 <br/>
                             <Link className="btn btn-success mt-4 mb-4" to="/upload_id">Upload ID</Link>
 
+                            <br/>
+                            <Link className="btn btn-success mt-4 mb-4" to="/step">Account Verification</Link>
+
                             <br></br>
                             <h4 className="text-white">Click this button to disable your twoFactor request</h4>
                             <Link className="btn btn-success mt-4 mb-4" to="/disable_two_factor_request">Disable Two Factor Request</Link>
