@@ -125,7 +125,7 @@ const Account = ({closeModal, displayTransferModal}) => {
                         </div>
                             <div className="row" style={{display: 'flex', justifyContent: 'space-between' }}>
                                 <div className="col-12 col-sm-3 mt-25 ml-75">
-                                    <Link style={{width:"100%"}}                className="btn-block btn btn-primary" variant="primary" to="/transferred">
+                                    <Link style={{width:"100%"}}                className="btn-block btn btn-primary" variant="primary" to="/successful">
                                     Transfer Fund&nbsp;&nbsp;<i class="fa fa-arrow-right" ></i>
                                     </Link>
                                 </div>
