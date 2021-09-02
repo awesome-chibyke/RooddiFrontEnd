@@ -1,13 +1,12 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/heading-has-content */
 import React, {} from 'react'
-import { BASE_URL } from "../common_variables"
 import { Button } from "react-bootstrap"
 
 const Successful = () => {
 
   const successContainer = {
     width: '100%',
-    
   }
 
   const centerStyle = {
@@ -21,16 +20,7 @@ const Successful = () => {
     color: '#a2dd71'
   }
 
-  const img = {
-    width: '25px',
-  }
-
-  const flexStyle = {
-    display: 'flex', 
-    justifyContent: 'space-between',
-    alignContent: 'flex-start'
-  }
-
+  const coinName = 'USDT'
   
 
     return (
@@ -62,7 +52,7 @@ const Successful = () => {
               <div style={successContainer}>
                   <div style={centerStyle}>
                     <h2>Order Completed</h2>
-                    <h4>You successfully purchased 9.65 USDT</h4>
+                    <h4>You successfully purchased 9.65 {coinName}</h4>
                     <i class="fa fa-check-circle" aria-hidden="true" style={Icon}></i>
                   </div>
               </div>
@@ -71,7 +61,7 @@ const Successful = () => {
                 <div className="box box-body">
                   <div style={{textAlign: 'center'}}>
                     <h4>
-                      Hello there, your purchase of USDT was successful.
+                      Hello there, your purchase of {coinName} was successful.
                     </h4>
                     <h6 style={{paddingTop: '1rem'}}>
                       Fell free to make an appel by clicking the button below.
