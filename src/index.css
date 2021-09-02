@@ -819,5 +819,11 @@ textarea::placeholder {
         right: 0px;
         text-align: center;
         line-height: 50px;
-    }
+  }
+}
+
+.btn-light:hover, .btn-light:active, .btn-light:focus, .btn-light.active {
+  background-color: #a2dd71 !important;
+  border-color: #a2dd71 !important;
+  color: #fff;
 }
