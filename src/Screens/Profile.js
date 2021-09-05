@@ -42,7 +42,8 @@ const Profile = () => {
 
   let validtionArray = userData.verifiation_details_object.verification_steps
 
-  let accountVericationStep = userData.account_verification_step
+  //let accountVericationStep = userData.account_verification_step;
+  let accountVericationStep = userData.current_verification_step;
 
   let Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed;
 

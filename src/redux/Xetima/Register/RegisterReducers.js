@@ -5,7 +5,8 @@ import { REGISTER, REGISTER_SUCCESS, REGISTER_FAILURE, USER_LOGOUT,
     RESEND_ACTIVATION_ACTIVATION_CODE_SUCCESS,
     RESEND_ACTIVATION_CODE,
     RESEND_ACTIVATION_CODE_FAILURE,
-    DISABLE_ACTIVATION_STATUS
+    DISABLE_ACTIVATION_STATUS,
+    RESET_REGISTER
 } from "./RegisterActionTypes";
 
 const initialState = {
@@ -117,6 +118,18 @@ const UserRegistrationReducer = (state = initialState, action) => {
             };
             case USER_LOGOUT:
                 return {}
+
+                case RESET_REGISTER:
+                    return {
+                        ...state,
+                        message:'',
+                        loading:false,
+                        error_message:false,
+                        success_message:false,
+                        isLogged:false,
+                        register_status:false,
+                        activation_status:false
+                    };
         default:
             return state;
     }
