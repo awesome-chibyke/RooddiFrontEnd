@@ -5,7 +5,7 @@ import { REGISTER, REGISTER_FAILURE, REGISTER_SUCCESS, USER_LOGOUT, ACTIVATION,
     RESEND_ACTIVATION_ACTIVATION_CODE_SUCCESS,
     RESEND_ACTIVATION_CODE,
     RESEND_ACTIVATION_CODE_FAILURE,
-    DISABLE_ACTIVATION_STATUS} from "./RegisterActionTypes";
+    DISABLE_ACTIVATION_STATUS, RESET_REGISTER} from "./RegisterActionTypes";
 import { BACKEND_BASE_URL } from "../../../common_variables";
 import * as Validator from 'validatorjs';
 import validateModule from "../../../validation/validate_module";
@@ -263,3 +263,11 @@ export const disableActivationIsloggedKey = () => {
         });
     };
 };
+
+export const resetRegister = () => {
+    return (dispatch) => {
+        dispatch({
+            type:RESET_REGISTER
+        });
+    }
+}
