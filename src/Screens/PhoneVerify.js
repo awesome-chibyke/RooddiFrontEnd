@@ -11,6 +11,7 @@ import {
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
 import Stepper from "../components/Includes/Stepper";
+import StepperHook from "../redux/StepperHook";
 import { allCountryCode } from "../components/Includes/AllCountryCodeArray";
 import CoutryCode from "../components/Includes/CountryCode";
 
@@ -50,50 +51,12 @@ const PhoneVerify = () => {
     return () => {
       dispatch(resetPhoneState());
     };
-  }, []);
+  }, []);//userData
 
-  let validtionArray = userData.verifiation_details_object.verification_steps;
-
-  // accountVericationStep = userData.account_verification_step;
-  let accountVericationStep = userData.current_verification_step;
-
-  let Account_Activation,
-    Phone_Number_Activation,
-    Edit_Profile,
-    Upload_Face,
-    Upload_ID,
-    Completed;
-
-  [
-    Account_Activation,
-    Phone_Number_Activation,
-    Edit_Profile,
-    Upload_Face,
-    Upload_ID,
-    Completed,
-  ] = validtionArray;
-  let step;
-
-  step = validtionArray.indexOf(accountVericationStep);
   //Stepper setup
-  const [selectedStepper, setSelectedStepper] = useState(step + 1);
-  const stepperArray = [0, 1, 2, 3, 4, 5];
-  const titleArray = [
-    Account_Activation,
-    Phone_Number_Activation,
-    Edit_Profile,
-    Upload_Face,
-    Upload_ID,
-    Completed,
-  ];
-  const linkArray = [
-    "/activation/:email",
-    "/phone_verify",
-    "/profile",
-    "/upload_face",
-    "/upload_id",
-    "/completed",
-  ];
+  const {step, stepperArray, validationArray, titleArray, linkArray} = StepperHook(userData);
+  const [selectedStepper, setSelectedStepper] = useState(step);
+
 
   return (
     <>
