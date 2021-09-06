@@ -21,6 +21,7 @@ function Stepper({selectedStepper, setSelectedStepper, titleArray, stepperArray,
         setNextStepper(selectedStepper+1);
     }, [selectedStepper])
     /*greenValNext*/
+
     return (
         <>
             <div className="main_stepper_container">
