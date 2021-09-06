@@ -12,15 +12,27 @@ import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
 import Stepper from "../components/Includes/Stepper";
 import StepperHook from "../redux/StepperHook";
+import { allCountryCode } from "../components/Includes/AllCountryCodeArray";
+import CoutryCode from "../components/Includes/CountryCode";
 
 const PhoneVerify = () => {
   const dispatch = useDispatch();
   const allStateObject = useSelector((state) => state);
-  let { login: loginData, PhoneVerify } = allStateObject;
+  let { login: loginData, PhoneVerify, getCurrency } = allStateObject;
   const { user: userData } = loginData.user_data;
 
+  let defaultCountryCode = { value: "+234", label: "Nigeria" };
+  for (let i in allCountryCode) {
+    if (
+      allCountryCode[i].label.toLowerCase() ===
+      getCurrency.default_currency.country_name.toLowerCase()
+    ) {
+      defaultCountryCode = allCountryCode[i];
+    }
+  }
+
   const [phone, setPhone] = useState("");
-  const [country_code, setCountryCode] = useState("");
+  const [country_code, setCountryCode] = useState(defaultCountryCode);
   // const [token, setToken] = useState("");
 
   let loadingStatus = false;
@@ -41,10 +53,10 @@ const PhoneVerify = () => {
     };
   }, []);//userData
 
-
   //Stepper setup
   const {step, stepperArray, validationArray, titleArray, linkArray} = StepperHook(userData);
   const [selectedStepper, setSelectedStepper] = useState(step);
+
 
   return (
     <>
@@ -80,15 +92,20 @@ const PhoneVerify = () => {
         ""
       ) : ( */}
       <div className="row">
-        <div className='col-12 col-sm-12'>
-            <Stepper selectedStepper={selectedStepper} setSelectedStepper={setSelectedStepper} stepperArray={stepperArray} titleArray={titleArray} linkArray={linkArray} />
+        <div className="col-12 col-sm-12">
+          <Stepper
+            selectedStepper={selectedStepper}
+            setSelectedStepper={setSelectedStepper}
+            stepperArray={stepperArray}
+            titleArray={titleArray}
+            linkArray={linkArray}
+          />
         </div>
       </div>
       <section className="py-50" style={{ backgroundColor: "#fafbfd" }}>
         <div className="container">
           <div className="row justify-content-center g-0">
             <div className="col-lg-5 col-md-5 col-12">
-            
               <div className="box box-body">
                 <div className="content-top-agile pb-0 pt-20">
                   <h2 className="text-primary">Verify Your Phone</h2>
@@ -132,21 +149,20 @@ const PhoneVerify = () => {
                     </div>
 
                     <div className="form-group">
-                      <label>Country Code</label>
-                      <div className="input-group mb-15">
-                        <input
-                          id="country_code"
-                          className="form-control ps-15 bg-transparent"
-                          value={country_code}
-                          onChange={(e) => setCountryCode(e.target.value)}
+                      <div
+                        className="col-4 col-sm-4"
+                        style={{ display: "inline-block" }}
+                      >
+                        <CoutryCode
+                          selectedCountry={country_code}
+                          setCountry={setCountryCode}
                         />
                       </div>
                       <span className="error_displayer err_country_code"></span>
                     </div>
-                    
+
                     <div className="row">
                       <div className="col-12 text-center">
-                        
                         <button
                           type="button"
                           className="btn btn-info w-p100 mt-15"
@@ -160,7 +176,9 @@ const PhoneVerify = () => {
                             );
                           }}
                         >
-                          {PhoneVerify.loading === true ? ('Verifying Phone.....') : ('Submit')}
+                          {PhoneVerify.loading === true
+                            ? "Verifying Phone....."
+                            : "Submit"}
                         </button>
                       </div>
                     </div>

@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/heading-has-content */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from "react";
-import { RegisterPost } from "../redux";
+import React, { useState, useEffect } from "react";
+import { RegisterPost, resetRegister } from "../redux";
 import { connect, useSelector, useDispatch } from "react-redux";
 import { Route, Redirect, Switch, Link  } from "react-router-dom";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
@@ -28,6 +28,12 @@ const Register = () => {
     loadingStatus = true;
   }
   const {error:errorMessage, success:successMessage} = ErrorSuccessHook(registration.success_message, registration.error_message, registration.message, registration, loadingStatus);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetRegister());
+    };
+  }, []);
 
   return (
     <>
