@@ -28,6 +28,8 @@ import Successful from './Screens/Successful'
 import PhoneVerify from './Screens/PhoneVerify'
 import UploadID from "./Screens/UploadID";
 import ValidatePhone from "./Screens/ValidatePhone";
+import Completed from "./Screens/Completed";
+import Admin from "./Screens/Admin";
 
 
 
@@ -109,6 +111,8 @@ function App() {
                   <Route path="/phone_verify" component={PhoneVerify} />
                   <Route path="/upload_id" component={UploadID} />
                   <Route path="/validate_phone" component={ValidatePhone} />
+                  <Route path="/completed" component={Completed} />
+                  <Route path="/admin" component={Admin} />
                   <Footer />
               </Router>
               </ToolTipContext>
