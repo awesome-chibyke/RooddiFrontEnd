@@ -9,4 +9,5 @@ export * from "./Xetima/TwoFactorDisableRequest/TwoFactorDisableRequestActions"
 export * from "./Xetima/Profile/ProfileActions"
 export * from "./Xetima/PhoneVerification/PhoneVerificationAction"
 export * from "./Xetima/IdentityUpload/IdentityUploadActions"
+export * from "./Xetima/User/UserActions"
 

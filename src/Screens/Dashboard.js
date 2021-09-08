@@ -56,9 +56,10 @@ const Dashboard = () => {
                             <br/>
                             <Link className="btn btn-success mt-4 mb-4" to="/step">Account Verification</Link>
 
-                            <br></br>
-                            <h4 className="text-white">Click this button to disable your twoFactor request</h4>
+                            <br/>
                             <Link className="btn btn-success mt-4 mb-4" to="/disable_two_factor_request">Disable Two Factor Request</Link>
+                            <br/>
+                            <Link className="btn btn-success mt-4 mb-4" to="/admin">Admin</Link>
                             <DynamiicModal
                             widthSize={'100%'}
                             marginLeft={'0%'}

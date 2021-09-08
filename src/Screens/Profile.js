@@ -6,6 +6,7 @@ import { editUserProfileAction, resetProfileState } from "../redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
 import Stepper from "../components/Includes/Stepper";
+import StepperHook from "../redux/StepperHook";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -40,23 +41,25 @@ const Profile = () => {
     };
   }, []);
 
-  let validtionArray = userData.verifiation_details_object.verification_steps
+  // let validtionArray = userData.verifiation_details_object.verification_steps
+  // let accountVericationStep = userData.current_verification_step;
 
-  //let accountVericationStep = userData.account_verification_step;
-  let accountVericationStep = userData.current_verification_step;
+  // let Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed;
 
-  let Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed;
+  // [Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed] = validtionArray;
+  // let step;
 
-  [Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed] = validtionArray;
-  let step;
-  
-  step = validtionArray.indexOf(accountVericationStep);
+  // step = validtionArray.indexOf(accountVericationStep);
+
+  // const [selectedStepper, setSelectedStepper] = useState(step+1);
+  // const stepperArray = [0, 1, 2, 3, 4, 5];
+  // const titleArray = [Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed ];
+  // const linkArray = ['/activation/:email', '/phone_verify', '/profile', '/upload_face', '/upload_id', '/completed'];
+
   //Stepper setup
-  const [selectedStepper, setSelectedStepper] = useState(step+1);
-  const stepperArray = [0, 1, 2, 3, 4, 5];
-  const titleArray = [Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed ];
-  const linkArray = ['/activation/:email', '/phone_verify', '/profile', '/upload_face', '/upload_id', '/completed'];
-
+  const { step, stepperArray, validationArray, titleArray, linkArray } =
+    StepperHook(userData);
+  const [selectedStepper, setSelectedStepper] = useState(step);
   return (
     <>
       {/*Redirect to login if isLogged is false  */}
@@ -87,10 +90,16 @@ const Profile = () => {
           </div>
         </section>
         <div className="row">
-        <div className='col-12 col-sm-12'>
-            <Stepper selectedStepper={selectedStepper} setSelectedStepper={setSelectedStepper} stepperArray={stepperArray} titleArray={titleArray} linkArray={linkArray} />
+          <div className="col-12 col-sm-12">
+            <Stepper
+              selectedStepper={selectedStepper}
+              setSelectedStepper={setSelectedStepper}
+              stepperArray={stepperArray}
+              titleArray={titleArray}
+              linkArray={linkArray}
+            />
+          </div>
         </div>
-      </div>
         <section className="py-50" style={{ backgroundColor: "#fafbfd" }}>
           <div className="container">
             <div className="row justify-content-center g-0">
@@ -263,7 +272,9 @@ const Profile = () => {
                                     }
                                     className="btn btn-primary btn-block w-p100 mt-15"
                                   >
-                                    {profile.loading === true ? ('Updating Profile.....') : ('Submit')}
+                                    {profile.loading === true
+                                      ? "Updating Profile....."
+                                      : "Submit"}
                                   </button>
                                 ) : (
                                   ""

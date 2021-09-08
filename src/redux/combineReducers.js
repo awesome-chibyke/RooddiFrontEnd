@@ -10,6 +10,7 @@ import TwoFactorDisableRequest from "./Xetima/TwoFactorDisableRequest/TwoFactorD
 import ProfileReducer from "./Xetima/Profile/ProfileReducer"
 import phoneVerificationReducer from "./Xetima/PhoneVerification/PhoneVerificationReducer";
 import IdUploadReducer from "./Xetima/IdentityUpload/IdentityUploadReducer";
+import UserReducer from "./Xetima/User/UserReducer";
 
 
 const rootReducer = combineReducers({
@@ -23,7 +24,8 @@ const rootReducer = combineReducers({
   disable_two_factor:TwoFactorDisableRequest,
   profile:ProfileReducer,
   PhoneVerify:phoneVerificationReducer,
-  idUpload:IdUploadReducer
+  idUpload:IdUploadReducer,
+  user: UserReducer
 });
 
 export default rootReducer;

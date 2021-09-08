@@ -10,6 +10,7 @@ import {
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
 import Stepper from "../components/Includes/Stepper";
+import StepperHook from "../redux/StepperHook";
 
 const ValidatePhone = () => {
   const dispatch = useDispatch();
@@ -17,12 +18,11 @@ const ValidatePhone = () => {
   let { login: loginData, PhoneVerify } = allStateObject;
   const { user: userData } = loginData.user_data;
 
-  let userPhone =  userData.phone
+  let userPhone = userData.phone;
   let countryCode = userData.country_code;
-  
 
-//   const [phone, setPhone] = useState("");
-//   const [country_code, setCountryCode] = useState("");
+  //   const [phone, setPhone] = useState("");
+  //   const [country_code, setCountryCode] = useState("");
   const [token, setToken] = useState("");
 
   let loadingStatus = false;
@@ -43,21 +43,26 @@ const ValidatePhone = () => {
     };
   }, []);
 
-  let validtionArray = userData.verifiation_details_object.verification_steps
+  // let validtionArray = userData.verifiation_details_object.verification_steps
 
-  let accountVericationStep = userData.account_verification_step
+  // let accountVericationStep = userData.account_verification_step
 
-  let Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed;
+  // let Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed;
 
-  [Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed] = validtionArray;
-  let step;
-  
-  step = validtionArray.indexOf(accountVericationStep);
+  // [Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed] = validtionArray;
+  // let step;
+
+  // step = validtionArray.indexOf(accountVericationStep);
+
+  // const [selectedStepper, setSelectedStepper] = useState(step+1);
+  // const stepperArray = [0, 1, 2, 3, 4, 5];
+  // const titleArray = [Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed ];
+  // const linkArray = ['/activation/:email', '/phone_verify', '/profile', '/upload_face', '/upload_id', '/completed'];
+
   //Stepper setup
-  const [selectedStepper, setSelectedStepper] = useState(step+1);
-  const stepperArray = [0, 1, 2, 3, 4, 5];
-  const titleArray = [Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed ];
-  const linkArray = ['/activation/:email', '/phone_verify', '/profile', '/upload_face', '/upload_id', '/completed'];
+  const { step, stepperArray, validationArray, titleArray, linkArray } =
+    StepperHook(userData);
+  const [selectedStepper, setSelectedStepper] = useState(step);
 
   return (
     <>
@@ -91,8 +96,14 @@ const ValidatePhone = () => {
 
       {/* Validate phone section */}
       <div className="row">
-        <div className='col-12 col-sm-12'>
-            <Stepper selectedStepper={selectedStepper} setSelectedStepper={setSelectedStepper} stepperArray={stepperArray} titleArray={titleArray} linkArray={linkArray} />
+        <div className="col-12 col-sm-12">
+          <Stepper
+            selectedStepper={selectedStepper}
+            setSelectedStepper={setSelectedStepper}
+            stepperArray={stepperArray}
+            titleArray={titleArray}
+            linkArray={linkArray}
+          />
         </div>
       </div>
       {PhoneVerify.success === true ||
@@ -160,7 +171,11 @@ const ValidatePhone = () => {
                           <small
                             onClick={() =>
                               dispatch(
-                                ResendVerificationCodePost({loginData, userPhone, countryCode})
+                                ResendVerificationCodePost({
+                                  loginData,
+                                  userPhone,
+                                  countryCode,
+                                })
                               )
                             }
                             style={{
@@ -171,7 +186,7 @@ const ValidatePhone = () => {
                             }}
                             className="text-right"
                           >
-                           Resend Token
+                            Resend Token
                           </small>
                         </div>
                         <span className="error_displayer err_token"></span>
@@ -182,7 +197,12 @@ const ValidatePhone = () => {
                             type="button"
                             onClick={async () =>
                               dispatch(
-                                await ValidatePhonePost({loginData, token, userPhone, countryCode})
+                                await ValidatePhonePost({
+                                  loginData,
+                                  token,
+                                  userPhone,
+                                  countryCode,
+                                })
                               )
                             }
                             className="btn btn-primary w-p100 mt-15"

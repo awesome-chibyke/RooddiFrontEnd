@@ -1,16 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/heading-has-content */
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {resetIdUploadState, uploadFileHandler} from "../redux";
+import { resetIdUploadState, uploadFileHandler } from "../redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
 import Stepper from "../components/Includes/Stepper";
+import StepperHook from "../redux/StepperHook";
 
 // import { Form } from "react-bootstrap";
 const UploadID = () => {
-
   const dispatch = useDispatch();
   const allStateObject = useSelector((state) => state);
   let { login: loginData, idUpload } = allStateObject;
@@ -36,27 +35,37 @@ const UploadID = () => {
     };
   }, []);
 
-  let validtionArray = userData.verifiation_details_object.verification_steps
+  // let validtionArray = userData.verifiation_details_object.verification_steps
 
-  let accountVericationStep = userData.account_verification_step
+  // let accountVericationStep = userData.account_verification_step
 
-  let Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed;
+  // let Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed;
 
-  [Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed] = validtionArray;
-  let step;
-  
-  step = validtionArray.indexOf(accountVericationStep);
+  // [Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed] = validtionArray;
+  // let step;
+
+  // step = validtionArray.indexOf(accountVericationStep);
+
+  // const [selectedStepper, setSelectedStepper] = useState(step+1);
+  // const stepperArray = [0, 1, 2, 3, 4, 5];
+  // const titleArray = [Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed ];
+  // const linkArray = ['/activation/:email', '/phone_verify', '/profile', '/upload_face', '/upload_id', '/completed'];
+
   //Stepper setup
-  const [selectedStepper, setSelectedStepper] = useState(step+1);
-  const stepperArray = [0, 1, 2, 3, 4, 5];
-  const titleArray = [Account_Activation, Phone_Number_Activation, Edit_Profile, Upload_Face, Upload_ID, Completed ];
-  const linkArray = ['/activation/:email', '/phone_verify', '/profile', '/upload_face', '/upload_id', '/completed'];
+  const { step, stepperArray, validationArray, titleArray, linkArray } =
+    StepperHook(userData);
+  const [selectedStepper, setSelectedStepper] = useState(step);
 
   return (
     <>
       {/*Redirect to login if isLogged is false  */}
       {loginData.isLogged === false ? (
         <DelayedRedirect to={`/login`} delay={500} />
+      ) : (
+        ""
+      )}
+       {loginData.user_data.user.current_verification_step === 'completed' ? (
+        <DelayedRedirect to={`/completed`} delay={500} />
       ) : (
         ""
       )}
@@ -82,10 +91,16 @@ const UploadID = () => {
           </div>
         </section>
         <div className="row">
-        <div className='col-12 col-sm-12'>
-            <Stepper selectedStepper={selectedStepper} setSelectedStepper={setSelectedStepper} stepperArray={stepperArray} titleArray={titleArray} linkArray={linkArray} />
+          <div className="col-12 col-sm-12">
+            <Stepper
+              selectedStepper={selectedStepper}
+              setSelectedStepper={setSelectedStepper}
+              stepperArray={stepperArray}
+              titleArray={titleArray}
+              linkArray={linkArray}
+            />
+          </div>
         </div>
-      </div>
         <section className="py-50" style={{ backgroundColor: "#fafbfd" }}>
           <div className="container">
             <div className="row justify-content-center g-0">
@@ -155,10 +170,19 @@ const UploadID = () => {
                           {loginData.isLogged === true ? (
                             <button
                               type="button"
-                              onClick={() => dispatch(uploadFileHandler({loginData, document_number}))}
+                              onClick={() =>
+                                dispatch(
+                                  uploadFileHandler({
+                                    loginData,
+                                    document_number,
+                                  })
+                                )
+                              }
                               className="btn btn-primary btn-block w-p100 mt-15"
                             >
-                              {idUpload.loading === true ? ('Uploading.....') : ('Submit')}
+                              {idUpload.loading === true
+                                ? "Uploading....."
+                                : "Submit"}
                             </button>
                           ) : (
                             ""
