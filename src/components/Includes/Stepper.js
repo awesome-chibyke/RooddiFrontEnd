@@ -22,10 +22,14 @@ function Stepper({selectedStepper, setSelectedStepper, titleArray, stepperArray,
     }, [selectedStepper])
     /*greenValNext*/
 
-    const setTheSelectedStepper = (currenctStepper, callStepperFuntionChecker) => {
-        if(callStepperFuntionChecker === false){
-            alert(callStepperFuntionChecker)
-            setSelectedStepper(currenctStepper)
+    const setTheSelectedStepper = (currentStepper, callStepperFuntionChecker) => {
+        /*if(callStepperFuntionChecker === false){
+            alert(currentStepper)
+            alert(selectedStepper)
+
+        }*/
+        if(selectedStepper === selectedStepper){
+            //setSelectedStepper(currentStepper);
         }
     }
 
@@ -44,10 +48,11 @@ function Stepper({selectedStepper, setSelectedStepper, titleArray, stepperArray,
 
                                     <div className="stepper-item" style={selectedStepper > parseFloat(index) + parseFloat(1) ? styleForStepperColored : parseFloat(index) + parseFloat(1) === nextStep-1 ? styleForStepperColoredNext:styleForStepper}>
 
-{/* setSelectedStepper(parseFloat(index) + parseFloat(1)) */}
-                                            <span title={titleArray[index]} onClick={() => setTheSelectedStepper(parseFloat(index) + parseFloat(1), selectedStepper >= parseFloat(index) + parseFloat(1) ? true:false) } style={selectedStepper >= parseFloat(index) + parseFloat(1) ?  greenVal : parseFloat(index) + parseFloat(1) === nextStep ? greenValNext:{} } className="round-box">
+{/*{alert(selectedStepper+' '+(parseFloat(index) + parseFloat(1)) )}*/}
+                                            <span title={titleArray[index]} onClick={() => setTheSelectedStepper(parseFloat(index) + parseFloat(1), selectedStepper === parseFloat(index) + parseFloat(1) ? true:false) } style={selectedStepper >= parseFloat(index) + parseFloat(1) ?  greenVal : parseFloat(index) + parseFloat(1) === nextStep ? greenValNext:{} } className="round-box">
                                                 <>
-                                                    {selectedStepper >= parseFloat(index) + parseFloat(1) ?  (<i className="fa fa-check"></i>) : (<Link style={{width:"100%", height:"100%", display: "block", color:"black"} } to={linkArray[index]}>{index + 1}</Link>) }
+                                                    {selectedStepper >= parseFloat(index) + parseFloat(1) ?  (<i className="fa fa-check"></i>) : (index + 1) }
+                                                    {/*<Link style={{width:"100%", height:"100%", display: "block", color:"black"} } to={linkArray[index]}>{index + 1}</Link>*/}
                                                 </>
                                             </span>
 

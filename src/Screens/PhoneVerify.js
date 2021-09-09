@@ -39,6 +39,7 @@ const PhoneVerify = () => {
   if (PhoneVerify.loading === true) {
     loadingStatus = true;
   }
+
   const { error: errorMessage, success: successMessage } = ErrorSuccessHook(
     PhoneVerify.success,
     PhoneVerify.error,
@@ -55,6 +56,7 @@ const PhoneVerify = () => {
 
   //Stepper setup
   const {step, stepperArray, validationArray, titleArray, linkArray} = StepperHook(userData);
+
   const [selectedStepper, setSelectedStepper] = useState(step);
 
 
@@ -91,8 +93,9 @@ const PhoneVerify = () => {
       {/* {loginData.user_data.user.phone !== null ? (
         ""
       ) : ( */}
-      <div className="row">
-        <div className="col-12 col-sm-12">
+      <div className="row" style={{marginTop:"50px"}}>
+        <div className="col-12 col-sm-3"></div>
+        <div className="col-12 col-sm-6">
           <Stepper
             selectedStepper={selectedStepper}
             setSelectedStepper={setSelectedStepper}
@@ -136,16 +139,30 @@ const PhoneVerify = () => {
                       )}
                     </div>
                     <div className="form-group">
-                      <label>Phone</label>
-                      <div className="input-group mb-15">
-                        <input
-                          id="phone"
-                          className="form-control ps-15 bg-transparent"
-                          value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
+
+                      <div className="col-4 col-sm-4" style={{display:"inline-block"}}>
+                        {/*<label>Country Code</label>*/}
+                        <CoutryCode
+                            selectedCountry={country_code}
+                            setCountry={setCountryCode}
                         />
                       </div>
-                      <span className="error_displayer err_phone"></span>
+                      <div className="col-8 col-sm-8" style={{display:"inline-block"}}>
+                        <div className="input-group mb-15">
+                          {/*<label for="phone">Phone Number</label>*/}
+                          <input
+                              id="phone"
+                              className="form-control ps-15 bg-transparent"
+                              value={phone}
+                              placeholder="Phone Number"
+                              onChange={(e) => setPhone(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-12 col-sm-12" >
+                        <div className="err_country_code error_displayer"></div>
+                        <div className="error_displayer err_phone"></div>
+                      </div>
                     </div>
 
                     <div className="form-group">
@@ -153,10 +170,7 @@ const PhoneVerify = () => {
                         className="col-4 col-sm-4"
                         style={{ display: "inline-block" }}
                       >
-                        <CoutryCode
-                          selectedCountry={country_code}
-                          setCountry={setCountryCode}
-                        />
+
                       </div>
                       <span className="error_displayer err_country_code"></span>
                     </div>
