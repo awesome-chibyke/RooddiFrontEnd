@@ -60,6 +60,10 @@ export const getAllCurrencyPost = (currencyArray, default_currency, loginData) =
             
                 if(status === true){
                     if(loginData.isLogged === false){
+                        /*if(message_type === 'logout'){
+                            window.location.href = '/login';
+                            return;
+                        }*/
                         dispatch(getAllCurrencySuccess(data, message));
                     }else if(loginData.isLogged === true) {
                         dispatch(getAllCurrencySuccess({currency_array:data.currency_array, default_currency:loginData.user_data.user.currency_details}, message));

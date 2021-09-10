@@ -38,24 +38,29 @@ const getAllUsersActionFailure = (message) => {
     }
 }
 
-export const getUsersAction = (loginData) => async (dispatch) => {
+export const getUsersAction = (loginData, allUsers) => async (dispatch) => {
 
     dispatch(getAllUsersAction());
     try{
         if(loginData.isLogged === true){
-            let handleagetUsersAction = await getRequest(BACKEND_BASE_URL+"users/all_users/user", headerIncluder(loginData.user_data.token) );
-            let returnedObject = handleagetUsersAction.data;
-            // console.log(handleagetUsersAction)
-            let {status, message, data} = returnedObject;
-            let {all_users} = data;
-            if(status === true){
-                dispatch({type:GET_ALL_USERS_SUCCESS, payload:all_users});
+
+            if(allUsers.length > 0){
+                dispatch(getAllUsersActionSuccess({data:allUsers, message:'' }));
             }else{
-                validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
-                dispatch({
-                    type:GET_ALL_USERS_FAIL,
-                    message:message
-                });
+                let handleagetUsersAction = await getRequest(BACKEND_BASE_URL+"users/all_users/user", headerIncluder(loginData.user_data.token) );
+                let returnedObject = handleagetUsersAction.data;
+                // console.log(handleagetUsersAction)
+                let {status, message, data} = returnedObject;
+                let {all_users} = data;
+                if(status === true){
+                    dispatch(getAllUsersActionSuccess({data:all_users, message:'' }));
+                }else{
+                    validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
+                    dispatch({
+                        type:GET_ALL_USERS_FAIL,
+                        message:message
+                    });
+                }
             }
         }
     }catch(err){
@@ -134,28 +139,29 @@ const deleteUserActionFailure = (message) => {
     }
 }
 
-export const deleteUsersAction = (loginData, unique_id, type_of_user) => async (dispatch) => {
+export const deleteUsersAction = ({unique_id, type_of_user, loginData}) => async (dispatch) => {
+    let reVal = window.confirm('Do you really want to delete user ?');
+    if(reVal === true){
+        dispatch(deleteUserAction());
+        try{
 
-    dispatch(deleteUserAction());
-    try{
-        if(loginData.isLogged === true){
-            let handleDeleteUserAction = await getRequest(BACKEND_BASE_URL+`users/delete_user/${unique_id}/${type_of_user}`, headerIncluder(loginData.user_data.token) );
-            let returnedObject = handleDeleteUserAction.data;
-            console.log(handleDeleteUserAction, "deleted")
-            alert(handleDeleteUserAction)
-            let {status, message, data} = returnedObject;
-            // let {all_users} = data;
-            if(status === true){
-                dispatch(deleteUserActionSuccess(message, data));
-            }else{
-                validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
-                dispatch({
-                    type:DELETE_USER_FAIL,
-                    message:message
-                });
+            if(loginData.isLogged === true){
+                let handleDeleteUserAction = await getRequest(`${BACKEND_BASE_URL}users/delete_user/${unique_id}/${type_of_user}`, headerIncluder(loginData.user_data.token) );
+                let returnedObject = handleDeleteUserAction.data;
+                let {status, message, message_type, data} = returnedObject;
+                // let {all_users} = data;
+                if(status === true){
+                    dispatch(deleteUserActionSuccess(message, data));
+                }else{
+                    validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
+                    dispatch({
+                        type:DELETE_USER_FAIL,
+                        message:message
+                    });
+                }
             }
+        }catch(err){
+            dispatch(deleteUserActionFailure(err.message));
         }
-    }catch(err){
-        dispatch(deleteUserActionFailure(err.message));
     }
 }

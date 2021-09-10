@@ -1,12 +1,10 @@
-import React from 'react'
-import { Pagination } from 'react-bootstrap'
+import React from 'react';
+import { Pagination } from 'react-bootstrap';
 
 const Paginations = () => {
     return (
         <>
-            <div className="row" style={{
-                marginTop: '2rem'
-                }}>
+            <div className="row" style={{marginTop: '2rem'}}>
                 <div className="col">
                     <Pagination style={{float: 'right'}}>
                         <Pagination.First />
@@ -24,7 +22,7 @@ const Paginations = () => {
                         <Pagination.Item>{20}</Pagination.Item>
                         <Pagination.Next />
                         <Pagination.Last />
-                    </Pagination> 
+                    </Pagination>
                 </div>
             </div>
         </>
