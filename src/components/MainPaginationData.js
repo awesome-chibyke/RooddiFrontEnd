@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 
-function MainPaginationData({ data, dataLimit, currentPage }) {
+function MainPaginationData({ data, dataLimit, currentPage}) {
 //console.log(data)
     const getPaginatedData = () => {
         // not yet implemented
         const startIndex = currentPage * dataLimit - dataLimit;
         const endIndex = startIndex + dataLimit;
-        return data.slice(startIndex, endIndex);
+        return {mainData:data.slice(startIndex, endIndex), startIndex, endIndex};
     };
 
-    return {getPaginatedData:getPaginatedData()};
+    const {mainData, startIndex, endIndex} = getPaginatedData();
+    return {getPaginatedData:mainData, startIndex, endIndex};
 }
 
 export default MainPaginationData;

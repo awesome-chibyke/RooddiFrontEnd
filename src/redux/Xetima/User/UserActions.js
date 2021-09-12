@@ -7,10 +7,11 @@ import{
     SELECT_ONE_USER_FAIL,
     DELETE_USER,
     DELETE_USER_SUCCESS,
-    DELETE_USER_FAIL
+    DELETE_USER_FAIL,
+    RESET_USERS_STATE
 } from './UserTypes'
 
-import { BACKEND_BASE_URL, headerIncluder } from "../../../common_variables";
+import { BACKEND_BASE_URL, headerIncluder, NO_OF_TRIAL_COUNTER } from "../../../common_variables";
 import * as Validator from 'validatorjs';
 import validateModule from "../../../validation/validate_module";
 import { postRequest, getRequest } from "../../axios_call";
@@ -19,7 +20,7 @@ import {CHANGE_USER_OBJECT} from "../Login/LoginActionTypes";
 const getAllUsersAction = () => {
     return {
         type: GET_ALL_USERS,
-        message:''
+        message:'Loading...'
     };
 };
 
@@ -38,16 +39,20 @@ const getAllUsersActionFailure = (message) => {
     }
 }
 
-export const getUsersAction = (loginData, allUsers) => async (dispatch) => {
+export const getUsersAction = (loginData, allUsers, counter = 0) => {
 
-    dispatch(getAllUsersAction());
+    return async (dispatch) => {
+
     try{
+        counter++;
+        dispatch(getAllUsersAction());
+
         if(loginData.isLogged === true){
 
             if(allUsers.length > 0){
                 dispatch(getAllUsersActionSuccess({data:allUsers, message:'' }));
             }else{
-                let handleagetUsersAction = await getRequest(BACKEND_BASE_URL+"users/all_users/user", headerIncluder(loginData.user_data.token) );
+                let handleagetUsersAction = await getRequest(`${BACKEND_BASE_URL}users/all_users/user`, headerIncluder(loginData.user_data.token) );
                 let returnedObject = handleagetUsersAction.data;
                 // console.log(handleagetUsersAction)
                 let {status, message, data} = returnedObject;
@@ -64,8 +69,17 @@ export const getUsersAction = (loginData, allUsers) => async (dispatch) => {
             }
         }
     }catch(err){
+
+        /*if(err.message === 'Network Error'){
+            if(counter < NO_OF_TRIAL_COUNTER){
+                dispatch(getAllUsersActionFailure(err.message));
+                return getUsersAction(loginData, allUsers, counter);
+            }
+        }*/
+        validateModule.handleErrorStatement({general_error:[err.message]}, '', 'on', 'no', 'no');
         dispatch(getAllUsersActionFailure(err.message));
     }
+}
 }
 
 //............................................ Get single user ..........................................................//
@@ -120,7 +134,7 @@ export const selectOneUserAction = (loginData, unique_id) => async (dispatch) =>
 const deleteUserAction = () => {
     return {
         type: DELETE_USER,
-        message:''
+        message:'Loading....'
     };
 };
 
@@ -149,9 +163,9 @@ export const deleteUsersAction = ({unique_id, type_of_user, loginData}) => async
                 let handleDeleteUserAction = await getRequest(`${BACKEND_BASE_URL}users/delete_user/${unique_id}/${type_of_user}`, headerIncluder(loginData.user_data.token) );
                 let returnedObject = handleDeleteUserAction.data;
                 let {status, message, message_type, data} = returnedObject;
-                // let {all_users} = data;
+                let {all_users} = data;
                 if(status === true){
-                    dispatch(deleteUserActionSuccess(message, data));
+                    dispatch(deleteUserActionSuccess(message, all_users));
                 }else{
                     validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
                     dispatch({
@@ -164,4 +178,13 @@ export const deleteUsersAction = ({unique_id, type_of_user, loginData}) => async
             dispatch(deleteUserActionFailure(err.message));
         }
     }
+}
+
+
+
+
+export const resetUserState = () => async (dispatch) => {
+    dispatch({
+        type:RESET_USERS_STATE,
+    });
 }

@@ -114,41 +114,53 @@ function Header() {
                                                         {isLogged === true ? email : ''} <br />
                                                         <i className="fa fa-long-arrow-right text-primary pull-right text-white" />
                                                     </Link>
-                                                    <Link
-                                                        className="colo-nav dropdown-item text-white baser"
-                                                        to="dashboard"
-                                                    >
-                                                        <i className="fa fa-dashboard text-white" />{" "}
-                                                        Dashboard
-                                                    </Link>
-                                                    <Link
+                                                    {isLogged && (
+                                                        <>
+                                                        <Link
+                                                            className="colo-nav dropdown-item text-white baser"
+                                                            to="/dashboard"
+                                                        >
+                                                            <i className="fa fa-dashboard text-white" />{" "}
+                                                            Dashboard
+                                                        </Link>
+                                                        <Link
+                                                            className="colo-nav dropdown-item text-white baser"
+                                                            to="/admin"
+                                                        >
+                                                            <i className="fa fa-dashboard text-white" />{" "}
+                                                            Admin
+                                                        </Link>
+                                                        <Link
                                                         className="colo-nav dropdown-item text-white baser"
                                                         to="security"
-                                                    >
+                                                        >
                                                         <i className="fa fa-lock text-white" /> Security
-                                                    </Link>
-                                                    <Link
+                                                        </Link>
+                                                        <Link
                                                         className="colo-nav dropdown-item text-white baser"
                                                         to="identification"
-                                                    >
+                                                        >
                                                         <i className="fa fa-check-square-o text-white" />{" "}
                                                         Identification
-                                                    </Link>
-                                                    <Link
+                                                        </Link>
+                                                        <Link
                                                         className="colo-nav dropdown-item text-white baser"
                                                         to="referral"
-                                                    >
+                                                        >
                                                         <i className="fa fa-users text-white" /> Referral
-                                                    </Link>
-                                                    <div className="divider">
+                                                        </Link>
+                                                        <div className="divider">
                                                         <i className="fa fa-star-o" />
-                                                    </div>
-                                                    <Link
-                                                        className="colo-nav dropdown-item text-white baser"
-                                                        to="#"
-                                                    >
-                                                        <i className="fa fa-sign-out text-white" /> Log Out
-                                                    </Link>
+                                                        </div>
+                                                        <Link
+                                                            className="colo-nav dropdown-item text-white baser"
+                                                            to="#"
+                                                        >
+                                                            <i className="fa fa-sign-out text-white" /> Log Out
+                                                        </Link>
+                                                        </>
+                                                    )}
+
                                                 </div>
                                             </div>
                                         </li>
@@ -266,8 +278,13 @@ function Header() {
                             </Link>
                         </li>
                         <li>
-                            <Link to="wallet" className="text-capitalize">
+                            <Link to="/wallet" className="text-capitalize">
                                 Wallet
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/admin" className="text-capitalize">
+                                Admin
                             </Link>
                         </li>
                         <li className="dropdown">

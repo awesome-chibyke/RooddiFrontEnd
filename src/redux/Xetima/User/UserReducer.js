@@ -8,11 +8,13 @@ import {
   DELETE_USER,
   DELETE_USER_SUCCESS,
   DELETE_USER_FAIL,
+  RESET_USERS_STATE
 } from "./UserTypes";
 
 const initialState = {
   message: "",
   loading: false,
+  delete_loading: false,
   allUsers: [],
   singleUser: [],
   error: false,
@@ -75,7 +77,8 @@ const UserReducer = (state = initialState, action) => {
       return {
         ...state,
         message: action.message,
-        loading: true,
+        loading: false,
+        delete_loading:true,
         error: false,
         success: false,
       };
@@ -84,6 +87,8 @@ const UserReducer = (state = initialState, action) => {
         ...state,
         message: action.message,
         loading: false,
+        allUsers:action.payload,
+        delete_loading:false,
         error: false,
         success: true,
       };
@@ -91,8 +96,20 @@ const UserReducer = (state = initialState, action) => {
       return {
         ...state,
         message: action.message,
+        delete_loading:false,
         loading: false,
         error: true,
+        success: false,
+      };
+    case RESET_USERS_STATE:
+      return {
+        ...state,
+        message: "",
+        loading: false,
+        delete_loading: false,
+        allUsers: [],
+        singleUser: [],
+        error: false,
         success: false,
       };
     default:

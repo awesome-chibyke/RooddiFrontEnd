@@ -182,7 +182,7 @@ const PhoneVerify = () => {
                           className="btn btn-info w-p100 mt-15"
                           onClick={async (e) => {
                             dispatch(
-                              await savePhonePost({
+                               savePhonePost({
                                 loginData,
                                 phone: phone,
                                 country_code: country_code,

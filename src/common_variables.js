@@ -10,3 +10,5 @@ export const headerIncluder = (token, mainContentType = 'application/x-www-form-
         }
     }
 }
+
+export const NO_OF_TRIAL_COUNTER = 3;

@@ -5,6 +5,7 @@ import {
   getUsersAction,
   selectOneUserAction,
   deleteUsersAction,
+  resetUserState
 } from "../redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
@@ -14,48 +15,73 @@ import AllUsers from "./AllUsers";
 import MainPaginationData from "../components/MainPaginationData";
 
 const Admin = () => {
+
   const dispatch = useDispatch();
   const allStateObject = useSelector((state) => state);
   let { login: loginData, user } = allStateObject;
-  const { allUsers } = user;
-
-  const filterUsers = (userArray, filterKey) =>{
-    return userArray.filter(eachUser => eachUser.type_of_user === filterKey);
-  }
+  const { allUsers, delete_loading, loading:fetchAllUsersLoading } = user;
 
   const [defaultUserType, setDefaultUserType] = useState('user');
+  const [filteredUserArray, setFilteredUserArray] = useState([]);
+  const [mainUserArrayForDisplay, setMainUserArrayForDisplay] = useState([]);
 
-  const [allUserArray, setUserArray] = useState(filterUsers(allUsers, 'user'));
+  //sarch value
+  const [searchValue, setSearchValue] = useState("");
 
   //pagination datas
   const dataLimit = 5;
-  const [pages] = useState(Math.round(allUserArray.length / dataLimit));
+  const [pages, setPage] = useState(Math.round(filteredUserArray.length / dataLimit));
+  let [StartIndex, setStartIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [userCounter, setUserCounter] = useState(1);
-  const {getPaginatedData:mainUserData} = MainPaginationData({data:allUserArray, dataLimit, currentPage})
+  const [userToDelete, setUserToDelete] = useState(0);
 
   useEffect(() => {
-    setUserArray(filterUsers(allUsers, defaultUserType));
+
+    if (loginData.isLogged === true) {
+      dispatch(getUsersAction(loginData, allUsers));//get the user from the server
+    }
+    return () => {
+      dispatch(resetUserState());
+    }
   }, [defaultUserType]);
 
-
   useEffect(() => {
-    if (loginData.isLogged === true) {
-      dispatch(getUsersAction(loginData, allUsers));
+
+    const filterUsers = (userArray, filterKey) =>{
+      return userArray.filter(eachUser => eachUser.type_of_user === filterKey);
     }
-  }, []);
+
+    if (loginData.isLogged === true && searchValue === '') {
+
+      const filteredData = filterUsers(allUsers, defaultUserType);//call the filter funtion for user type
+
+      //set the data for display
+      const {getPaginatedData:mainUserData, startIndex, endIndex} = MainPaginationData({data:filteredData, dataLimit, currentPage});
+      setMainUserArrayForDisplay(mainUserData);//set the data that will be display on the screen
+      setFilteredUserArray(filteredData);//set the filtered data based on user type
+      setPage(Math.round(filteredData.length / dataLimit));
+      setStartIndex(startIndex);//set the current start index for numbering the datas on the table
+    }
+
+    //console.log('I ran')
+  }, [defaultUserType, allUsers, currentPage, searchValue]);
+
+  useEffect(() => {//first_name last_name email phone
+
+    if(searchValue !== ''){
+      const currentFilteredArray = filteredUserArray.filter(eachUser =>{//
+        return eachUser.first_name !== null ? eachUser.first_name.toLowerCase().includes(searchValue.toLowerCase()) : false || eachUser.last_name !== null ? eachUser.last_name.toLowerCase().includes(searchValue.toLowerCase()) : false  || eachUser.phone !== null ? eachUser.phone.includes(searchValue):false || eachUser.email !== null ? eachUser.email.toLowerCase().includes(searchValue.toLowerCase()) : false
+      } );
+      setMainUserArrayForDisplay(currentFilteredArray);
+    }
+
+  }, [searchValue])
 
   const deleteHandler = (unique_id, type_of_user, loginData) => {
     if (loginData.isLogged === true) {
       dispatch(deleteUsersAction({unique_id, type_of_user, loginData}));
     }
   };
-
-  // const deleteHandler = (unique_id, loginData) => {
-  //   if (loginData.isLogged === true) {
-  //     dispatch(selectOneUserAction(unique_id, loginData));
-  //   }
-  // };
 
   let loadingStatus = false;
   if (user.loading === true) {
@@ -70,11 +96,12 @@ const Admin = () => {
     loadingStatus
   );
 
-  const userTypesObject = {user:'USERS', 'admin':'admins', 'mid-admin':'mid-admin', 'super-admin':'super-admin' }
+  const userTypesObject = {user:'USERS', 'admin':'admins', 'mid-admin':'mid-admin', 'super-admin':'super-admin' };
 
   return (
     <>
       <div>
+        {loginData.isLogged === false ? <DelayedRedirect to={`/login`} delay={500} />  :'' }
         <section
           className="bg-dark-body bg-food-white pt-80 pb-20"
           data-overlay={7}
@@ -101,10 +128,12 @@ const Admin = () => {
 
               <div className="col-12 col-sm-12"><h2 className="text-center">{userTypesObject[defaultUserType].toUpperCase()}</h2></div>
 
-              <div className="col-6 col-sm-10"></div>
+              <div className="col-6 col-sm-8"></div>
+              <div className="col-6 col-sm-2">
+                <input placeholder="Search....." typeof="text" className="form-control" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
+              </div>
               <div className="col-6 col-sm-2">
                 <select value={defaultUserType} className="form-control" onChange={ (e) => setDefaultUserType(e.target.value)}>
-                  <option value="">Select Type of User</option>
                   <option value="user">Normal Users</option>
                   <option value="admin">Admin</option>
                   <option value="mid-admin">Mid Level Admin</option>
@@ -112,7 +141,7 @@ const Admin = () => {
                 </select>
               </div>
 
-              <div className="col-12 col-sm-12">
+              <div className="col-12 col-sm-12" style={{marginTop:"20px"}}>
 
                 {errorMessage && (
                     <p className="alert alert-danger  text-center">{errorMessage}</p>
@@ -124,7 +153,7 @@ const Admin = () => {
                     </p>
                 )}
 
-                {mainUserData.length > 0 ? (
+                {fetchAllUsersLoading === false && mainUserArrayForDisplay.length > 0 ? (
                     <>
                       <table className="table table-striped table-condensed">
                         <thead>
@@ -132,6 +161,7 @@ const Admin = () => {
                           <th scope="col">ID</th>
                           <th scope="col">Full Name</th>
                           <th scope="col">Email</th>
+                          <th scope="col">Phone</th>
                           <th scope="col">Type Of User</th>
                           <th scope="col">Delete Status</th>
                           <th scope="col">Actions</th>
@@ -139,19 +169,20 @@ const Admin = () => {
                         </thead>
                         <tbody>
                         {/*style={{user.deleted_at === null ? ({}) : ('background:"red"')}}*/}
-                        {mainUserData.map((user, index) => (
+                        {mainUserArrayForDisplay.map((user, index) => (
                             <>
                               <tr style={{background: user.deleted_at === null ? ('') : ("#ddd")}} className="text-center" key={index}>
                                 {/* {alert(user.deleted_at)}*/}
-                                <th scope="row">{index + 1}</th>
+                                <th scope="row">{StartIndex++ + 1}</th>
                                 <td>{user.first_name} {user.last_name}</td>
                                 <td>{user.email}</td>
+                                <td>{user.phone}</td>
                                 <td>{user.type_of_user}</td>
-                                <td>{user.deleted_at !== null ? (<span className="btn btn-warning btn-sm">Deleted</span>):(<span className="btn btn-success btn-sm">Not Deleted</span>) }</td>
+                                <td>{delete_loading === true && user.unique_id === userToDelete ? 'Loading...' : user.deleted_at !== null ? (<span className="btn btn-warning btn-sm">Deleted</span>):(<span className="btn btn-success btn-sm">Not Deleted</span> ) }</td>
                                 <td>
                                   {" "}
                                   <DropdownButton id="dropdown-basic-button" title="Options" size="sm">
-                                    <Dropdown.Item onClick={() => deleteHandler(user.unique_id, user.type_of_user, loginData)}
+                                    <Dropdown.Item onClick={() =>{ deleteHandler(user.unique_id, user.type_of_user, loginData); setUserToDelete(user.unique_id)  } }
                                     >Delete User</Dropdown.Item>
                                     <Dropdown.Item href={`/get-single/user/${user.unique_id}`}>Edit User</Dropdown.Item>
                                     <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
@@ -159,20 +190,25 @@ const Admin = () => {
 
                                 </td>
                               </tr>
+                              {/*{setStartIndex(StartIndex++)}*/}
                             </>
                         ))}
                         </tbody>
                       </table>
                     </>
-                ):(
-                  <h3 className="alert alert-warning text-center">No Data Available</h3>
-                  )}
+                ):('')}
+
+                {fetchAllUsersLoading === false && mainUserArrayForDisplay.length === 0 ? (
+                    <h3 className="alert alert-warning text-center">No Data Available</h3>
+                ) : ('')}
+
+                {fetchAllUsersLoading && <h3 className="alert alert-warning text-center">Loading.....</h3> }
 
               </div>
 
               <div className="col-12 col-sm-12">
                 <Pagination
-                    data={allUserArray}
+                    data={filteredUserArray}
                     title={''}
                     pageLimit={pages}
                     dataLimit={dataLimit}
