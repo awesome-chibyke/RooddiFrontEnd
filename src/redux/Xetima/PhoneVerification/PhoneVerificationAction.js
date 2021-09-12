@@ -41,12 +41,14 @@ const savePhoneActionFailure = (message) => {
     }
 }
 
-export const savePhonePost = async ({loginData, phone, country_code}) => {
+export const savePhonePost = ({loginData, phone, country_code}) => {
     return  async (dispatch) => {
 
         validateModule.ClearErrorFields();
 
         dispatch(savePhoneAction());
+
+        country_code = country_code.value;
 
         let data = {
             phone: phone,

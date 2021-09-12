@@ -25,7 +25,7 @@ const Dashboard = () => {
     const linkArray = ['login1', 'login2', 'login3', 'login4', 'login5'];
 
 
-    if(loginData.isLogged === false){ window.location.href = '/login' }
+    /*if(loginData.isLogged === false){ window.location.href = '/login' }*/
 
     return (
         <>
