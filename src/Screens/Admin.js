@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/heading-has-content */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {DropdownButton, Dropdown} from 'react-bootstrap'
@@ -36,7 +39,6 @@ const Admin = () => {
   const [userToDelete, setUserToDelete] = useState(0);
 
   useEffect(() => {
-
     if (loginData.isLogged === true) {
       dispatch(getUsersAction(loginData, allUsers));//get the user from the server
     }
@@ -173,7 +175,7 @@ const Admin = () => {
                             <>
                               <tr style={{background: user.deleted_at === null ? ('') : ("#ddd")}} className="text-center" key={index}>
                                 {/* {alert(user.deleted_at)}*/}
-                                <th scope="row">{StartIndex++ + 1}</th>
+                                <th scope="row">{StartIndex+++ 1}</th>
                                 <td>{user.first_name} {user.last_name}</td>
                                 <td>{user.email}</td>
                                 <td>{user.phone}</td>
@@ -184,7 +186,7 @@ const Admin = () => {
                                   <DropdownButton id="dropdown-basic-button" title="Options" size="sm">
                                     <Dropdown.Item onClick={() =>{ deleteHandler(user.unique_id, user.type_of_user, loginData); setUserToDelete(user.unique_id)  } }
                                     >Delete User</Dropdown.Item>
-                                    <Dropdown.Item href={`/get-single/user/${user.unique_id}`}>Edit User</Dropdown.Item>
+                                    <Dropdown.Item href={`/edit-user/${user.unique_id}`}>Edit User</Dropdown.Item>
                                     <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
                                   </DropdownButton>
 

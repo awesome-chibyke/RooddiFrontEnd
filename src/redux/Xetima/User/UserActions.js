@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import{
     GET_ALL_USERS,
     GET_ALL_USERS_SUCCESS,
@@ -8,7 +9,10 @@ import{
     DELETE_USER,
     DELETE_USER_SUCCESS,
     DELETE_USER_FAIL,
-    RESET_USERS_STATE
+    RESET_USERS_STATE,
+    EDIT_USER,
+    EDIT_USER_SUCCESS,
+    EDIT_USER_FAIL
 } from './UserTypes'
 
 import { BACKEND_BASE_URL, headerIncluder, NO_OF_TRIAL_COUNTER } from "../../../common_variables";
@@ -69,13 +73,6 @@ export const getUsersAction = (loginData, allUsers, counter = 0) => {
             }
         }
     }catch(err){
-
-        /*if(err.message === 'Network Error'){
-            if(counter < NO_OF_TRIAL_COUNTER){
-                dispatch(getAllUsersActionFailure(err.message));
-                return getUsersAction(loginData, allUsers, counter);
-            }
-        }*/
         validateModule.handleErrorStatement({general_error:[err.message]}, '', 'on', 'no', 'no');
         dispatch(getAllUsersActionFailure(err.message));
     }
@@ -105,28 +102,31 @@ const getSingleUserActionFailure = (message) => {
     }
 }
 
-export const selectOneUserAction = (loginData, unique_id) => async (dispatch) => {
-
+export const selectOneUserAction = ({ unique_id, loginData }) => async (dispatch) => {
     dispatch(getSingleUserAction());
     try{
+
         if(loginData.isLogged === true){
-            let handleSelectOneUserAction = await getRequest(BACKEND_BASE_URL+`users/single_user/${unique_id}`, headerIncluder(loginData.user_data.token) );
-            let returnedObject = handleSelectOneUserAction.data;
-            // console.log(handleSelectOneUserAction)
-            let {status, message, data} = returnedObject;
-            let {single_user} = data;
-            if(status === true){
-                dispatch({type:SELECT_ONE_USER_SUCCESS, payload:single_user});
-            }else{
-                validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
-                dispatch({
-                    type:SELECT_ONE_USER_FAIL,
-                    message:message
-                });
-            }
+                let handleSelectOneUserAction = await getRequest(`${BACKEND_BASE_URL}users/single_user/${unique_id}`, headerIncluder(loginData.user_data.token) );
+                let returnedObject = handleSelectOneUserAction.data;
+                console.log(handleSelectOneUserAction,"action")
+                let {status, message, data} = returnedObject;
+                let {single_user} = data;
+                if(status === true){
+                    dispatch({type:SELECT_ONE_USER_SUCCESS, payload:single_user});
+                    // dispatch(getSingleUserActionSuccess({data:single_user, message:'' }));
+                }else{
+                    validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
+                    dispatch({
+                        type:SELECT_ONE_USER_FAIL,
+                        message:message
+                    });
+                }
         }
     }catch(err){
+        validateModule.handleErrorStatement({general_error:[err.message]}, '', 'on', 'no', 'no');
         dispatch(getSingleUserActionFailure(err.message));
+        console.log(err.message, 'error')
     }
 }
 
@@ -177,6 +177,84 @@ export const deleteUsersAction = ({unique_id, type_of_user, loginData}) => async
         }catch(err){
             dispatch(deleteUserActionFailure(err.message));
         }
+    }
+}
+
+
+//.............................................User Edit details.......................................//
+
+const editUserAction = () => {
+    return {
+        type: EDIT_USER,
+        message:''
+    };
+};
+
+const editUserActionSuccess = (message) => {
+    return {
+        type:EDIT_USER_SUCCESS,
+        message:message
+    }
+}
+
+const editUserActionFailure = (message) => {
+    return {
+        type:EDIT_USER_FAIL,
+        message:message
+    }
+}
+
+
+export const adminEditUserAction = ({loginData, first_name, last_name, country, state, city, address, zip_code}) => async (dispatch)=>{
+    validateModule.ClearErrorFields();
+    dispatch(editUserAction());
+
+    let data = {
+        first_name:first_name,
+        last_name:last_name,
+        country:country,
+        state:state,
+        city:city,
+        address:address,
+        zip_code:zip_code
+    };
+    let rules = {
+        first_name:"required|string",
+        last_name:"required|string",
+        country:"required|string",
+        state:"required|string",
+        city:"required|string",
+        address:"required|string",
+        zip_code:"required|numeric"
+    };
+
+    let validation = new Validator(data, rules);
+
+    if (validation.fails()) {
+        dispatch(editUserActionFailure("Validation Error Occured"));
+        return validateModule.handleErrorStatement( validation.errors.errors, "", "on", "no", "no" );
+    }
+    try {
+        if(loginData.isLogged === true){
+
+        let formBody = 'first_name='+first_name+'&last_name='+last_name+'&country='+country+'&state='+state+'&city='+city+'&address='+address+'&zip_code='+zip_code;
+        let handleEditAdminUser = await postRequest(BACKEND_BASE_URL+"users/edit_user", formBody,  headerIncluder(loginData.user_data.token));
+        let returnedObject = handleEditAdminUser.data;
+        console.log(handleEditAdminUser.data)
+        let {status, message, data} = returnedObject;
+        if (status === true) {
+            let {single_user} = data;
+            dispatch(editUserActionSuccess(message, single_user));
+        } else {
+            validateModule.handleErrorStatement(
+                message, "", "on", "no", "no"
+            );
+            dispatch(editUserActionFailure("An Error Occurred"));
+        }
+        }
+    } catch (err) {
+        dispatch(editUserActionFailure(err.message));
+        console.log(err.message)
     }
 }
 
