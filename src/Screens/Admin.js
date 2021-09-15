@@ -98,6 +98,10 @@ const Admin = () => {
 
   const userTypesObject = {user:'USERS', 'admin':'admins', 'mid-admin':'mid-admin', 'super-admin':'super-admin' };
 
+  const ReturnFullName = (user) => {
+    return user.first_name === null && user.last_name === null ? 'None':user.first_name+' '+user.last_name
+  }
+
   return (
     <>
       <div>
@@ -128,11 +132,11 @@ const Admin = () => {
 
               <div className="col-12 col-sm-12"><h2 className="text-center">{userTypesObject[defaultUserType].toUpperCase()}</h2></div>
 
-              <div className="col-6 col-sm-8"></div>
-              <div className="col-6 col-sm-2">
+              <div className="col-12 col-sm-8"></div>
+              <div className="col-6 col-sm-2" style={{marginTop:"20px"}}>
                 <input placeholder="Search....." typeof="text" className="form-control" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
               </div>
-              <div className="col-6 col-sm-2">
+              <div className="col-6 col-sm-2" style={{marginTop:"20px"}}>
                 <select value={defaultUserType} className="form-control" onChange={ (e) => setDefaultUserType(e.target.value)}>
                   <option value="user">Normal Users</option>
                   <option value="admin">Admin</option>
@@ -141,7 +145,7 @@ const Admin = () => {
                 </select>
               </div>
 
-              <div className="col-12 col-sm-12" style={{marginTop:"20px"}}>
+              <div className="col-12 col-sm-12 table-responsive" style={{marginTop:"20px"}}>
 
                 {errorMessage && (
                     <p className="alert alert-danger  text-center">{errorMessage}</p>
@@ -155,10 +159,10 @@ const Admin = () => {
 
                 {fetchAllUsersLoading === false && mainUserArrayForDisplay.length > 0 ? (
                     <>
-                      <table className="table table-striped table-condensed">
+                      <table className="table table-striped table-condensed mainResponsiveTable">
                         <thead>
                         <tr className="text-center">
-                          <th scope="col">ID</th>
+                          <th scope="col">S/N</th>
                           <th scope="col">Full Name</th>
                           <th scope="col">Email</th>
                           <th scope="col">Phone</th>
@@ -173,13 +177,15 @@ const Admin = () => {
                             <>
                               <tr style={{background: user.deleted_at === null ? ('') : ("#ddd")}} className="text-center" key={index}>
                                 {/* {alert(user.deleted_at)}*/}
-                                <th scope="row">{StartIndex++ + 1}</th>
-                                <td>{user.first_name} {user.last_name}</td>
-                                <td>{user.email}</td>
-                                <td>{user.phone}</td>
-                                <td>{user.type_of_user}</td>
-                                <td>{delete_loading === true && user.unique_id === userToDelete ? 'Loading...' : user.deleted_at !== null ? (<span className="btn btn-warning btn-sm">Deleted</span>):(<span className="btn btn-success btn-sm">Not Deleted</span> ) }</td>
+                                <td scope="row"><span className="mobile-head">S/N</span> {" "}{StartIndex++ + 1}</td>
+                                <td><span className="mobile-head">Full Name</span> {ReturnFullName(user)}</td>
+                                <td><span className="mobile-head">Email</span>{" "}{user.email}</td>
+                                <td><span className="mobile-head">Phone</span>{" "}{user.phone === null ? 'None':user.phone}</td>
+                                <td><span className="mobile-head">Type Of User</span>{" "}{user.type_of_user}</td>
+
+                                <td><span className="mobile-head">Delete Status</span> {" "}{delete_loading === true && user.unique_id === userToDelete ? 'Loading...' : user.deleted_at !== null ? (<span className="btn btn-warning btn-sm">Actions</span>):(<span className="btn btn-success btn-sm">Not Deleted</span> ) }</td>
                                 <td>
+                                  <span className="mobile-head">Options</span>
                                   {" "}
                                   <DropdownButton id="dropdown-basic-button" title="Options" size="sm">
                                     <Dropdown.Item onClick={() =>{ deleteHandler(user.unique_id, user.type_of_user, loginData); setUserToDelete(user.unique_id)  } }
@@ -206,7 +212,7 @@ const Admin = () => {
 
               </div>
 
-              <div className="col-12 col-sm-12">
+              <div className="col-12 col-sm-12" style={{marginTop:"20px"}}>
                 <Pagination
                     data={filteredUserArray}
                     title={''}
