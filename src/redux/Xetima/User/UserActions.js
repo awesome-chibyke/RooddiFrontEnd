@@ -254,7 +254,8 @@ export const adminEditUserAction = ({loginData, first_name, last_name, country, 
         }
     } catch (err) {
         dispatch(editUserActionFailure(err.message));
-        console.log(err.message)
+        validateModule.handleErrorStatement({general_error:[err.message]}, '', 'on', 'no', 'no');
+        
     }
 }
 

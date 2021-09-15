@@ -3,7 +3,11 @@
 /* eslint-disable jsx-a11y/heading-has-content */
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { selectOneUserAction, resetUserState, adminEditUserAction } from "../redux";
+import {
+  selectOneUserAction,
+  resetUserState,
+  adminEditUserAction,
+} from "../redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
 import { Route, Redirect, useParams } from "react-router-dom";
@@ -36,6 +40,18 @@ const AdminUserEdit = () => {
       setLastName(singleUser.last_name);
     }
   }, []);
+
+  let loadingStatus = false;
+  if (user.loading === true) {
+    loadingStatus = true;
+  }
+  const { error: errorMessage, success: successMessage } = ErrorSuccessHook(
+    user.success,
+    user.error,
+    user.message,
+    user,
+    loadingStatus
+  );
 
   useEffect(() => {
     return () => {
@@ -70,6 +86,19 @@ const AdminUserEdit = () => {
             <div className="row">
               <div className="col-12 col-sm-12">
                 <h2 className="text-center">Profile</h2>
+                <>
+                  {errorMessage && (
+                    <p className="alert alert-danger  text-center">
+                      {errorMessage}
+                    </p>
+                  )}
+
+                  {successMessage && (
+                    <p className="alert alert-success  text-center">
+                      {successMessage}
+                    </p>
+                  )}
+                </>
 
                 <div className="container">
                   <div className="row gutters">
@@ -108,11 +137,12 @@ const AdminUserEdit = () => {
                                 <input
                                   type="text"
                                   className="form-control"
-                                  id="full_name"
+                                  id="first_name"
                                   placeholder="Enter First name"
                                   value={first_name}
                                   onChange={(e) => setFirstName(e.target.value)}
                                 />
+                                <span className="error_displayer err_first_name"></span>
                               </div>
                             </div>
                             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -126,6 +156,7 @@ const AdminUserEdit = () => {
                                   value={last_name}
                                   onChange={(e) => setLastName(e.target.value)}
                                 />
+                                <span className="error_displayer err_last_name"></span>
                               </div>
                             </div>
                           </div>
@@ -141,11 +172,12 @@ const AdminUserEdit = () => {
                                 <input
                                   type="name"
                                   className="form-control"
-                                  id="Street Address"
+                                  id="address"
                                   placeholder="Enter Street Address"
                                   value={address}
                                   onChange={(e) => setAddress(e.target.value)}
                                 />
+                                <span className="error_displayer err_address"></span>
                               </div>
                             </div>
                             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -159,6 +191,7 @@ const AdminUserEdit = () => {
                                   value={country}
                                   onChange={(e) => setCountry(e.target.value)}
                                 />
+                                <span className="error_displayer err_country"></span>
                               </div>
                             </div>
                             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -167,11 +200,12 @@ const AdminUserEdit = () => {
                                 <input
                                   type="name"
                                   className="form-control"
-                                  id="ciTy"
+                                  id="city"
                                   placeholder="Enter City"
                                   value={city}
                                   onChange={(e) => setCity(e.target.value)}
                                 />
+                                 <span className="error_displayer err_city"></span>
                               </div>
                             </div>
                             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -180,31 +214,32 @@ const AdminUserEdit = () => {
                                 <input
                                   type="text"
                                   className="form-control"
-                                  id="sTate"
+                                  id="state"
                                   placeholder="Enter State"
                                   value={state}
                                   onChange={(e) => setState(e.target.value)}
                                 />
+                                <span className="error_displayer err_state"></span>
                               </div>
                             </div>
-                            
-                              <div className="form-group">
-                                <label htmlFor="zIp">Zip Code</label>
-                                <input
-                                  type="text"
-                                  className="form-control"
-                                  id="zIp"
-                                  placeholder="Zip Code"
-                                  value={zip_code}
-                                  onChange={(e) => setZipCode(e.target.value)}
-                                />
-                              </div>
-                            
+
+                            <div className="form-group">
+                              <label htmlFor="zIp">Zip Code</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                id="zip_code"
+                                placeholder="Zip Code"
+                                value={zip_code}
+                                onChange={(e) => setZipCode(e.target.value)}
+                              />
+                              <span className="error_displayer err_zip_code"></span>
+                            </div>
                           </div>
                           <div className="row gutters">
                             <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                               <div className="text-right">
-                              {loginData.isLogged === true ? (
+                                {loginData.isLogged === true ? (
                                   <button
                                     type="button"
                                     onClick={async () =>
