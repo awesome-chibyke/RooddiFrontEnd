@@ -30,6 +30,7 @@ import UploadID from "./Screens/UploadID";
 import ValidatePhone from "./Screens/ValidatePhone";
 import Completed from "./Screens/Completed";
 import Admin from "./Screens/Admin";
+import AdminUserEdit from "./Screens/AdminUserEdit";
 
 
 
@@ -113,6 +114,7 @@ function App() {
                   <Route path="/validate_phone" component={ValidatePhone} />
                   <Route path="/completed" component={Completed} />
                   <Route path="/admin" component={Admin} />
+                  <Route path="/edit-user/:unique_id" component={AdminUserEdit} />
                   <Footer />
               </Router>
               </ToolTipContext>

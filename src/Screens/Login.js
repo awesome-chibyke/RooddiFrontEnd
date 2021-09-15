@@ -1,3 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
+/* eslint-disable jsx-a11y/heading-has-content */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable no-script-url */
 import React, { useState, useEffect } from "react";
 import { LoginPost, removeMessage } from "../redux";
 import { connect, useSelector, useDispatch } from "react-redux";

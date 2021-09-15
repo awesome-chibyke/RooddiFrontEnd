@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/heading-has-content */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {DropdownButton, Dropdown} from 'react-bootstrap'
@@ -36,7 +39,6 @@ const Admin = () => {
   const [userToDelete, setUserToDelete] = useState(0);
 
   useEffect(() => {
-
     if (loginData.isLogged === true) {
       dispatch(getUsersAction(loginData, allUsers));//get the user from the server
     }
@@ -177,6 +179,7 @@ const Admin = () => {
                             <>
                               <tr style={{background: user.deleted_at === null ? ('') : ("#ddd")}} className="text-center" key={index}>
                                 {/* {alert(user.deleted_at)}*/}
+
                                 <td scope="row"><span className="mobile-head">S/N</span> {" "}{StartIndex++ + 1}</td>
                                 <td><span className="mobile-head">Full Name</span> {ReturnFullName(user)}</td>
                                 <td><span className="mobile-head">Email</span>{" "}{user.email}</td>
@@ -184,13 +187,14 @@ const Admin = () => {
                                 <td><span className="mobile-head">Type Of User</span>{" "}{user.type_of_user}</td>
 
                                 <td><span className="mobile-head">Delete Status</span> {" "}{delete_loading === true && user.unique_id === userToDelete ? 'Loading...' : user.deleted_at !== null ? (<span className="btn btn-warning btn-sm">Actions</span>):(<span className="btn btn-success btn-sm">Not Deleted</span> ) }</td>
+
                                 <td>
                                   <span className="mobile-head">Options</span>
                                   {" "}
                                   <DropdownButton id="dropdown-basic-button" title="Options" size="sm">
                                     <Dropdown.Item onClick={() =>{ deleteHandler(user.unique_id, user.type_of_user, loginData); setUserToDelete(user.unique_id)  } }
                                     >Delete User</Dropdown.Item>
-                                    <Dropdown.Item href={`/get-single/user/${user.unique_id}`}>Edit User</Dropdown.Item>
+                                    <Dropdown.Item href={`/edit-user/${user.unique_id}`}>Edit User</Dropdown.Item>
                                     <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
                                   </DropdownButton>
 

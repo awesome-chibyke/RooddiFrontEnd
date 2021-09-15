@@ -8,7 +8,10 @@ import {
   DELETE_USER,
   DELETE_USER_SUCCESS,
   DELETE_USER_FAIL,
-  RESET_USERS_STATE
+  RESET_USERS_STATE,
+  EDIT_USER,
+  EDIT_USER_SUCCESS,
+  EDIT_USER_FAIL,
 } from "./UserTypes";
 
 const initialState = {
@@ -78,7 +81,7 @@ const UserReducer = (state = initialState, action) => {
         ...state,
         message: action.message,
         loading: false,
-        delete_loading:true,
+        delete_loading: true,
         error: false,
         success: false,
       };
@@ -87,8 +90,8 @@ const UserReducer = (state = initialState, action) => {
         ...state,
         message: action.message,
         loading: false,
-        allUsers:action.payload,
-        delete_loading:false,
+        allUsers: action.payload,
+        delete_loading: false,
         error: false,
         success: true,
       };
@@ -96,7 +99,7 @@ const UserReducer = (state = initialState, action) => {
       return {
         ...state,
         message: action.message,
-        delete_loading:false,
+        delete_loading: false,
         loading: false,
         error: true,
         success: false,
@@ -110,6 +113,32 @@ const UserReducer = (state = initialState, action) => {
         allUsers: [],
         singleUser: [],
         error: false,
+        success: false,
+      };
+
+    case EDIT_USER:
+      return {
+        ...state,
+        message: action.message,
+        loading: true,
+        error: false,
+        success: false,
+      };
+    case EDIT_USER_SUCCESS:
+      return {
+        ...state,
+        message: action.message,
+        loading: false,
+        singleUser: action.payload,
+        error: false,
+        success: true,
+      };
+    case EDIT_USER_FAIL:
+      return {
+        ...state,
+        message: action.message,
+        loading: false,
+        error: true,
         success: false,
       };
     default:
