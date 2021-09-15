@@ -52,7 +52,7 @@ const AdminUserEdit = () => {
     user,
     loadingStatus
   );
-
+console.log(first_name)
   useEffect(() => {
     return () => {
       dispatch(resetUserState());
@@ -114,14 +114,19 @@ const AdminUserEdit = () => {
                                 />
                               </div>
                               <h5 className="user-name">
-                                {singleUser.first_name}
+                                {/* {singleUser.first_name} */}
+                                Uke Mike
                               </h5>
-                              <h6 className="user-email">{singleUser.email}</h6>
+                              <h6 className="user-email">
+                                ukemike4@mail.com
+                                {/* {singleUser.email} */}
+                              </h6>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
+                    
                     <div className="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
                       <div className="card h-450">
                         <div className="card-body">
