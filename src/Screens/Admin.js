@@ -186,7 +186,7 @@ const Admin = () => {
                                 <td><span className="mobile-head">Phone</span>{" "}{user.phone === null ? 'None':user.phone}</td>
                                 <td><span className="mobile-head">Type Of User</span>{" "}{user.type_of_user}</td>
 
-                                <td><span className="mobile-head">Delete Status</span> {" "}{delete_loading === true && user.unique_id === userToDelete ? 'Loading...' : user.deleted_at !== null ? (<span className="btn btn-warning btn-sm">Actions</span>):(<span className="btn btn-success btn-sm">Not Deleted</span> ) }</td>
+                                <td><span className="mobile-head">Delete Status</span> {" "}{delete_loading === true && user.unique_id === userToDelete ? 'Loading...' : user.deleted_at !== null ? (<span className="btn btn-warning btn-sm">Deleted</span>):(<span className="btn btn-success btn-sm">Not Deleted</span> ) }</td>
 
                                 <td>
                                   <span className="mobile-head">Options</span>

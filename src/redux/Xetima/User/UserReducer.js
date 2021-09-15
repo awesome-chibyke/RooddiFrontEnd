@@ -19,7 +19,7 @@ const initialState = {
   loading: false,
   delete_loading: false,
   allUsers: [],
-  singleUser: [],
+  singleUser: {},
   error: false,
   success: false,
 };
@@ -111,7 +111,7 @@ const UserReducer = (state = initialState, action) => {
         loading: false,
         delete_loading: false,
         allUsers: [],
-        singleUser: [],
+        singleUser: {},
         error: false,
         success: false,
       };
@@ -129,7 +129,7 @@ const UserReducer = (state = initialState, action) => {
         ...state,
         message: action.message,
         loading: false,
-        singleUser: action.payload,
+        allUsers:action.payload,
         error: false,
         success: true,
       };
