@@ -16,30 +16,18 @@ const AdminUserEdit = () => {
   const dispatch = useDispatch();
   const allStateObject = useSelector((state) => state);
   let { login: loginData, user } = allStateObject;
-  const { singleUser } = user;
-  let { unique_id } = useParams();
+  const { singleUser, allUsers } = user;
+  let { unique_id:userUniqueId } = useParams();
 
-  const [first_name, setFirstName] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [zip_code, setZipCode] = useState("");
-  const [state, setState] = useState("");
-  const [country, setCountry] = useState("");
-  const [last_name, setLastName] = useState("");
+  const [singleUserObject, setSingleUserObject] = useState(null);
 
   useEffect(() => {
-    if (singleUser.unique_id !== unique_id) {
-      dispatch(selectOneUserAction({ unique_id, loginData }));
-    } else {
-      setFirstName(singleUser.first_name);
-      setAddress(singleUser.address);
-      setCity(singleUser.city);
-      setZipCode(singleUser.zip_code);
-      setState(singleUser.state);
-      setCountry(singleUser.country);
-      setLastName(singleUser.last_name);
-    }
-  }, []);
+    dispatch(selectOneUserAction({ userUniqueId, loginData, allUsers }));
+  }, [])
+
+  useEffect(() => {
+    setSingleUserObject(singleUser);
+  }, [singleUser])
 
   let loadingStatus = false;
   if (user.loading === true) {
@@ -52,12 +40,16 @@ const AdminUserEdit = () => {
     user,
     loadingStatus
   );
-console.log(first_name)
-  useEffect(() => {
-    return () => {
-      dispatch(resetUserState());
-    };
-  }, []);
+
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch(resetUserState());
+  //   };
+  // }, []);
+
+  console.log(allUsers)
+  console.log(singleUser)
+
   return (
     <>
       <div>
@@ -114,12 +106,10 @@ console.log(first_name)
                                 />
                               </div>
                               <h5 className="user-name">
-                                {/* {singleUser.first_name} */}
-                                Uke Mike
+                                 {singleUserObject && singleUserObject.first_name}
                               </h5>
                               <h6 className="user-email">
-                                ukemike4@mail.com
-                                {/* {singleUser.email} */}
+                                 {singleUserObject && singleUserObject.email}
                               </h6>
                             </div>
                           </div>
@@ -144,8 +134,8 @@ console.log(first_name)
                                   className="form-control"
                                   id="first_name"
                                   placeholder="Enter First name"
-                                  value={first_name}
-                                  onChange={(e) => setFirstName(e.target.value)}
+                                  value={singleUserObject && singleUserObject.first_name}
+                                  onChange={(e) => setSingleUserObject({...singleUserObject, first_name:e.target.value})}
                                 />
                                 <span className="error_displayer err_first_name"></span>
                               </div>
@@ -158,8 +148,8 @@ console.log(first_name)
                                   className="form-control"
                                   id="last_name"
                                   placeholder="Enter Last Name"
-                                  value={last_name}
-                                  onChange={(e) => setLastName(e.target.value)}
+                                  value={singleUserObject && singleUserObject.last_name}
+                                  onChange={(e) => setSingleUserObject({...singleUserObject, last_name:e.target.value})}
                                 />
                                 <span className="error_displayer err_last_name"></span>
                               </div>
@@ -179,8 +169,8 @@ console.log(first_name)
                                   className="form-control"
                                   id="address"
                                   placeholder="Enter Street Address"
-                                  value={address}
-                                  onChange={(e) => setAddress(e.target.value)}
+                                  value={singleUserObject && singleUserObject.address}
+                                  onChange={(e) => setSingleUserObject({...singleUserObject, address:e.target.value})}
                                 />
                                 <span className="error_displayer err_address"></span>
                               </div>
@@ -193,8 +183,8 @@ console.log(first_name)
                                   className="form-control"
                                   id="country"
                                   placeholder="Enter Country"
-                                  value={country}
-                                  onChange={(e) => setCountry(e.target.value)}
+                                  value={singleUserObject && singleUserObject.country}
+                                  onChange={(e) => setSingleUserObject({...singleUserObject, country:e.target.value})}
                                 />
                                 <span className="error_displayer err_country"></span>
                               </div>
@@ -207,8 +197,8 @@ console.log(first_name)
                                   className="form-control"
                                   id="city"
                                   placeholder="Enter City"
-                                  value={city}
-                                  onChange={(e) => setCity(e.target.value)}
+                                  value={singleUserObject && singleUserObject.city}
+                                  onChange={(e) => setSingleUserObject({...singleUserObject, city:e.target.value})}
                                 />
                                  <span className="error_displayer err_city"></span>
                               </div>
@@ -221,8 +211,8 @@ console.log(first_name)
                                   className="form-control"
                                   id="state"
                                   placeholder="Enter State"
-                                  value={state}
-                                  onChange={(e) => setState(e.target.value)}
+                                  value={singleUserObject && singleUserObject.state}
+                                  onChange={(e) => setSingleUserObject({...singleUserObject, state:e.target.value})}
                                 />
                                 <span className="error_displayer err_state"></span>
                               </div>
@@ -235,8 +225,8 @@ console.log(first_name)
                                 className="form-control"
                                 id="zip_code"
                                 placeholder="Zip Code"
-                                value={zip_code}
-                                onChange={(e) => setZipCode(e.target.value)}
+                                value={singleUserObject && singleUserObject.zip_code}
+                                onChange={(e) => setSingleUserObject({...singleUserObject, zip_code:e.target.value})}
                               />
                               <span className="error_displayer err_zip_code"></span>
                             </div>
@@ -247,17 +237,12 @@ console.log(first_name)
                                 {loginData.isLogged === true ? (
                                   <button
                                     type="button"
-                                    onClick={async () =>
+                                    onClick={() =>
                                       dispatch(
-                                        await adminEditUserAction({
+                                        adminEditUserAction({
                                           loginData,
-                                          first_name,
-                                          last_name,
-                                          country,
-                                          state,
-                                          city,
-                                          address,
-                                          zip_code,
+                                          singleUserObject,
+                                          userUniqueId
                                         })
                                       )
                                     }

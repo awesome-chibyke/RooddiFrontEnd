@@ -87,10 +87,10 @@ const getSingleUserAction = () => {
     };
 };
 
-const getSingleUserActionSuccess = ({data, message }) => {
+const getSingleUserActionSuccess = ({message, user_object }) => {
     return {
         type:SELECT_ONE_USER_SUCCESS,
-        payload:data,
+        payload:user_object,
         message:message,
     }
 }
@@ -102,19 +102,32 @@ const getSingleUserActionFailure = (message) => {
     }
 }
 
-export const selectOneUserAction = ({ unique_id, loginData }) => async (dispatch) => {
+export const selectOneUserAction = ({ userUniqueId, loginData, allUsers }) => async (dispatch) => {
     dispatch(getSingleUserAction());
     try{
 
         if(loginData.isLogged === true){
-                let handleSelectOneUserAction = await getRequest(`${BACKEND_BASE_URL}users/single_user/${unique_id}`, headerIncluder(loginData.user_data.token) );
+
+            let selectedUserObject = {};
+            if(allUsers.length > 0){
+
+                for(let i in allUsers){
+                    if(allUsers[i].unique_id === userUniqueId){
+                        selectedUserObject = allUsers[i];
+                    }
+                }
+                dispatch(getSingleUserActionSuccess({message:'', user_object:selectedUserObject }));
+
+            }else{
+
+                let handleSelectOneUserAction = await getRequest(`${BACKEND_BASE_URL}users/single_user/${userUniqueId}`, headerIncluder(loginData.user_data.token) );
                 let returnedObject = handleSelectOneUserAction.data;
-                console.log(handleSelectOneUserAction,"action")
+
                 let {status, message, data} = returnedObject;
                 let {single_user} = data;
+
                 if(status === true){
-                    dispatch({type:SELECT_ONE_USER_SUCCESS, payload:single_user});
-                    // dispatch(getSingleUserActionSuccess({data:single_user, message:'' }));
+                    dispatch(getSingleUserActionSuccess({message, user_object:single_user }));
                 }else{
                     validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
                     dispatch({
@@ -122,6 +135,10 @@ export const selectOneUserAction = ({ unique_id, loginData }) => async (dispatch
                         message:message
                     });
                 }
+
+            }
+
+
         }
     }catch(err){
         validateModule.handleErrorStatement({general_error:[err.message]}, '', 'on', 'no', 'no');
@@ -138,10 +155,10 @@ const deleteUserAction = () => {
     };
 };
 
-const deleteUserActionSuccess = ({data, message }) => {
+const deleteUserActionSuccess = ({message, all_users}) => {
     return {
         type:DELETE_USER_SUCCESS,
-        payload:data,
+        payload:all_users,
         message:message,
     }
 }
@@ -163,9 +180,9 @@ export const deleteUsersAction = ({unique_id, type_of_user, loginData}) => async
                 let handleDeleteUserAction = await getRequest(`${BACKEND_BASE_URL}users/delete_user/${unique_id}/${type_of_user}`, headerIncluder(loginData.user_data.token) );
                 let returnedObject = handleDeleteUserAction.data;
                 let {status, message, message_type, data} = returnedObject;
-                let {all_users} = data;
                 if(status === true){
-                    dispatch(deleteUserActionSuccess(message, all_users));
+                    let {all_users} = data;
+                    dispatch(deleteUserActionSuccess({message, all_users}));
                 }else{
                     validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
                     dispatch({
@@ -175,6 +192,7 @@ export const deleteUsersAction = ({unique_id, type_of_user, loginData}) => async
                 }
             }
         }catch(err){
+            validateModule.handleErrorStatement({general_error:[err.message]}, '', 'on', 'no', 'no');
             dispatch(deleteUserActionFailure(err.message));
         }
     }
@@ -190,10 +208,11 @@ const editUserAction = () => {
     };
 };
 
-const editUserActionSuccess = (message) => {
+const editUserActionSuccess = ({message, all_users}) => {
     return {
         type:EDIT_USER_SUCCESS,
-        message:message
+        message:message,
+        payload:all_users
     }
 }
 
@@ -205,18 +224,18 @@ const editUserActionFailure = (message) => {
 }
 
 
-export const adminEditUserAction = ({loginData, first_name, last_name, country, state, city, address, zip_code}) => async (dispatch)=>{
+export const adminEditUserAction = ({loginData, singleUserObject, userUniqueId}) => async (dispatch)=>{
     validateModule.ClearErrorFields();
     dispatch(editUserAction());
 
     let data = {
-        first_name:first_name,
-        last_name:last_name,
-        country:country,
-        state:state,
-        city:city,
-        address:address,
-        zip_code:zip_code
+        first_name:singleUserObject.first_name,
+        last_name:singleUserObject.last_name,
+        country:singleUserObject.country,
+        state:singleUserObject.state,
+        city:singleUserObject.city,
+        address:singleUserObject.address,
+        zip_code:singleUserObject.zip_code
     };
     let rules = {
         first_name:"required|string",
@@ -237,14 +256,15 @@ export const adminEditUserAction = ({loginData, first_name, last_name, country, 
     try {
         if(loginData.isLogged === true){
 
-        let formBody = 'first_name='+first_name+'&last_name='+last_name+'&country='+country+'&state='+state+'&city='+city+'&address='+address+'&zip_code='+zip_code;
+        let formBody = 'first_name='+singleUserObject.first_name+'&last_name='+singleUserObject.last_name+'&country='+singleUserObject.country+'&state='+singleUserObject.state+'&city='+singleUserObject.city+'&address='+singleUserObject.address+'&zip_code='+singleUserObject.zip_code+'&unique_id='+userUniqueId;
+
         let handleEditAdminUser = await postRequest(BACKEND_BASE_URL+"users/edit_user", formBody,  headerIncluder(loginData.user_data.token));
         let returnedObject = handleEditAdminUser.data;
-        console.log(handleEditAdminUser.data)
+
         let {status, message, data} = returnedObject;
         if (status === true) {
-            let {single_user} = data;
-            dispatch(editUserActionSuccess(message, single_user));
+            let {all_users} = data;
+            dispatch(editUserActionSuccess({message, all_users}));
         } else {
             validateModule.handleErrorStatement(
                 message, "", "on", "no", "no"
