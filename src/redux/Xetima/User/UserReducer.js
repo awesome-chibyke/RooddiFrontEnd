@@ -12,6 +12,7 @@ import {
   EDIT_USER,
   EDIT_USER_SUCCESS,
   EDIT_USER_FAIL,
+    REVERSE_DELETE_USER,REVERSE_DELETE_USER_SUCCESS,REVERSE_DELETE_USER_FAIL
 } from "./UserTypes";
 
 const initialState = {
@@ -141,6 +142,31 @@ const UserReducer = (state = initialState, action) => {
         error: true,
         success: false,
       };
+      case REVERSE_DELETE_USER:
+          return {
+              ...state,
+              message:action.message,
+              delete_loading: true,
+              error: false,
+              success: false,
+          };
+      case REVERSE_DELETE_USER_SUCCESS:
+          return {
+              ...state,
+              message:action.message,
+              delete_loading: false,
+              allUsers: action.payload,
+              error: false,
+              success: true,
+          };
+      case REVERSE_DELETE_USER_FAIL:
+          return {
+              ...state,
+              message:action.message,
+              delete_loading: false,
+              error: true,
+              success: false,
+          };
     default:
       return state;
   }
