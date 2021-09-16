@@ -8,7 +8,8 @@ import {
   getUsersAction,
   selectOneUserAction,
   deleteUsersAction,
-  resetUserState
+  resetUserState,
+  reverseDeleteHandler
 } from "../redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
@@ -192,8 +193,14 @@ const Admin = () => {
                                   <span className="mobile-head">Options</span>
                                   {" "}
                                   <DropdownButton id="dropdown-basic-button" title="Options" size="sm">
-                                    <Dropdown.Item onClick={() =>{ deleteHandler(user.unique_id, user.type_of_user, loginData); setUserToDelete(user.unique_id)  } }
-                                    >Delete User</Dropdown.Item>
+                                    {user.deleted_at === null ? (
+                                        <Dropdown.Item onClick={() =>{ deleteHandler(user.unique_id, user.type_of_user, loginData); setUserToDelete(user.unique_id)  } }
+                                        >Delete User</Dropdown.Item>
+                                    ):(
+                                      <Dropdown.Item onClick={() =>{ dispatch(reverseDeleteHandler({unique_id:user.unique_id, type_of_user:user.type_of_user, loginData})); setUserToDelete(user.unique_id)  } }
+                                      >Restore User</Dropdown.Item>
+                                      )}
+
                                     <Dropdown.Item href={`/edit-user/${user.unique_id}`}>Edit User</Dropdown.Item>
                                     <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
                                   </DropdownButton>
