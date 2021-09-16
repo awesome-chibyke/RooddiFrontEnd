@@ -12,7 +12,8 @@ import{
     RESET_USERS_STATE,
     EDIT_USER,
     EDIT_USER_SUCCESS,
-    EDIT_USER_FAIL
+    EDIT_USER_FAIL,
+    REVERSE_DELETE_USER,REVERSE_DELETE_USER_SUCCESS,REVERSE_DELETE_USER_FAIL
 } from './UserTypes'
 
 import { BACKEND_BASE_URL, headerIncluder, NO_OF_TRIAL_COUNTER } from "../../../common_variables";
@@ -114,6 +115,7 @@ export const selectOneUserAction = ({ userUniqueId, loginData, allUsers }) => as
                 for(let i in allUsers){
                     if(allUsers[i].unique_id === userUniqueId){
                         selectedUserObject = allUsers[i];
+                        break;
                     }
                 }
                 dispatch(getSingleUserActionSuccess({message:'', user_object:selectedUserObject }));
@@ -194,6 +196,58 @@ export const deleteUsersAction = ({unique_id, type_of_user, loginData}) => async
         }catch(err){
             validateModule.handleErrorStatement({general_error:[err.message]}, '', 'on', 'no', 'no');
             dispatch(deleteUserActionFailure(err.message));
+        }
+    }
+}
+
+
+
+//............................................ Reverse User Delete ..........................................................//
+const ReverseDeleteUserAction = () => {
+    return {
+        type: REVERSE_DELETE_USER,
+        message:'Loading....'
+    };
+};
+
+const ReverseDeleteUserActionSuccess = ({message, all_users}) => {
+    return {
+        type:REVERSE_DELETE_USER_SUCCESS,
+        payload:all_users,
+        message:message,
+    }
+}
+
+const ReverseDeleteUserActionFailure = (message) => {
+    return {
+        type:REVERSE_DELETE_USER_FAIL,
+        message:message
+    }
+}
+
+export const reverseDeleteHandler = ({unique_id, type_of_user, loginData}) => async (dispatch) => {
+
+    let reVal = window.confirm('Do you really want to restore this user ? ');
+    if(reVal === true){
+
+        dispatch(ReverseDeleteUserAction());
+        try{
+
+            if(loginData.isLogged === true){
+                let handleDeleteUserAction = await getRequest(`${BACKEND_BASE_URL}users/reverse_user_delete/${unique_id}/${type_of_user}`, headerIncluder(loginData.user_data.token) );
+                let returnedObject = handleDeleteUserAction.data;
+                let {status, message, message_type, data} = returnedObject;
+                if(status === true){
+                    let {all_users} = data;
+                    dispatch(ReverseDeleteUserActionSuccess({message, all_users}));
+                }else{
+                    validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
+                    dispatch(ReverseDeleteUserActionFailure('An error occurred'));
+                }
+            }
+        }catch(err){
+            validateModule.handleErrorStatement({general_error:[err.message]}, '', 'on', 'no', 'no');
+            dispatch(ReverseDeleteUserActionFailure(err.message));
         }
     }
 }
