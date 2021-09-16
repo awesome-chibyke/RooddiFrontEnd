@@ -10,12 +10,12 @@ import {
 } from "../redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
-import { Route, Redirect, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const AdminUserEdit = () => {
   const dispatch = useDispatch();
   const allStateObject = useSelector((state) => state);
-  let { login: loginData, user } = allStateObject;
+  let { login:loginData, user } = allStateObject;
   const { singleUser } = user;
   let { unique_id } = useParams();
 
