@@ -1,35 +1,35 @@
 /* eslint-disable jsx-a11y/heading-has-content */
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addRolesActionPost, resetRolesState } from "../redux";
+import { addTypeOfUserActionPost, resetTypeOfUserState } from "../redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
 
-const CreateRoles = () => {
-  const [role, setRoles] = useState("");
+const CreateTypeOfUser = () => {
+  const [type_of_user, setTypeOfUser] = useState("");
   const [description, setDescription] = useState("");
 
   const dispatch = useDispatch();
   const allStateObject = useSelector((state) => state);
-  let { login: loginData, roles } = allStateObject;
-  const { loading } = roles;
+  let { login: loginData, typeOfUser } = allStateObject;
+  const { loading } = typeOfUser;
 
   let loadingStatus = false;
-  if (roles.loading === true) {
+  if (typeOfUser.loading === true) {
     loadingStatus = true;
   }
 
   const { error: errorMessage, success: successMessage } = ErrorSuccessHook(
-    roles.success,
-    roles.error,
-    roles.message,
-    roles,
+    typeOfUser.success,
+    typeOfUser.error,
+    typeOfUser.message,
+    typeOfUser,
     loadingStatus
   );
 
   useEffect(() => {
     return () => {
-      dispatch(resetRolesState());
+      dispatch(resetTypeOfUserState());
     };
   }, []);
   return (
@@ -64,7 +64,7 @@ const CreateRoles = () => {
         <div className="container">
           <div className="row">
             <div className="col-12 col-sm-12">
-              <h2 className="text-center">Create Role</h2>
+              <h2 className="text-center">Create Type Of User</h2>
               {errorMessage && (
                 <p className="alert alert-danger  text-center">
                   {errorMessage}
@@ -82,12 +82,12 @@ const CreateRoles = () => {
                   <input
                     type="email"
                     className="form-control"
-                    id="role"
-                    placeholder="Enter Role"
-                    value={role}
-                    onChange={(e) => setRoles(e.target.value)}
+                    id="type_of_user"
+                    placeholder="Enter Type Of User"
+                    value={type_of_user}
+                    onChange={(e) => setTypeOfUser(e.target.value)}
                   />
-                  <span className="error_displayer err_role"></span>
+                  <span className="error_displayer err_type_of_user"></span>
                 </div>
                 <div className="form-group">
                   <label htmlFor="exampleInputPassword1">Description</label>
@@ -106,17 +106,17 @@ const CreateRoles = () => {
                     type="submit"
                     onClick={async (e) => {
                       dispatch(
-                        await addRolesActionPost({
+                        await addTypeOfUserActionPost({
                           loginData,
-                          role: role,
+                          type_of_user: type_of_user,
                           description: description,
                         })
                       );
                     }}
                     className="btn btn-primary"
                   >
-                    {roles.loading === true
-                      ? "Adding Role....."
+                    {typeOfUser.loading === true
+                      ? "Adding Type Of User....."
                       : "Submit"}
                   </button>
                 ) : (
@@ -131,4 +131,4 @@ const CreateRoles = () => {
   );
 };
 
-export default CreateRoles;
+export default CreateTypeOfUser;

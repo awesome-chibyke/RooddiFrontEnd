@@ -5,6 +5,7 @@ import {
   ADD_NEW_ROLES,
   ADD_NEW_ROLES_SUCCESS,
   ADD_NEW_ROLES_FAIL,
+  RESET_ROLES_STATE
 } from "./RolesType";
 
 const initialState = {
@@ -66,6 +67,15 @@ const RolesReducer = (state = initialState, action) => {
         message: action.message,
         loading: false,
         error: true,
+        success: false,
+      };
+    case RESET_ROLES_STATE:
+      return {
+        ...state,
+        message: "",
+        loading: false,
+        allRoles: [],
+        error: false,
         success: false,
       };
 

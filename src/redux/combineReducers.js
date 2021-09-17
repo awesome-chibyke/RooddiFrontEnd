@@ -12,6 +12,7 @@ import phoneVerificationReducer from "./Xetima/PhoneVerification/PhoneVerificati
 import IdUploadReducer from "./Xetima/IdentityUpload/IdentityUploadReducer";
 import UserReducer from "./Xetima/User/UserReducer";
 import RolesReducer from "./Xetima/Roles/RolesReducer";
+import TypeOfUserReducer from "./Xetima/TypeOfUser/TypeOfUserReducer";
 
 
 const rootReducer = combineReducers({
@@ -27,7 +28,8 @@ const rootReducer = combineReducers({
   PhoneVerify:phoneVerificationReducer,
   idUpload:IdUploadReducer,
   user: UserReducer,
-  role:RolesReducer
+  roles:RolesReducer,
+  typeOfUser:TypeOfUserReducer
 });
 
 export default rootReducer;

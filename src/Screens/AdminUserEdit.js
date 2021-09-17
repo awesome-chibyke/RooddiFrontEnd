@@ -16,10 +16,6 @@ const AdminUserEdit = () => {
   const dispatch = useDispatch();
   const allStateObject = useSelector((state) => state);
 
-  // let { login:loginData, user } = allStateObject;
-  // const { singleUser } = user;
-  // let { unique_id } = useParams();
-
   let { login: loginData, user } = allStateObject;
   const { singleUser, allUsers } = user;
   let { unique_id:userUniqueId } = useParams();
@@ -47,14 +43,11 @@ const AdminUserEdit = () => {
     loadingStatus
   );
 
-  // useEffect(() => {
-  //   return () => {
-  //     dispatch(resetUserState());
-  //   };
-  // }, []);
-
-  console.log(allUsers)
-  console.log(singleUser)
+  useEffect(() => {
+    return () => {
+      dispatch(resetUserState());
+    };
+  }, []);
 
   return (
     <>
