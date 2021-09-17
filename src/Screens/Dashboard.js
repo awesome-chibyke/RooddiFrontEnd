@@ -57,6 +57,12 @@ const Dashboard = () => {
                             <Link className="btn btn-success mt-4 mb-4" to="/step">Account Verification</Link>
 
                             <br/>
+                            <Link className="btn btn-success mt-4 mb-4" to="/type-of-user">Type Of User</Link>
+
+                            <br/>
+                            <Link className="btn btn-success mt-4 mb-4" to="/priviledges">Priviledges</Link>
+
+                            <br/>
                             <Link className="btn btn-success mt-4 mb-4" to="/disable_two_factor_request">Disable Two Factor Request</Link>
                             <br/>
                             <Link className="btn btn-success mt-4 mb-4" to="/admin">Admin</Link>

@@ -1,48 +1,46 @@
 /* eslint-disable jsx-a11y/heading-has-content */
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { DropdownButton, Dropdown } from "react-bootstrap";
-import { getallRolesActionPost, resetRolesState } from "../redux";
+import { getallTypeOfUserActionPost, resetTypeOfUserState } from "../redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
-import { each } from "jquery";
 import { Link } from "react-router-dom";
 
-const Roles = () => {
-  const dispatch = useDispatch();
-  const allStateObject = useSelector((state) => state);
-  let { login: loginData, roles } = allStateObject;
-  const { allRoles, loading: fetchAllRolesLoading } = roles;
-
-  let [StartIndex, setStartIndex] = useState(0);
-  useEffect(() => {
-    if (loginData.isLogged === true) {
-      dispatch(getallRolesActionPost(loginData, allRoles));
+const TypeOfUser = () => {
+    const dispatch = useDispatch();
+    const allStateObject = useSelector((state) => state);
+    let { login: loginData, typeOfUser } = allStateObject;
+    const { allTypeOfUser, loading: fetchAllTypeOfUserLoading } = typeOfUser;
+  
+    let [StartIndex, setStartIndex] = useState(0);
+    useEffect(() => {
+      if (loginData.isLogged === true) {
+        dispatch(getallTypeOfUserActionPost(loginData, allTypeOfUser));
+      }
+    }, []);
+  
+    let loadingStatus = false;
+    if (typeOfUser.loading === true) {
+      loadingStatus = true;
     }
-  }, []);
-
-  let loadingStatus = false;
-  if (roles.loading === true) {
-    loadingStatus = true;
-  }
-
-  const { error: errorMessage, success: successMessage } = ErrorSuccessHook(
-    roles.success,
-    roles.error,
-    roles.message,
-    roles,
-    loadingStatus
-  );
-
-  useEffect(() => {
-    return () => {
-      dispatch(resetRolesState());
-    };
-  }, []);
-  return (
-    <>
-    {loginData.isLogged === false ? <DelayedRedirect to={`/login`} delay={500} />  :'' }
-      <section
+  
+    const { error: errorMessage, success: successMessage } = ErrorSuccessHook(
+        typeOfUser.success,
+        typeOfUser.error,
+        typeOfUser.message,
+        typeOfUser,
+      loadingStatus
+    );
+  
+    useEffect(() => {
+      return () => {
+        dispatch(resetTypeOfUserState());
+      };
+    }, []);
+    return (
+        <>
+        {loginData.isLogged === false ? <DelayedRedirect to={`/login`} delay={500} />  :'' }
+        <section
         className="bg-dark-body bg-food-white pt-80 pb-20"
         data-overlay={7}
       >
@@ -68,7 +66,7 @@ const Roles = () => {
           <div className="row">
             <div className="col-12 col-sm-2"></div>
             <div className="col-12 col-sm-8">
-              <h2 className="text-center">Roles</h2>
+              <h2 className="text-center">Type Of User</h2>
 
               {errorMessage && (
                 <p className="alert alert-danger  text-center">
@@ -81,34 +79,34 @@ const Roles = () => {
                   {successMessage}
                 </p>
               )}
-              {fetchAllRolesLoading === false && allRoles.length > 0 ? (
+              {fetchAllTypeOfUserLoading === false && allTypeOfUser.length > 0 ? (
                 <table className="table table-striped">
                   <thead>
                     <tr>
                       <th scope="col">S/N</th>
-                      <th scope="col">Roles</th>
+                      <th scope="col">Type Of User</th>
                       <th scope="col">Description</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {allRoles.map((eachRole, index) => (
+                    {allTypeOfUser.map((eachTypeOfUser, index) => (
                       <tr key={index}>
                         <td>{StartIndex++ + 1}</td>
-                        <td>{eachRole.role}</td>
-                        <td>{eachRole.description}</td>
+                        <td>{eachTypeOfUser.type_of_user}</td>
+                        <td>{eachTypeOfUser.description}</td>
                       </tr>
                     ))}
                   </tbody>
                   <br />
-                  <Link className="btn btn-success" to="/create-roles">
-                    Create Roles
+                  <Link className="btn btn-success" to="/create-type-of-user">
+                    Create Type Of User
                   </Link>
                 </table>
               ) : (
                 ""
               )}
 
-              {fetchAllRolesLoading === false && allRoles.length === 0 ? (
+              {fetchAllTypeOfUserLoading === false && allTypeOfUser.length === 0 ? (
                 <h3 className="alert alert-warning text-center">
                   No Data Available
                 </h3>
@@ -116,7 +114,7 @@ const Roles = () => {
                 ""
               )}
 
-              {fetchAllRolesLoading && (
+              {fetchAllTypeOfUserLoading && (
                 <h3 className="alert alert-warning text-center">
                   Loading.....
                 </h3>
@@ -125,8 +123,8 @@ const Roles = () => {
           </div>
         </div>
       </section>
-    </>
-  );
-};
+        </>
+    )
+}
 
-export default Roles;
+export default TypeOfUser

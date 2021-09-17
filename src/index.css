@@ -959,6 +959,7 @@ textarea::placeholder {
 ._3AWTh{
     z-index: 100000000000 !important;
 }
+
 .custom-box-shadow {
     box-shadow: 0px 0px 9px -1px rgba(0, 0, 0, 0.5);
     -webkit-box-shadow: 0px 0px 9px -1px rgba(0, 0, 0, 0.5);
@@ -970,3 +971,66 @@ textarea::placeholder {
   overflow-y: auto !important;
 
 }
+
+
+/*create a rounded check box*/
+.switch-check-box {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch-check-box input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider-check-box {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider-check-box:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider-check-box {
+  background-color: #2196F3;
+}
+
+input:focus + .slider-check-box {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider-check-box:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider-check-box.round-check-box {
+  border-radius: 34px;
+}
+
+.slider-check-box.round-check-box:before {
+  border-radius: 50%;
+}
+
