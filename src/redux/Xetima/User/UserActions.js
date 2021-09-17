@@ -29,11 +29,14 @@ const getAllUsersAction = () => {
     };
 };
 
-const getAllUsersActionSuccess = ({data, message }) => {
+const getAllUsersActionSuccess = ({data, message,government_id_back,government_id_front,faceUploads }) => {
     return {
         type:GET_ALL_USERS_SUCCESS,
         payload:data,
         message:message,
+        government_id_back:government_id_back,
+        government_id_front:government_id_front,
+        faceUploads:faceUploads
     }
 }
 
@@ -44,7 +47,7 @@ const getAllUsersActionFailure = (message) => {
     }
 }
 
-export const getUsersAction = (loginData, allUsers, counter = 0) => {
+export const getUsersAction = (loginData, allUsers, fileNameObject, counter = 0) => {
 
     return async (dispatch) => {
 
@@ -55,15 +58,29 @@ export const getUsersAction = (loginData, allUsers, counter = 0) => {
         if(loginData.isLogged === true){
 
             if(allUsers.length > 0){
-                dispatch(getAllUsersActionSuccess({data:allUsers, message:'' }));
+
+                dispatch(getAllUsersActionSuccess({
+                    data:allUsers, message:'',
+                    government_id_back:fileNameObject.government_id_back,
+                    government_id_front:fileNameObject.government_id_front,
+                    faceUploads:fileNameObject.faceUploads
+                }));
+
             }else{
                 let handleagetUsersAction = await getRequest(`${BACKEND_BASE_URL}users/all_users/user`, headerIncluder(loginData.user_data.token) );
                 let returnedObject = handleagetUsersAction.data;
-                // console.log(handleagetUsersAction)
+
                 let {status, message, data} = returnedObject;
-                let {all_users} = data;
+                let {all_users,id_back_image_link,id_front_image_link,face_image_link} = data;
                 if(status === true){
-                    dispatch(getAllUsersActionSuccess({data:all_users, message:'' }));
+
+                    dispatch(getAllUsersActionSuccess({
+                        data:all_users,
+                        message:'',
+                        government_id_back:id_back_image_link,
+                        government_id_front:id_front_image_link,
+                        faceUploads:face_image_link
+                    }));
                 }else{
                     validateModule.handleErrorStatement(message, '', 'on', 'no', 'no');
                     dispatch({

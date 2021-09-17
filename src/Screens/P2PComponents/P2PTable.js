@@ -17,7 +17,7 @@ const Table = () => {
             <div className="cont">
                 <div className="row">
                     <div className="col-12 col-sm-12">
-                        <table id="example" className="table mainResponsiveTable" >
+                        <table id="example" className="table table-striped table-condensed mainResponsiveTable" >
                             <thead >
                                 <tr>
                                     <th>Advertisers</th>

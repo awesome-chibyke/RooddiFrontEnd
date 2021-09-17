@@ -956,8 +956,16 @@ textarea::placeholder {
   border: 0;
   margin-bottom: 1rem;
 }
+._3AWTh{
+    z-index: 100000000000 !important;
+}
+.custom-box-shadow{
+    box-shadow: 0px 0px 9px -1px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0px 0px 9px -1px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0px 0px 9px -1px rgba(0,0,0,0.5);
 
 .dropdown-menu{
   height: 150px !important;
   overflow-y: auto !important;
+
 }

@@ -25,6 +25,9 @@ const initialState = {
   singleUser: {},
   error: false,
   success: false,
+    government_id_back:null,
+    government_id_front:null,
+    faceUploads:null
 };
 
 const UserReducer = (state = initialState, action) => {
@@ -43,6 +46,9 @@ const UserReducer = (state = initialState, action) => {
         message: action.message,
         loading: false,
         allUsers: action.payload,
+          government_id_back:action.government_id_back,
+          government_id_front:action.government_id_front,
+          faceUploads:action.faceUploads,
         error: false,
         success: true,
       };
