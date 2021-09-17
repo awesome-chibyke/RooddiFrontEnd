@@ -1,6 +1,3 @@
-/* eslint-disable jsx-a11y/heading-has-content */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {DropdownButton, Dropdown} from 'react-bootstrap'
@@ -17,13 +14,17 @@ import { Link } from "react-router-dom";
 import Pagination from "../components/MainPagination";
 import AllUsers from "./AllUsers";
 import MainPaginationData from "../components/MainPaginationData";
+import {BACKEND_BASE_URL} from "../common_variables";
+
+import { LightBox } from 'react-lightbox-pack';
+import "react-lightbox-pack/dist/index.css";
 
 const Admin = () => {
 
   const dispatch = useDispatch();
   const allStateObject = useSelector((state) => state);
   let { login: loginData, user } = allStateObject;
-  const { allUsers, delete_loading, loading:fetchAllUsersLoading } = user;
+  const { allUsers, delete_loading, loading:fetchAllUsersLoading, government_id_back, government_id_front, faceUploads } = user;
 
   const [defaultUserType, setDefaultUserType] = useState('user');
   const [filteredUserArray, setFilteredUserArray] = useState([]);
@@ -41,7 +42,7 @@ const Admin = () => {
 
   useEffect(() => {
     if (loginData.isLogged === true) {
-      dispatch(getUsersAction(loginData, allUsers));//get the user from the server
+      dispatch(getUsersAction(loginData, allUsers, {government_id_back, government_id_front, faceUploads}));//get the user from the server
     }
     return () => {
       dispatch(resetUserState());
@@ -105,6 +106,32 @@ const Admin = () => {
     return user.first_name === null && user.last_name === null ? 'None':user.first_name+' '+user.last_name
   }
 
+  //light box
+  // State
+  const [toggle, setToggle] =  useState(false);
+  const [sIndex, setSIndex] =  useState(0);
+
+  // Handler
+  const  lightBoxHandler  = (state, sIndex) => {
+    setToggle(state);
+    setSIndex(sIndex);
+  };
+
+  const [dataForLightBox, setDataForLightBox] = useState([]);
+
+  /*useEffect(() => {
+
+  }, [dataForLightBox])
+
+  const dataForLightBox = mainUserArrayForDisplay.map(eachObject => {
+    return {
+      id:  4,
+      image:BACKEND_BASE_URL+faceUploads+eachObject.face_picture_name,
+      title:  ReturnFullName(eachObject),
+      description: ""
+    }
+  } )*/
+
   return (
     <>
       <div>
@@ -167,9 +194,10 @@ const Admin = () => {
                         <tr className="text-center">
                           <th scope="col">S/N</th>
                           <th scope="col">Full Name</th>
-                          <th scope="col">Email</th>
-                          <th scope="col">Phone</th>
+                          <th scope="col">Email/Phone</th>
                           <th scope="col">Type Of User</th>
+                          <th scope="col">Passport</th>
+                          <th scope="col">ID Display<br />Front/Back</th>
                           <th scope="col">Delete Status</th>
                           <th scope="col">Actions</th>
                         </tr>
@@ -177,38 +205,61 @@ const Admin = () => {
                         <tbody>
                         {/*style={{user.deleted_at === null ? ({}) : ('background:"red"')}}*/}
                         {mainUserArrayForDisplay.map((user, index) => (
-                            <>
-                              <tr style={{background: user.deleted_at === null ? ('') : ("#ddd")}} className="text-center" key={index}>
+                            <tr style={{background: user.deleted_at === null ? ('') : ("#ddd")}} className="text-center" key={index} >
                                 {/* {alert(user.deleted_at)}*/}
 
                                 <td scope="row"><span className="mobile-head">S/N</span> {" "}{StartIndex++ + 1}</td>
                                 <td><span className="mobile-head">Full Name</span> {ReturnFullName(user)}</td>
-                                <td><span className="mobile-head">Email</span>{" "}{user.email}</td>
-                                <td><span className="mobile-head">Phone</span>{" "}{user.phone === null ? 'None':user.phone}</td>
+                                <td><span className="mobile-head">Email/Phone</span> <div >{" "}{user.email}<br />{user.phone === null ? 'None':user.phone}</div></td>
                                 <td><span className="mobile-head">Type Of User</span>{" "}{user.type_of_user}</td>
 
-                                <td><span className="mobile-head">Delete Status</span> {" "}{delete_loading === true && user.unique_id === userToDelete ? 'Loading...' : user.deleted_at !== null ? (<span className="btn btn-warning btn-sm">Deleted</span>):(<span className="btn btn-success btn-sm">Not Deleted</span> ) }</td>
+                                <td>
+                                    <span className="mobile-head">Passport</span>
+                                    {" "}
+                                    {user.face_picture_name === null ? 'None':(<div style={{width:"30px", marginLeft:"auto", marginRight:"auto", cursor:"pointer"}} className="custom-box-shadow"><img style={{width:"100%"}} src={BACKEND_BASE_URL+faceUploads+user.face_picture_name} onClick={() => {
+                                      setDataForLightBox([{id:1, image:BACKEND_BASE_URL+faceUploads+user.face_picture_name, title:  ReturnFullName(user), description: ""}]);
+                                      lightBoxHandler(true, 0);
+                                    }} /></div>)}
+                                </td>
 
                                 <td>
-                                  <span className="mobile-head">Options</span>
-                                  {" "}
-                                  <DropdownButton id="dropdown-basic-button" title="Options" size="sm">
-                                    {user.deleted_at === null ? (
-                                        <Dropdown.Item onClick={() =>{ deleteHandler(user.unique_id, user.type_of_user, loginData); setUserToDelete(user.unique_id)  } }
-                                        >Delete User</Dropdown.Item>
-                                    ):(
-                                      <Dropdown.Item onClick={() =>{ dispatch(reverseDeleteHandler({unique_id:user.unique_id, type_of_user:user.type_of_user, loginData})); setUserToDelete(user.unique_id)  } }
-                                      >Restore User</Dropdown.Item>
-                                      )}
+                                  {/*government_id_back, government_id_front*/}
+                                    <span className="mobile-head">ID Display</span>{" "}
+                                {user.id_name === null ? 'None':(<div className="custom-box-shadow" style={{width:"30px", display:"inline-block", marginLeft:"auto", marginRight:"auto", cursor:"pointer"}}><img title="Front Page" onClick={() => {
+                                  setDataForLightBox([{id:1, image:BACKEND_BASE_URL+government_id_front+user.id_name, title:  ReturnFullName(user), description: ""}]);
+                                  lightBoxHandler(true, 0);
+                                }} style={{width:"100%"}} src={BACKEND_BASE_URL+government_id_front+user.id_name} /></div>) }
+                                    {" "}
+                                {user.id_back_name === null ? 'None':(<div className="custom-box-shadow" style={{width:"30px", display:"inline-block", marginLeft:"auto", marginRight:"auto", cursor:"pointer"}}><img title="Back Page" onClick={() => {
+                                  setDataForLightBox([{id:1, image:BACKEND_BASE_URL+government_id_back+user.id_back_name, title:  ReturnFullName(user), description: ""}]);
+                                  lightBoxHandler(true, 0);
+                                }} style={{width:"100%"}} src={BACKEND_BASE_URL+government_id_back+user.id_back_name} /></div>)}
+                                </td>
 
-                                    <Dropdown.Item href={`/edit-user/${user.unique_id}`}>Edit User</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                                  </DropdownButton>
+                                <td>
+                                    <span className="mobile-head">Delete Status</span>
+                                    {" "}
+                                    {delete_loading === true && user.unique_id === userToDelete ? 'Loading...' : user.deleted_at !== null ? (<span className="btn btn-warning btn-sm">Deleted</span>):(<span className="btn btn-success btn-sm">Not Deleted</span> ) }
+                                </td>
+
+                                <td>
+                                    <span className="mobile-head">Options</span>
+                                    {" "}
+                                    <DropdownButton id="dropdown-basic-button" title="Options" size="sm">
+                                        {user.deleted_at === null ? (
+                                            <Dropdown.Item onClick={() =>{ deleteHandler(user.unique_id, user.type_of_user, loginData); setUserToDelete(user.unique_id)  } }
+                                            >Delete User</Dropdown.Item>
+                                        ):(
+                                            <Dropdown.Item onClick={() =>{ dispatch(reverseDeleteHandler({unique_id:user.unique_id, type_of_user:user.type_of_user, loginData})); setUserToDelete(user.unique_id)  } }
+                                            >Restore User</Dropdown.Item>
+                                        )}
+
+                                        <Dropdown.Item href={`/edit-user/${user.unique_id}`}>Edit User</Dropdown.Item>
+                                        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                    </DropdownButton>
 
                                 </td>
-                              </tr>
-                              {/*{setStartIndex(StartIndex++)}*/}
-                            </>
+                            </tr>
                         ))}
                         </tbody>
                       </table>
@@ -240,6 +291,18 @@ const Admin = () => {
           </div>
         </section>
       </div>
+
+      <LightBox
+          state={toggle}
+          event={lightBoxHandler}
+          data={dataForLightBox}
+          imageWidth="60vw"
+          imageHeight="70vh"
+          thumbnailHeight={50}
+          thumbnailWidth={50}
+          setImageIndex={setSIndex}
+          imageIndex={sIndex}
+      />
     </>
   );
 };
