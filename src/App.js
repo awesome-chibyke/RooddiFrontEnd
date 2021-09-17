@@ -32,6 +32,7 @@ import Completed from "./Screens/Completed";
 import Admin from "./Screens/Admin";
 import AdminUserEdit from "./Screens/AdminUserEdit";
 import Roles from "./Screens/Roles";
+import CreateRoles from "./Screens/CreateRoles";
 
 
 
@@ -117,6 +118,7 @@ function App() {
                   <Route path="/admin" component={Admin} />
                   <Route path="/edit-user/:unique_id" component={AdminUserEdit} />
                   <Route path="/roles" component={Roles} />
+                  <Route path="/create-roles" component={CreateRoles} />
                   <Footer />
               </Router>
               </ToolTipContext>

@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import {DropdownButton, Dropdown} from 'react-bootstrap'
 import {
   getUsersAction,
-  selectOneUserAction,
   deleteUsersAction,
   resetUserState,
   reverseDeleteHandler
@@ -208,7 +207,7 @@ const Admin = () => {
                             <tr style={{background: user.deleted_at === null ? ('') : ("#ddd")}} className="text-center" key={index} >
                                 {/* {alert(user.deleted_at)}*/}
 
-                                <td scope="row"><span className="mobile-head">S/N</span> {" "}{StartIndex++ + 1}</td>
+                                <td><span className="mobile-head">S/N</span> {" "}{StartIndex++ + 1}</td>
                                 <td><span className="mobile-head">Full Name</span> {ReturnFullName(user)}</td>
                                 <td><span className="mobile-head">Email/Phone</span> <div >{" "}{user.email}<br />{user.phone === null ? 'None':user.phone}</div></td>
                                 <td><span className="mobile-head">Type Of User</span>{" "}{user.type_of_user}</td>
