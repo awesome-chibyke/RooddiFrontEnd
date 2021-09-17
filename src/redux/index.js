@@ -12,4 +12,5 @@ export * from "./Xetima/IdentityUpload/IdentityUploadActions"
 export * from "./Xetima/User/UserActions"
 export * from "./Xetima/Roles/RolesAction"
 export * from "./Xetima/TypeOfUser/TypeOfUserActions"
+export * from "./Xetima/Priviledges/PriviledgesActions"
 
