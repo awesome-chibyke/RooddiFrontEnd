@@ -6,6 +6,7 @@ import { getallRolesActionPost, addRolesActionPost } from "../redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
 import { each } from "jquery";
+import { Link } from "react-router-dom";
 
 const Roles = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,19 @@ const Roles = () => {
       dispatch(getallRolesActionPost(loginData, allRoles));
     }
   }, []);
+
+  let loadingStatus = false;
+  if (role.loading === true) {
+    loadingStatus = true;
+  }
+
+  const { error: errorMessage, success: successMessage } = ErrorSuccessHook(
+    role.success,
+    role.error,
+    role.message,
+    role,
+    loadingStatus
+  );
   return (
     <>
       <section
@@ -47,13 +61,26 @@ const Roles = () => {
           <div className="row">
             <div className="col-12 col-sm-12">
               <h2 className="text-center">Roles</h2>
+
+              {errorMessage && (
+                <p className="alert alert-danger  text-center">
+                  {errorMessage}
+                </p>
+              )}
+
+              {successMessage && (
+                <p className="alert alert-success  text-center">
+                  {successMessage}
+                </p>
+              )}
               {fetchAllRolesLoading === false && allRoles.length > 0 ? (
-                <table class="table table-striped">
+                <table className="table table-striped">
                   <thead>
                     <tr>
                       <th scope="col">S/N</th>
                       <th scope="col">Roles</th>
                       <th scope="col">Description</th>
+                      <th scope="col">Create Roles</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -62,6 +89,14 @@ const Roles = () => {
                         <td>{StartIndex++ + 1}</td>
                         <td>{eachRole.role}</td>
                         <td>{eachRole.description}</td>
+                        <td>
+                          <Link
+                            className="btn btn-success"
+                            to="/create-roles"
+                          >
+                            Create Roles
+                          </Link>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
