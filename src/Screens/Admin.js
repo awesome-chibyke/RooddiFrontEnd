@@ -189,7 +189,7 @@ const Admin = () => {
 
                 {fetchAllUsersLoading === false && mainUserArrayForDisplay.length > 0 ? (
                     <>
-                      <table className="table table-striped table-condensed mainResponsiveTable">
+                      <table className="table table-striped table-condensed mainResponsiveTable" style={{marginBottom: "50px"}}>
                         <thead>
                         <tr className="text-center">
                           <th scope="col">S/N</th>
@@ -212,7 +212,6 @@ const Admin = () => {
                                 <td><span className="mobile-head">Full Name</span> {ReturnFullName(user)}</td>
                                 <td><span className="mobile-head">Email/Phone</span> <div >{" "}{user.email}<br />{user.phone === null ? 'None':user.phone}</div></td>
                                 <td><span className="mobile-head">Type Of User</span>{" "}{user.type_of_user}</td>
-
                                 <td>
                                     <span className="mobile-head">Passport</span>
                                     {" "}
@@ -236,27 +235,35 @@ const Admin = () => {
                                 }} style={{width:"100%"}} src={BACKEND_BASE_URL+government_id_back+user.id_back_name} /></div>)}
                                 </td>
 
-                                <td>
-                                    <span className="mobile-head">Delete Status</span>
-                                    {" "}
-                                    {delete_loading === true && user.unique_id === userToDelete ? 'Loading...' : user.deleted_at !== null ? (<span className="btn btn-warning btn-sm">Deleted</span>):(<span className="btn btn-success btn-sm">Not Deleted</span> ) }
-                                </td>
+                                <td><span className="mobile-head">Delete Status</span> {" "}{delete_loading === true && user.unique_id === userToDelete ? 'Loading...' : user.deleted_at !== null ? (<span className="btn btn-warning btn-sm">Deleted</span>):(<span className="btn btn-success btn-sm">Not Deleted</span> ) }</td>
+                                
 
                                 <td>
-                                    <span className="mobile-head">Options</span>
-                                    {" "}
-                                    <DropdownButton id="dropdown-basic-button" title="Options" size="sm">
-                                        {user.deleted_at === null ? (
-                                            <Dropdown.Item onClick={() =>{ deleteHandler(user.unique_id, user.type_of_user, loginData); setUserToDelete(user.unique_id)  } }
-                                            >Delete User</Dropdown.Item>
-                                        ):(
-                                            <Dropdown.Item onClick={() =>{ dispatch(reverseDeleteHandler({unique_id:user.unique_id, type_of_user:user.type_of_user, loginData})); setUserToDelete(user.unique_id)  } }
-                                            >Restore User</Dropdown.Item>
-                                        )}
+                                  <span className="mobile-head">Options</span>
+                                  {" "}
+                                  <DropdownButton id="dropdown-basic-button" title="Options" size="sm">
+                                    {user.deleted_at === null ? (
+                                        <Dropdown.Item onClick={() =>{ deleteHandler(user.unique_id, user.type_of_user, loginData); setUserToDelete(user.unique_id)  } }
+                                        >Delete User</Dropdown.Item>
+                                    ):(
+                                      <Dropdown.Item onClick={() =>{ dispatch(reverseDeleteHandler({unique_id:user.unique_id, type_of_user:user.type_of_user, loginData})); setUserToDelete(user.unique_id)  } }
+                                      >Restore User</Dropdown.Item>
+                                      )}
 
-                                        <Dropdown.Item href={`/edit-user/${user.unique_id}`}>Edit User</Dropdown.Item>
-                                        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                                    </DropdownButton>
+                                    <Dropdown.Item href={`/edit-user/${user.unique_id}`} >Edit User</Dropdown.Item >
+                                    <Dropdown.Item href="#/action-3">Make User</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Make Admin</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Make Mid-Admin</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Make Super-Admin</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Make Status Active</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Make Status Inactive</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Confirm ID Upload</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Unconfirm ID Upload</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Decline ID Upload</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Confirm Face Upload</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Unconfirm Face Upload</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Decline Face Upload</Dropdown.Item>
+                                  </DropdownButton>
 
                                 </td>
                             </tr>
