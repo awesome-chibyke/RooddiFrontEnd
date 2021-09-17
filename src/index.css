@@ -956,3 +956,8 @@ textarea::placeholder {
   border: 0;
   margin-bottom: 1rem;
 }
+
+.dropdown-menu{
+  height: 150px !important;
+  overflow-y: auto !important;
+}

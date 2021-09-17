@@ -162,7 +162,7 @@ const Admin = () => {
 
                 {fetchAllUsersLoading === false && mainUserArrayForDisplay.length > 0 ? (
                     <>
-                      <table className="table table-striped table-condensed mainResponsiveTable">
+                      <table className="table table-striped table-condensed mainResponsiveTable" style={{marginBottom: "50px"}}>
                         <thead>
                         <tr className="text-center">
                           <th scope="col">S/N</th>
@@ -188,7 +188,6 @@ const Admin = () => {
                                 <td><span className="mobile-head">Type Of User</span>{" "}{user.type_of_user}</td>
 
                                 <td><span className="mobile-head">Delete Status</span> {" "}{delete_loading === true && user.unique_id === userToDelete ? 'Loading...' : user.deleted_at !== null ? (<span className="btn btn-warning btn-sm">Deleted</span>):(<span className="btn btn-success btn-sm">Not Deleted</span> ) }</td>
-
                                 <td>
                                   <span className="mobile-head">Options</span>
                                   {" "}
@@ -202,7 +201,18 @@ const Admin = () => {
                                       )}
 
                                     <Dropdown.Item href={`/edit-user/${user.unique_id}`}>Edit User</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Make User</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Make Admin</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Make Mid-Admin</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Make Super-Admin</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Make Status Active</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Make Status Inactive</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Confirm ID Upload</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Unconfirm ID Upload</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Decline ID Upload</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Confirm Face Upload</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Unconfirm Face Upload</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3">Decline Face Upload</Dropdown.Item>
                                   </DropdownButton>
 
                                 </td>
