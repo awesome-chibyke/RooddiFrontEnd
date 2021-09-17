@@ -4,7 +4,8 @@ import{
     GET_ALL_ROLES_FAIL,
     ADD_NEW_ROLES,
     ADD_NEW_ROLES_SUCCESS,
-    ADD_NEW_ROLES_FAIL
+    ADD_NEW_ROLES_FAIL,
+    RESET_ROLES_STATE
 }from "./RolesType"
 
 import { BACKEND_BASE_URL, headerIncluder, NO_OF_TRIAL_COUNTER } from "../../../common_variables";
@@ -117,9 +118,8 @@ export const addRolesActionPost = ({loginData, role, description}) => async (dis
 
         let formBody = 'role='+role+'&description='+description
 
-        let handleAddRoles = await postRequest(BACKEND_BASE_URL+"users/edit_user", formBody,  headerIncluder(loginData.user_data.token));
+        let handleAddRoles = await postRequest(BACKEND_BASE_URL+"roles_management/add_new_role", formBody,  headerIncluder(loginData.user_data.token));
         let returnedObject = handleAddRoles.data;
-
         let {status, message, data} = returnedObject;
         if (status === true) {
             let {roles} = data;
@@ -135,4 +135,10 @@ export const addRolesActionPost = ({loginData, role, description}) => async (dis
         validateModule.handleErrorStatement({general_error:[err.message]}, '', 'on', 'no', 'no');
         
     }
+}
+
+export const resetRolesState = () => async (dispatch) => {
+    dispatch({
+        type:RESET_ROLES_STATE,
+    });
 }

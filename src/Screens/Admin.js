@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {DropdownButton, Dropdown} from 'react-bootstrap'
