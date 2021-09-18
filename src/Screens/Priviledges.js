@@ -35,14 +35,13 @@ const Priviledges = () => {
   }, [defaultUserType]);
 
   const toggleCheckBox = ({checkStatus, role_unique_id, type_of_user_unique_id}) => {
-    console.log({checkStatus, role_unique_id, type_of_user_unique_id})
-    const changedArray = filteredUserArray.map(eachPriveledgeObject => {
-      if(role_unique_id === eachPriveledgeObject.type_of_user_unique_id && type_of_user_unique_id === eachPriveledgeObject.role_unique_id){
+
+    const changedArray = filteredUserArray.map((eachPriveledgeObject, index) => {
+      if(role_unique_id === eachPriveledgeObject.role_unique_id && type_of_user_unique_id === eachPriveledgeObject.type_of_user_unique_id){
         eachPriveledgeObject.status = checkStatus === true ? 'active':'inactive';
       }
       return eachPriveledgeObject;
     })
-    console.log(changedArray)
     setFilteredUserArray(changedArray)
   }
 
