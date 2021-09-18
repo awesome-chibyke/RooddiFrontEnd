@@ -73,8 +73,15 @@ const Admin = () => {
   useEffect(() => {//first_name last_name email phone
 
     if(searchValue !== ''){
-      const currentFilteredArray = filteredUserArray.filter(eachUser =>{//
-        return eachUser.first_name !== null ? eachUser.first_name.toLowerCase().includes(searchValue.toLowerCase()) : false || eachUser.last_name !== null ? eachUser.last_name.toLowerCase().includes(searchValue.toLowerCase()) : false  || eachUser.phone !== null ? eachUser.phone.includes(searchValue):false || eachUser.email !== null ? eachUser.email.toLowerCase().includes(searchValue.toLowerCase()) : false
+      const currentFilteredArray = filteredUserArray.filter(eachUser =>{
+
+        eachUser.first_name = eachUser.first_name === null ? '': eachUser.first_name;
+        eachUser.last_name = eachUser.last_name === null ? '': eachUser.last_name;
+        eachUser.phone = eachUser.phone === null ? '': eachUser.phone;
+        eachUser.email = eachUser.email === null ? '': eachUser.email;
+
+        return eachUser.first_name.toLowerCase().includes(searchValue.toLowerCase()) || eachUser.last_name.toLowerCase().includes(searchValue.toLowerCase())  || eachUser.phone.includes(searchValue) || eachUser.email.toLowerCase().includes(searchValue.toLowerCase())
+
       } );
       setMainUserArrayForDisplay(currentFilteredArray);
     }
