@@ -5,13 +5,15 @@ import{
     UPDATE_PRIVILEDGES,
     UPDATE_PRIVILEDGES_SUCCESS,
     UPDATE_PRIVILEDGES_FAIL,
-    RESET_PRIVILEDGES_STATE
+    RESET_PRIVILEDGES_STATE,
+    ALTER_PRIVILEDGE, ALTER_PRIVILEDGE_SUCCESS, ALTER_PRIVILEDGE_FAIL
 }from './PriviledgesTypes'
 
 import { BACKEND_BASE_URL, headerIncluder, NO_OF_TRIAL_COUNTER } from "../../../common_variables";
 import * as Validator from 'validatorjs';
 import validateModule from "../../../validation/validate_module";
 import { postRequest, getRequest } from "../../axios_call";
+import {ADD_NEW_ROLES, ADD_NEW_ROLES_FAIL, ADD_NEW_ROLES_SUCCESS} from "../Roles/RolesType";
 //............................................Get all priviledges..........................................................//
 const getAllPriviledgeAction = () => {
     return {
@@ -64,8 +66,66 @@ export const getAllPriviledgeActionPost = (loginData, allPriviledges, counter = 
         }
     }catch(err){
         validateModule.handleErrorStatement({general_error:[err.message]}, '', 'on', 'no', 'no');
+        getAllPriviledgeFailure(err.message);
     }
 }
+}
+
+
+//..............................................alter user previledge........................................................//
+const alterPreviledgeAction = () => {
+    return {
+        type: ALTER_PRIVILEDGE,
+        message:''
+    };
+};
+
+const alterPriviledgeActionSuccess = ({message, priviledge_array}) => {
+    return {
+        type:ALTER_PRIVILEDGE_SUCCESS,
+        message:message,
+        payload:priviledge_array
+    }
+}
+
+const alterPriviledgeActionFailure = (message, old_priviledge_array) => {
+    return {
+        type:ALTER_PRIVILEDGE_FAIL,
+        message:message,
+        payload:old_priviledge_array
+    }
+}
+
+
+export const alterPreviledgePost = ({loginData, priviledgeArray, old_priviledge_array}) => async (dispatch)=>{
+    
+    validateModule.ClearErrorFields();
+    dispatch(alterPreviledgeAction());
+
+    try {
+        if(loginData.isLogged === true){
+                                 
+            let formBody = 'roles_management='+JSON.stringify(priviledgeArray);
+
+            let handleAlterPriviledge = await postRequest(BACKEND_BASE_URL+"roles_management/save_privileges", formBody,  headerIncluder(loginData.user_data.token));
+            let returnedObject = handleAlterPriviledge.data;
+
+            let {status, message, data} = returnedObject;
+            if (status === true) {
+                let {all_privileges} = data;
+
+                dispatch(alterPriviledgeActionSuccess({message, priviledge_array:all_privileges}));
+            } else {
+                validateModule.handleErrorStatement(
+                    message, "", "on", "no", "no"
+                );
+                dispatch(alterPriviledgeActionFailure("An Error Occurred", old_priviledge_array));
+            }
+        }
+    } catch (err) {
+        validateModule.handleErrorStatement({general_error:[err.message]}, '', 'on', 'no', 'no');
+        dispatch(alterPriviledgeActionFailure(err.message, old_priviledge_array));
+    }
 }
 
 
