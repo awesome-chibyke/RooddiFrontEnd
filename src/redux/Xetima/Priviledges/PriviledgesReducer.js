@@ -5,12 +5,14 @@ import{
     UPDATE_PRIVILEDGES,
     UPDATE_PRIVILEDGES_SUCCESS,
     UPDATE_PRIVILEDGES_FAIL,
-    RESET_PRIVILEDGES_STATE
+    RESET_PRIVILEDGES_STATE,
+    ALTER_PRIVILEDGE, ALTER_PRIVILEDGE_SUCCESS, ALTER_PRIVILEDGE_FAIL
 }from './PriviledgesTypes'
 
 const initialState = {
     message: "",
     loading: false,
+    priviledge_loading:false,
     allPriviledges: [],
     error: false,
     success: false,
@@ -53,6 +55,32 @@ const initialState = {
           error: false,
           success: false,
         };
+        case ALTER_PRIVILEDGE:
+            return {
+                ...state,
+                message: "",
+                priviledge_loading:true,
+                error: false,
+                success: false
+            };
+        case ALTER_PRIVILEDGE_SUCCESS:
+            return {
+                ...state,
+                message: "",
+                priviledge_loading:false,
+                allPriviledges: action.payload,
+                error: false,
+                success: false
+            };
+        case ALTER_PRIVILEDGE_FAIL:
+            return {
+                ...state,
+                message: "",
+                priviledge_loading:false,
+                allPriviledges: action.payload,
+                error: false,
+                success: false,
+            };
   
       default:
         return state;

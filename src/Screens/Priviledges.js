@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/heading-has-content */
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllPriviledgeActionPost, resetPriviledgeState } from "../redux";
+import {alterPreviledgePost, getAllPriviledgeActionPost, resetPriviledgeState} from "../redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
 import Pagination from "../components/MainPagination";
@@ -11,11 +11,14 @@ const Priviledges = () => {
   const dispatch = useDispatch();
   const allStateObject = useSelector((state) => state);
   let { login: loginData, priviledge } = allStateObject;
-  const { allPriviledges, loading: fetchAllPriviledgeLoading } = priviledge;
+  const { allPriviledges, loading: fetchAllPriviledgeLoading, priviledge_loading } = priviledge;
 
   const [defaultUserType, setDefaultUserType] = useState("user");
   const [filteredUserArray, setFilteredUserArray] = useState([]);
   const [mainUserArrayForDisplay, setMainUserArrayForDisplay] = useState([]);
+
+  //set the click check box
+  const [clickedCheckBox, setClickedCheckBox] = useState(-1);
 
   //sarch value
   const [searchValue, setSearchValue] = useState("");
@@ -34,15 +37,25 @@ const Priviledges = () => {
     }
   }, [defaultUserType]);
 
-  const toggleCheckBox = ({checkStatus, role_unique_id, type_of_user_unique_id}) => {
+  const toggleCheckBox = ({checkStatus, current_index, role_unique_id, type_of_user_unique_id}) => {
 
-    const changedArray = filteredUserArray.map((eachPriveledgeObject, index) => {
-      if(role_unique_id === eachPriveledgeObject.role_unique_id && type_of_user_unique_id === eachPriveledgeObject.type_of_user_unique_id){
-        eachPriveledgeObject.status = checkStatus === true ? 'active':'inactive';
-      }
-      return eachPriveledgeObject;
-    })
-    setFilteredUserArray(changedArray)
+    const retVal = window.confirm('please click ok to continue');
+
+    if(retVal === true){
+      setClickedCheckBox(current_index);
+      const changedArray = filteredUserArray.map((eachPriveledgeObject) => {
+        if(role_unique_id === eachPriveledgeObject.role_unique_id && type_of_user_unique_id === eachPriveledgeObject.type_of_user_unique_id){
+          eachPriveledgeObject.status = checkStatus === true ? 'active':'inactive';
+        }
+        return eachPriveledgeObject;
+      });
+
+      //dispatch an action to redux
+      dispatch(alterPreviledgePost({loginData, priviledgeArray:changedArray, old_priviledge_array:allPriviledges}));
+
+      //setFilteredUserArray(changedArray);
+    }
+
   }
 
   useEffect(() => {
@@ -68,17 +81,16 @@ const Priviledges = () => {
       setStartIndex(startIndex); //set the current start index for numbering the datas on the table
     }
 
-    //console.log('I ran')
   }, [defaultUserType, allPriviledges, currentPage, searchValue, dataLimit]);
 
+  //search the priviledge array
   useEffect(() => {
-    //first_name last_name email phone
 
     if (searchValue !== "") {
       const currentFilteredArray = filteredUserArray.filter((eachUser) => {
         return eachUser.type_of_user.toLowerCase().includes(searchValue.toLowerCase()) || eachUser.role.toLowerCase().includes(searchValue.toLowerCase())
       });
-     // console.log(currentFilteredArray)
+
       setMainUserArrayForDisplay(currentFilteredArray);
     }
   }, [searchValue]);
@@ -101,6 +113,7 @@ const Priviledges = () => {
       dispatch(resetPriviledgeState());
     };
   }, []);
+
   return (
     <>
       {loginData.isLogged === false ? (
@@ -111,6 +124,7 @@ const Priviledges = () => {
       <section
         className="bg-dark-body bg-food-white pt-80 pb-20"
         data-overlay={7}
+
       >
         <div className="container">
           <div className="row">
@@ -183,14 +197,15 @@ const Priviledges = () => {
                     </option>
                   </select>
                 </div>
+
                 {errorMessage && (
-                  <p className="alert alert-danger  text-center">
+                  <p style={{marginTop:"20px"}} className="alert alert-danger  text-center">
                     {errorMessage}
                   </p>
                 )}
 
                 {successMessage && (
-                  <p className="alert alert-success  text-center">
+                  <p style={{marginTop:"20px"}} className="alert alert-success  text-center">
                     {successMessage}
                   </p>
                 )}
@@ -212,7 +227,7 @@ const Priviledges = () => {
                           <td>{StartIndex++ + 1}</td>
                           <td>{eachPriviledge.type_of_user}</td>
                           <td>{eachPriviledge.role}</td>
-                          <td>{eachPriviledge.status === 'active' ? (
+                          <td>{priviledge_loading  === true && index === clickedCheckBox ? 'Loading...' : eachPriviledge.status === 'active' ? (
                               <span className="btn btn-success">Active</span>
                           ):(
                             <span className="btn btn-warning">In-active</span>
@@ -220,7 +235,7 @@ const Priviledges = () => {
                           </td>
                           <td>
                           <label class="switch-check-box">
-                            <input type="checkbox" onClick={e => toggleCheckBox({checkStatus:e.target.checked, role_unique_id:eachPriviledge.role_unique_id, type_of_user_unique_id:eachPriviledge.type_of_user_unique_id}) }  checked={eachPriviledge.status === 'active' ? 'checked':''} />
+                            <input type="checkbox" onClick={e => toggleCheckBox({checkStatus:e.target.checked, current_index:index, role_unique_id:eachPriviledge.role_unique_id, type_of_user_unique_id:eachPriviledge.type_of_user_unique_id}) }  checked={eachPriviledge.status === 'active' ? 'checked':''} />
                             <span class="slider-check-box round-check-box"></span>
                             </label>
                               
@@ -235,7 +250,7 @@ const Priviledges = () => {
 
                 {fetchAllPriviledgeLoading === false &&
                 mainUserArrayForDisplay.length === 0 ? (
-                  <h3 className="alert alert-warning text-center">
+                  <h3 style={{ marginTop: "20px" }} className="alert alert-warning text-center">
                     No Data Available
                   </h3>
                 ) : (
@@ -243,7 +258,7 @@ const Priviledges = () => {
                 )}
 
                 {fetchAllPriviledgeLoading && (
-                  <h3 className="alert alert-warning text-center">
+                  <h3 style={{ marginTop: "20px" }} className="alert alert-warning text-center">
                     Loading.....
                   </h3>
                 )}

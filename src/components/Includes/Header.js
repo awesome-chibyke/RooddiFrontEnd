@@ -149,7 +149,7 @@ function Header() {
                           <Link
                             className="colo-nav dropdown-item colo-nv text-success"
                             to="profile"
-                          >
+                          style={{fontSize:"0.8rem"}}>
                             {" "}
                             {isLogged === true ? email : ""} <br />
                             <i className="fa fa-long-arrow-right text-primary pull-right text-white" />
