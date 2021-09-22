@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/heading-has-content */
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";

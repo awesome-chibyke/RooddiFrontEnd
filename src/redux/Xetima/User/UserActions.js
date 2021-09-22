@@ -166,7 +166,7 @@ export const selectOneUserAction = ({ userUniqueId, loginData, allUsers }) => as
     }
 }
 
-//............................................ Delete user ..........................................................//
+//............................................ Manage user ..........................................................//
 const deleteUserAction = () => {
     return {
         type: DELETE_USER,

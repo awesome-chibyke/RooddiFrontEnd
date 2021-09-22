@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable jsx-a11y/heading-has-content */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -6,7 +9,8 @@ import {
   getUsersAction,
   deleteUsersAction,
   resetUserState,
-  reverseDeleteHandler
+  reverseDeleteHandler,
+  manageUserActionPost
 } from "../redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
@@ -23,8 +27,9 @@ const Admin = () => {
 
   const dispatch = useDispatch();
   const allStateObject = useSelector((state) => state);
-  let { login: loginData, user } = allStateObject;
+  let { login: loginData, user, manager } = allStateObject;
   const { allUsers, delete_loading, loading:fetchAllUsersLoading, government_id_back, government_id_front, faceUploads } = user;
+  
 
   const [defaultUserType, setDefaultUserType] = useState('user');
   const [filteredUserArray, setFilteredUserArray] = useState([]);
@@ -39,6 +44,7 @@ const Admin = () => {
   let [StartIndex, setStartIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [userToDelete, setUserToDelete] = useState(0);
+  // const [userToManage, setUserToManage] = useState(0);
 
   useEffect(() => {
     if (loginData.isLogged === true) {
@@ -93,6 +99,12 @@ const Admin = () => {
       dispatch(deleteUsersAction({unique_id, type_of_user, loginData}));
     }
   };
+
+  const manageUser = (unique_id, action, loginData)=>{
+    if(loginData.isLogged === true){
+      dispatch(manageUserActionPost({unique_id, action, loginData, allUsers}))
+    }
+  }
 
   let loadingStatus = false;
   if (user.loading === true) {
@@ -206,6 +218,7 @@ const Admin = () => {
                           <th scope="col">Passport</th>
                           <th scope="col">ID Display<br />Front/Back</th>
                           <th scope="col">Delete Status</th>
+                          <th scope="col">Status</th>
                           <th scope="col">Actions</th>
                         </tr>
                         </thead>
@@ -244,7 +257,7 @@ const Admin = () => {
 
                                 <td><span className="mobile-head">Delete Status</span> {" "}{delete_loading === true && user.unique_id === userToDelete ? 'Loading...' : user.deleted_at !== null ? (<span className="btn btn-warning btn-sm">Deleted</span>):(<span className="btn btn-success btn-sm">Not Deleted</span> ) }</td>
                                 
-
+                                <td><span className="mobile-head">Status</span>{" "}{user.status}</td>
                                 <td>
                                   <span className="mobile-head">Options</span>
                                   {" "}
@@ -258,18 +271,22 @@ const Admin = () => {
                                       )}
 
                                     <Dropdown.Item href={`/edit-user/${user.unique_id}`} >Edit User</Dropdown.Item >
-                                    <Dropdown.Item href="#/action-3">Make User</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">Make Admin</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">Make Mid-Admin</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">Make Super-Admin</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">Make Status Active</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">Make Status Inactive</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">Confirm ID Upload</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">Unconfirm ID Upload</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">Decline ID Upload</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">Confirm Face Upload</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">Unconfirm Face Upload</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">Decline Face Upload</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3" onClick={()=>{manageUser(`${user.unique_id}`, 'make_user', loginData)}}> {manager.loading === true
+                                      ? "Updating User....."
+                                      : "Make User"}</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3"onClick={()=>{manageUser(`${user.unique_id}`, 'make_admin', loginData)}}>Make Admin</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3"onClick={()=>{manageUser(`${user.unique_id}`, 'make_mid_admin', loginData)}}>{manager.loading === true
+                                      ? "Updating User....."
+                                      : "Make Mid-Admin"}</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3"onClick={()=>{manageUser(`${user.unique_id}`, 'make_super_admin', loginData)}}>Make Super-Admin</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3"onClick={()=>{manageUser(`${user.unique_id}`, 'make_status_active', loginData)}}>Make Status Active</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3"onClick={()=>{manageUser(`${user.unique_id}`, 'make_status_inactive', loginData)}}>Make Status Inactive</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3"onClick={()=>{manageUser(`${user.unique_id}`, 'confirm_id_upload', loginData)}}>Confirm ID Upload</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3"onClick={()=>{manageUser(`${user.unique_id}`, 'unconfirm_id_upload', loginData)}}>Unconfirm ID Upload</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3"onClick={()=>{manageUser(`${user.unique_id}`, 'decline_id_upload', loginData)}}>Decline ID Upload</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3"onClick={()=>{manageUser(`${user.unique_id}`, 'confirm_face_upload', loginData)}}>Confirm Face Upload</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3"onClick={()=>{manageUser(`${user.unique_id}`, 'unconfirm_face_upload', loginData)}}>Unconfirm Face Upload</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-3"onClick={()=>{manageUser(`${user.unique_id}`, 'decline_face_upload', loginData)}}>Decline Face Upload</Dropdown.Item>
                                   </DropdownButton>
 
                                 </td>
