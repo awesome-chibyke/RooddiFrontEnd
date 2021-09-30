@@ -36,6 +36,7 @@ import CreateRoles from "./Screens/CreateRoles";
 import TypeOfUser from "./Screens/TypeOfUser";
 import CreateTypeOfUser from "./Screens/CreateTypeOfUser";
 import Priviledges from "./Screens/Priviledges";
+import Settings from "./Screens/Settings"
 
 
 
@@ -125,6 +126,7 @@ function App() {
                   <Route path="/type-of-user" component={TypeOfUser} />
                   <Route path="/create-type-of-user" component={CreateTypeOfUser} />
                   <Route path="/priviledges" component={Priviledges} />
+                  <Route path="/settings" component={Settings} />
                   <Footer />
               </Router>
               </ToolTipContext>

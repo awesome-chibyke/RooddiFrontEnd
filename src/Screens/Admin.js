@@ -19,6 +19,7 @@ import Pagination from "../components/MainPagination";
 import AllUsers from "./AllUsers";
 import MainPaginationData from "../components/MainPaginationData";
 import {BACKEND_BASE_URL} from "../common_variables";
+import Loader from "../components/Includes/Loader"
 
 import { LightBox } from 'react-lightbox-pack';
 import "react-lightbox-pack/dist/index.css";
@@ -29,6 +30,7 @@ const Admin = () => {
   const allStateObject = useSelector((state) => state);
   let { login: loginData, user } = allStateObject;
   const { allUsers, delete_loading, loading:fetchAllUsersLoading, government_id_back, government_id_front, faceUploads } = user;
+  const {loading:loadingManage} = manager
   
 
   const [defaultUserType, setDefaultUserType] = useState('user');
@@ -271,7 +273,9 @@ const Admin = () => {
                                       )}
 
                                     <Dropdown.Item href={`/edit-user/${user.unique_id}`} >Edit User</Dropdown.Item >
+
                                     <Dropdown.Item href="#/action-3" onClick={()=>{manageUser(`${user.unique_id}`, 'make_user', loginData)}}> Make User</Dropdown.Item>
+
                                     <Dropdown.Item href="#/action-3"onClick={()=>{manageUser(`${user.unique_id}`, 'make_admin', loginData)}}>Make Admin</Dropdown.Item>
                                     <Dropdown.Item href="#/action-3"onClick={()=>{manageUser(`${user.unique_id}`, 'make_mid_admin', loginData)}}>Make Mid-Admin</Dropdown.Item>
                                     <Dropdown.Item href="#/action-3"onClick={()=>{manageUser(`${user.unique_id}`, 'make_super_admin', loginData)}}>Make Super-Admin</Dropdown.Item>

@@ -14,6 +14,8 @@ import UserReducer from "./Xetima/User/UserReducer";
 import RolesReducer from "./Xetima/Roles/RolesReducer";
 import TypeOfUserReducer from "./Xetima/TypeOfUser/TypeOfUserReducer";
 import PriviledgeReducer from "./Xetima/Priviledges/PriviledgesReducer";
+import ManageUserReducer from "./Xetima/ManageUser/ManageUserReducer";
+import SettingsReducer from "./Xetima/Settings/SettingsReducer";
 
 
 const rootReducer = combineReducers({
@@ -30,8 +32,8 @@ const rootReducer = combineReducers({
   idUpload:IdUploadReducer,
   user: UserReducer,
   roles:RolesReducer,
-  typeOfUser:TypeOfUserReducer,
   priviledge:PriviledgeReducer
+ settings:SettingsReducer
 });
 
 export default rootReducer;
