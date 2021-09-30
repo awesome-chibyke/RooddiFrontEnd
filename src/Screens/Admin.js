@@ -29,8 +29,7 @@ const Admin = () => {
   const dispatch = useDispatch();
   const allStateObject = useSelector((state) => state);
   let { login: loginData, user } = allStateObject;
-  const { allUsers, delete_loading, loading:fetchAllUsersLoading, government_id_back, government_id_front, faceUploads } = user;
-  const {loading:loadingManage} = manager
+  const { allUsers, delete_loading, loading:fetchAllUsersLoading, government_id_back, government_id_front, faceUploads, manage_loading } = user;
   
 
   const [defaultUserType, setDefaultUserType] = useState('user');
@@ -207,6 +206,7 @@ const Admin = () => {
                       {successMessage}
                     </p>
                 )}
+                {manage_loading === true ? <Loader />  :'' }
 
                 {fetchAllUsersLoading === false && mainUserArrayForDisplay.length > 0 ? (
                     <>
