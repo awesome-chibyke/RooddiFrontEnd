@@ -32,10 +32,8 @@ const rootReducer = combineReducers({
   idUpload:IdUploadReducer,
   user: UserReducer,
   roles:RolesReducer,
-  typeOfUser:TypeOfUserReducer,
-  priviledge:PriviledgeReducer,
-  manager:ManageUserReducer,
-  settings:SettingsReducer
+  priviledge:PriviledgeReducer
+ settings:SettingsReducer
 });
 
 export default rootReducer;

@@ -28,7 +28,7 @@ const Admin = () => {
 
   const dispatch = useDispatch();
   const allStateObject = useSelector((state) => state);
-  let { login: loginData, user, manager } = allStateObject;
+  let { login: loginData, user } = allStateObject;
   const { allUsers, delete_loading, loading:fetchAllUsersLoading, government_id_back, government_id_front, faceUploads } = user;
   const {loading:loadingManage} = manager
   
@@ -273,7 +273,9 @@ const Admin = () => {
                                       )}
 
                                     <Dropdown.Item href={`/edit-user/${user.unique_id}`} >Edit User</Dropdown.Item >
-                                    <Dropdown.Item href="#/action-3" onClick={()=>{manageUser(`${user.unique_id}`, 'make_user', loginData)}}>Make User</Dropdown.Item>
+
+                                    <Dropdown.Item href="#/action-3" onClick={()=>{manageUser(`${user.unique_id}`, 'make_user', loginData)}}> Make User</Dropdown.Item>
+
                                     <Dropdown.Item href="#/action-3"onClick={()=>{manageUser(`${user.unique_id}`, 'make_admin', loginData)}}>Make Admin</Dropdown.Item>
                                     <Dropdown.Item href="#/action-3"onClick={()=>{manageUser(`${user.unique_id}`, 'make_mid_admin', loginData)}}>Make Mid-Admin</Dropdown.Item>
                                     <Dropdown.Item href="#/action-3"onClick={()=>{manageUser(`${user.unique_id}`, 'make_super_admin', loginData)}}>Make Super-Admin</Dropdown.Item>
