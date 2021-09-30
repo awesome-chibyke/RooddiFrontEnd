@@ -13,5 +13,4 @@ export * from "./Xetima/User/UserActions"
 export * from "./Xetima/Roles/RolesAction"
 export * from "./Xetima/TypeOfUser/TypeOfUserActions"
 export * from "./Xetima/Priviledges/PriviledgesActions"
-export * from "./Xetima/ManageUser/ManageUserActions"
 
