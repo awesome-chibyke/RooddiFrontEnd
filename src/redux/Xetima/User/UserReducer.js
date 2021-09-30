@@ -22,6 +22,7 @@ const initialState = {
   message: "",
   loading: false,
   delete_loading: false,
+  manage_loading: false,
   allUsers: [],
   singleUser: {},
   error: false,
@@ -180,6 +181,7 @@ const UserReducer = (state = initialState, action) => {
       return {
         ...state,
         message: action.message,
+        manage_loading:true,
         error: false,
         success: false,
       };
@@ -187,7 +189,7 @@ const UserReducer = (state = initialState, action) => {
       return {
         ...state,
         message: action.message,
-        delete_loading: false,
+        manage_loading: false,
         allUsers:action.payload,
         error: true,
         success: false,
@@ -196,7 +198,7 @@ const UserReducer = (state = initialState, action) => {
       return {
         ...state,
         message: action.message,
-        delete_loading: false,
+        manage_loading: false,
         error: true,
         success: false,
       };
