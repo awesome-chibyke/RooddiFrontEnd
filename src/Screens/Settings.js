@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/heading-has-content */
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateSettingsActionPost, resetSettingsState } from "../redux";
+import { updateSettingsActionPost, resetSettingsState, getSettingsActionPost } from "../redux";
 import DelayedRedirect from "../components/Includes/DelayedRedirect";
 import ErrorSuccessHook from "../redux/ErrorSuccessHook";
 
@@ -10,32 +10,41 @@ const Settings = () => {
   const dispatch = useDispatch();
   const allStateObject = useSelector((state) => state);
   let { login: loginData, settings } = allStateObject;
-//   const { user: userData } = loginData.user_data;
+  const { allSettings } = settings
 
-  const [preferred_currency, setPreferedCurrency] = useState(null);
-  const [site_name, setSiteName] = useState("");
-  const [address1, setAddress1] = useState("");
-  const [address2, setAddress2] = useState("");
-  const [address3, setAddress3] = useState("");
-  const [address4, setAddress4] = useState("");
-  const [email, setEmail] = useState("");
-  const [email2, setEmail2] = useState("");
-  const [site_url, setSiteUrl] = useState("");
-  const [logo_url, setLogoUrl] = useState("");
-  const [facebook, setFacebook] = useState("");
-  const [instagram, setInstagram] = useState("");
-  const [linkedin, setLinkedin] = useState("");
-  const [ios_url, setIosUrl] = useState("");
-  const [android_url, setAndroidUrl] = useState("");
-  const [front_end_base_url, setFrontEndBaseUrl] = useState("");
-  const [back_end_base_url, setBackEndBaseUrl] = useState("");
-  const [ios_app_store_link, setIosAppStorLink] = useState(null);
-  const [phone1, setPhone1] = useState("");
-  const [phone2, setPhone2] = useState("");
-  const [no_of_days_to_review, setNoOfDaysToReview] = useState("");
-  const [total_projects, setTotalProjects] = useState("");
-  const [slogan, setSlogan] = useState("");
-  const [least_withdrawable_amount, setLeastWithdrawableAmount] = useState("");
+  const [preferred_currency, setPreferedCurrency] = useState(allSettings.preferred_currency);
+  const [site_name, setSiteName] = useState(allSettings.site_name);
+  const [address1, setAddress1] = useState(allSettings.address1);
+  const [address2, setAddress2] = useState(allSettings.address2);
+  const [address_3, setAddress3] = useState(allSettings.address_3);
+  const [address4, setAddress4] = useState(allSettings.address4);
+  const [email1, setEmail] = useState(allSettings.email1);
+  const [email2, setEmail2] = useState(allSettings.email2);
+  const [site_url, setSiteUrl] = useState(allSettings.site_url);
+  const [logo_url, setLogoUrl] = useState(allSettings.logo_url);
+  const [facebook, setFacebook] = useState(allSettings.facebook);
+  const [instagram, setInstagram] = useState(allSettings.instagram);
+  const [linkedin, setLinkedin] = useState(allSettings.linkedin);
+  const [ios_url, setIosUrl] = useState(allSettings.ios_url);
+  const [android_url, setAndroidUrl] = useState(allSettings.android_url);
+  const [front_end_base_url, setFrontEndBaseUrl] = useState(allSettings.front_end_base_url);
+  const [backend_base_url, setBackEndBaseUrl] = useState(allSettings.backend_base_url);
+  const [ios_app_store_link, setIosAppStorLink] = useState(allSettings.ios_app_store_link);
+  const [phone1, setPhone1] = useState(allSettings.phone1);
+  const [phone2, setPhone2] = useState(allSettings.phone2);
+  const [no_of_days_to_review, setNoOfDaysToReview] = useState(allSettings.no_of_days_to_review);
+  const [total_projects, setTotalProjects] = useState(allSettings.total_projects);
+  const [slogan, setSlogan] = useState(allSettings.slogan);
+  const [least_withdrawable_amount, setLeastWithdrawableAmount] = useState(allSettings.least_withdrawable_amount);
+
+
+  useEffect(() => {
+    if (loginData.isLogged === true) {
+      dispatch(getSettingsActionPost(loginData, allSettings));
+    }
+  }, []);
+
+  console.log(allSettings, "All")
 
   let loadingStatus = false;
   if (settings.loading === true) {
@@ -119,7 +128,6 @@ const Settings = () => {
                             <div className="input-group mb-15">
                               <input
                                 id="preferred_currency"
-                                type="email"
                                 className="form-control ps-15 bg-transparent"
                                 value={preferred_currency}
                                 onChange={(e) => setPreferedCurrency(e.target.value)}
@@ -178,13 +186,13 @@ const Settings = () => {
                             <label>Address 3</label>
                             <div className="input-group mb-15">
                               <input
-                                id="address3"
-                                value={address3}
+                                id="address_3"
+                                value={address_3}
                                 onChange={(e) => setAddress3(e.target.value)}
                                 className="form-control ps-15 bg-transparent"
                               />
                             </div>
-                            <span className="error_displayer err_address3"></span>
+                            <span className="error_displayer err_address_3"></span>
                           </div>
                         </div>
 
@@ -199,7 +207,7 @@ const Settings = () => {
                                 className="form-control ps-15 bg-transparent"
                               />
                             </div>
-                            <span className="error_displayer err_address3"></span>
+                            <span className="error_displayer err_address4"></span>
                           </div>
                         </div>
 
@@ -208,13 +216,13 @@ const Settings = () => {
                             <label>Email</label>
                             <div className="input-group mb-15">
                               <input
-                                id="email"
-                                value={email}
+                                id="email1"
+                                value={email1}
                                 onChange={(e) => setEmail(e.target.value)}
                                 className="form-control ps-15 bg-transparent"
                               />
                             </div>
-                            <span className="error_displayer err_email"></span>
+                            <span className="error_displayer err_email1"></span>
                           </div>
                         </div>
 
@@ -257,7 +265,7 @@ const Settings = () => {
                                 className="form-control ps-15 bg-transparent"
                               />
                             </div>
-                            <span className="error_displayer err_zip_code"></span>
+                            <span className="error_displayer err_logo_url"></span>
                           </div>
                         </div>
                         <div className="col-sm-6 col-12">
@@ -349,13 +357,13 @@ const Settings = () => {
                             <label>Back End Base URL</label>
                             <div className="input-group mb-15">
                               <input
-                                id="front_end_base_url"
-                                value={front_end_base_url}
+                                id="backend_base_url"
+                                value={backend_base_url}
                                 onChange={(e) => setBackEndBaseUrl(e.target.value)}
                                 className="form-control ps-15 bg-transparent"
                               />
                             </div>
-                            <span className="error_displayer err_front_end_base_url"></span>
+                            <span className="error_displayer err_backend_base_url"></span>
                           </div>
                         </div>
                         <div className="col-sm-6 col-12">
@@ -471,9 +479,9 @@ const Settings = () => {
                                         site_name,
                                         address1,
                                         address2,
-                                        address3,
+                                        address_3,
                                         address4,
-                                        email,
+                                        email1,
                                         email2,
                                         site_url,
                                         logo_url,
@@ -483,7 +491,7 @@ const Settings = () => {
                                         ios_url,
                                         android_url,
                                         front_end_base_url,
-                                        back_end_base_url,
+                                        backend_base_url,
                                         ios_app_store_link,
                                         phone1,
                                         phone2,
