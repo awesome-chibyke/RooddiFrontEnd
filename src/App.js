@@ -37,6 +37,7 @@ import TypeOfUser from "./Screens/TypeOfUser";
 import CreateTypeOfUser from "./Screens/CreateTypeOfUser";
 import Priviledges from "./Screens/Priviledges";
 import Settings from "./Screens/Settings"
+import MainDashboard from "./Screens/Dashboard/MainDashboard";
 
 
 
@@ -127,6 +128,7 @@ function App() {
                   <Route path="/create-type-of-user" component={CreateTypeOfUser} />
                   <Route path="/priviledges" component={Priviledges} />
                   <Route path="/settings" component={Settings} />
+                  <Route path="/main-dash" component={MainDashboard} />
                   <Footer />
               </Router>
               </ToolTipContext>
