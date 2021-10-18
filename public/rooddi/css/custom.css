@@ -310,9 +310,221 @@ input:checked + .slider:before {
 .set-notif{
     border-radius: 5px;
     background-color: #131f33;
-    padding: 10px;background-color: ;
+    padding: 10px;
 }
 
 .set-notif:hover{
     background-color: #3c4148 !important;
+}
+
+.navaer{
+    box-sizing: border-box;
+    margin: 0px;
+    min-width: 0px;
+    display: flex;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 4px, rgba(0, 0, 0, 0.08) 0px 0px 4px;
+    position: relative;
+    z-index: 1;
+    flex-direction: column;
+}
+
+.naveractive{
+    box-sizing: border-box;
+    margin: 0px;
+    min-width: 0px;
+    text-decoration: none;
+    color: rgb(201, 148, 0);
+    border-left: 4px solid rgb(240, 185, 11);
+    height: 48px;
+    background-color: rgb(245, 245, 245);
+    font-weight: 500;
+    display: flex;
+    -moz-box-align: center;
+    align-items: center;
+    -moz-box-pack: justify;
+    justify-content: space-between;
+    color: rgb(33, 40, 51);
+}
+
+.navatext{
+    box-sizing: border-box;
+    margin: 0px;
+    min-width: 0px;
+    display: flex;
+    flex: 1 1 0%;
+    height: 100%;
+    -moz-box-align: center;
+    align-items: center;
+}
+
+.navertxt{
+    box-sizing: border-box;
+    margin: 0px;
+    min-width: 0px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    word-break: break-word;
+    display: flex;
+    flex: 1 1 0%;
+    height: 100%;
+    -moz-box-align: center;
+    align-items: center;
+}
+
+.navertxt2{
+    box-sizing: border-box;
+    margin: 0px;
+    min-width: 0px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    word-break: break-word;
+    display: flex;
+    flex: 1 1 0%;
+    height: 100%;
+    -moz-box-align: center;
+    align-items: center;
+}
+
+.fapad{
+    margin-left: 15px;
+    margin-right: 15px;
+    color: yellowgreen;
+}
+
+.fapad2{
+    margin-left: 15px;
+    margin-right: 15px;
+    color: rgb(30, 35, 41);
+}
+
+.naveritem{
+    box-sizing: border-box;
+    margin: 0px;
+    min-width: 0px;
+    text-decoration: none;
+    color: rgb(201, 148, 0);
+    border-left: 4px solid transparent;
+    height: 48px;
+    display: flex;
+    -moz-box-align: center;
+    align-items: center;
+    -moz-box-pack: justify;
+    justify-content: space-between;
+    color: rgba(23, 23, 23, 0.56);
+}
+
+.naveritem:hover{
+    background-color: rgb(245, 245, 245);
+}
+
+.st-hit{
+    height: 100vh;
+}
+
+.css-1e6doj4 {
+    box-sizing: border-box;
+    margin: 0px;
+    min-width: 0px;
+    display: flex;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 4px;
+    flex: 1 1 0%;
+    padding: 24px;
+}
+
+.css-6vt7sa {
+    width: 40px;
+    height: 40px;
+}
+
+.css-1sgz1lk {
+    box-sizing: border-box;
+    margin: 0px 0px 0px 16px;
+    min-width: 0px;
+}
+
+.css-ize0sl {
+    box-sizing: border-box;
+    margin: 0px 0px 4px;
+    min-width: 0px;
+    display: flex;
+    -moz-box-align: center;
+    align-items: center;
+}
+
+.css-1ry7rnu {
+    box-sizing: border-box;
+    margin: 0px;
+    min-width: 0px;
+    display: flex;
+    color: rgb(112, 122, 138);
+    font-size: 12px;
+    line-height: 1.25;
+}
+
+.css-1124n14 {
+    box-sizing: border-box;
+    margin: 0px 16px 0px 0px;
+    min-width: 0px;
+    color: rgb(30, 35, 41);
+}
+
+.avat{
+    width: 40px;
+    height: 40px;
+    border: yellowgreen 2px solid;
+    padding: 2px;
+    border-radius: 40px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 24px;
+}
+
+.css-1p01izn {
+    box-sizing: border-box;
+    margin: 0px;
+    min-width: 0px;
+    box-shadow: rgba(20, 21, 26, 0.04) 0px 1px 2px, rgba(71, 77, 87, 0.04) 0px 3px 6px, rgba(20, 21, 26, 0.1) 0px 0px 1px;
+    border-radius: 4px;
+    background-color: rgb(255, 255, 255);
+    padding: 0px 16px;
+    width: 100%;
+}
+
+.css-1q10v73 {
+    box-sizing: border-box;
+    margin: 0px;
+    min-width: 0px;
+    display: flex;
+    flex: 1 1 0%;
+    flex-direction: column;
+    padding-bottom: 16px;
+}
+
+.css-hwv82q {
+    box-sizing: border-box;
+    margin: 0px;
+    min-width: 0px;
+    border-width: 0px 0px 1px;
+    border-style: solid;
+    border-color: rgb(234, 236, 239);
+    flex: 1 1 0%;
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+.css-vurnku {
+    box-sizing: border-box;
+    margin: 0px;
+    min-width: 0px;
+}
+
+.css-ei3nni {
+    box-sizing: border-box;
+    margin: 0px;
+    min-width: 0px;
+    display: flex;
+    width: 100%;
+    padding: 8px;
 }
